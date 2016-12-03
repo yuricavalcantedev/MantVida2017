@@ -1,5 +1,7 @@
-package com.heavendevelopment.mantvida2017;
+package com.heavendevelopment.mantvida2017.Activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,8 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.heavendevelopment.mantvida2017.R;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        context = this;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -80,13 +90,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_projetoVida) {
+            // Handle the camera action) {
 
-        } else if (id == R.id.nav_slideshow) {
+            startActivity(new Intent(context, ProjetoVidaMain.class));
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_Devocional) {
+
+            startActivity(new Intent(context, DevocionaisMain.class));
+
+        } else if (id == R.id.nav_mapa) {
+
+          //  startActivity(new Intent(context, MapsActivity.class));
 
         } else if (id == R.id.nav_share) {
 

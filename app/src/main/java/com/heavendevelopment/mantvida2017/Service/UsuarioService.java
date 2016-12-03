@@ -1,84 +1,78 @@
 package com.heavendevelopment.mantvida2017.Service;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
-import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
+import com.heavendevelopment.mantvida2017.Dominio.Usuario;
 
 import java.util.List;
 
 /**
- * Created by Yuri on 22/11/2016.
+ * Created by Yuri on 02/12/2016.
  */
 
-public class MetaService {
+public class UsuarioService {
 
     private Context context;
 
-    public MetaService(Context context){
+    public UsuarioService(Context context){
         super();
         this.context = context;
     }
 
-    public boolean criarMeta(Meta meta){
+    public boolean cadastrarUsuario(Usuario usuario){
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        boolean cadastrado = databaseAccess.cadastrarMeta(meta);
+        boolean cadastrado = databaseAccess.cadastrarUsuario(usuario);
 
         databaseAccess.close();
 
         return cadastrado;
     }
 
-    public List<Meta> getMetas(){
+    public boolean atualizarUsuario(Usuario usuario){
+
+        return true;
+    }
+
+    public Usuario recuperarInformacoes(String dataNascimento){
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        List<Meta> listaMetas = databaseAccess.getMetas();
+        Usuario usuario = databaseAccess.recuperarInformaoes(dataNascimento);
 
         databaseAccess.close();
-        return listaMetas;
+
+        return usuario;
 
     }
 
-    public Meta getMetaById(int idMeta){
+    public boolean autenticarLogin(String login, String senha){
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        Meta meta = databaseAccess.getMetaById(idMeta);
+        boolean loginCorreto = databaseAccess.autenticarLogin(login,senha);
 
         databaseAccess.close();
 
-        return meta;
+        return loginCorreto;
     }
 
-    public boolean atualizarMeta(Meta meta){
+    public String getNomeUsuario(){
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        boolean retornoUpdate = databaseAccess.atualizarMeta(meta);
-
-        databaseAccess.close();
-        return retornoUpdate;
-
-    }
-
-    public boolean deletarMeta(int idMeta){
-
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
-        databaseAccess.open();
-
-        boolean deletado = databaseAccess.deletarMeta(idMeta);
-
+        String nome = databaseAccess.getUserName();
         databaseAccess.close();
 
-        return deletado;
+        return nome;
     }
 
 }

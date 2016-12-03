@@ -1,8 +1,10 @@
 package com.heavendevelopment.mantvida2017.Service;
 
+import android.content.Context;
+
+import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,19 +13,71 @@ import java.util.List;
 
 public class DevocionalService {
 
+    private Context context;
 
-    public boolean createDevocional(){
+    public DevocionalService(Context context){
+        super();
+        this.context = context;
+    }
 
-        return true;
+    public boolean criarDevocional(Devocional devocional){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        boolean cadastrado = databaseAccess.cadastrarDevocional(devocional);
+
+        databaseAccess.close();
+
+        return cadastrado;
+
     }
 
     public List<Devocional> getDevocionais(){
 
-        return new ArrayList<>();
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        List<Devocional> listaDevocionais = databaseAccess.getDevocionais();
+
+        databaseAccess.close();
+
+        return listaDevocionais;
     }
 
-    public boolean deleteDevocional(int idDevocional){
+    public Devocional getDevocionalById(int idDevocional){
 
-        return true;
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        Devocional devocional = databaseAccess.getDevocionalById(idDevocional);
+
+        databaseAccess.close();
+
+        return devocional;
     }
+
+    public boolean atualizarDevocional(Devocional devocional){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        boolean devocionalAtualizado = databaseAccess.atualizarDevocional(devocional);
+
+        databaseAccess.close();
+        return devocionalAtualizado;
+    }
+
+    public boolean deletarDevocional(int idDevocional){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        boolean deletado = databaseAccess.deletarDevocional(idDevocional);
+
+        databaseAccess.close();
+
+        return deletado;
+    }
+
 }

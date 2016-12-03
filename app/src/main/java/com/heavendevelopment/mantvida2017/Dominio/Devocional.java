@@ -1,45 +1,48 @@
 package com.heavendevelopment.mantvida2017.Dominio;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
 
 /**
  * Created by Yuri on 22/11/2016.
  */
 
-//a data é a data que o devocional foi criado
+public class Devocional {
 
-public class Devocional extends Model {
+    private int id;
 
-    @Column(name = "parasha")
     private String parasha;
-
-    @Column(name = "titulo")
     private String titulo;
 
-    @Column(name = "data")
-    private String data;
+    private String dataCriacao;
 
-    @Column(name = "texto_chave")
     private String textoChave;
 
-    @Column(name = "mensagem_de_Deus")
     private String mensagemDeDeus;
 
-    public Devocional(){}
+    public Devocional(){
 
-    public Devocional(String parasha, String titulo, String data, String textoChave, String mensagemDeDeus) {
+        super();
+    }
+
+    public Devocional(String parasha, String titulo, String dataCriacao, String textoChave, String mensagemDeDeus) {
+
+        super();
         this.parasha = parasha;
         this.titulo = titulo;
-        this.data = data;
+        this.dataCriacao = dataCriacao;
         this.textoChave = textoChave;
         this.mensagemDeDeus = mensagemDeDeus;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getParasha() {
         return parasha;
     }
-
     public void setParasha(String parasha) {
         this.parasha = parasha;
     }
@@ -47,23 +50,20 @@ public class Devocional extends Model {
     public String getTitulo() {
         return titulo;
     }
-
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
-    public String getData() {
-        return data;
+    public String getDataCriacao() {
+        return dataCriacao;
     }
-
-    public void setData(String data) {
-        this.data = data;
+    public void setDataCriacao(String dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public String getTextoChave() {
         return textoChave;
     }
-
     public void setTextoChave(String textoChave) {
         this.textoChave = textoChave;
     }
@@ -71,10 +71,8 @@ public class Devocional extends Model {
     public String getMensagemDeDeus() {
         return mensagemDeDeus;
     }
-
     public void setMensagemDeDeus(String mensagemDeDeus) {
         this.mensagemDeDeus = mensagemDeDeus;
     }
-
 
 }

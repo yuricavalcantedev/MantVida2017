@@ -1,47 +1,59 @@
 package com.heavendevelopment.mantvida2017.Dominio;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
+
 
 /**
  * Created by Yuri on 22/11/2016.
  */
 
-public class Meta extends Model{
+public class Meta {
 
-    @Column(name = "titulo")
+    private int id;
     private String titulo;
 
-    @Column(name = "como")
     private String como;
 
-    @Column(name = "objetivo")
     private String objetivo;
 
-    @Column(name = "idCategoria")
+    //1 - Família, 2 - Ministério, 3 - Formação, 4 - Restituição, 5 - Finanças
     private int idCategoria;
 
-    @Column(name = "dataInicio")
     private String dataInicio;
 
-    @Column(name = "dataTermino")
-    private String dataTermino;
+    private String dataCriacao;
 
-    public Meta(){}
+    private String dataConclusao;
 
-    public Meta(String titulo, String como, String objetivo, int idCategoria, String dataInicio, String dataTermino) {
+    private int realizada;
+
+    public Meta(){
+
+        super();
+    }
+
+    public Meta(String titulo, String como, String objetivo, int idCategoria, String dataCriacao, String dataInicio, String dataConclusao) {
+
+        super();
         this.titulo = titulo;
         this.como = como;
         this.objetivo = objetivo;
         this.idCategoria = idCategoria;
+        this.dataCriacao = dataCriacao;
         this.dataInicio = dataInicio;
-        this.dataTermino = dataTermino;
+        this.dataConclusao = dataConclusao;
+        this.realizada = 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitulo() {
         return titulo;
     }
-
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -49,7 +61,6 @@ public class Meta extends Model{
     public String getComo() {
         return como;
     }
-
     public void setComo(String como) {
         this.como = como;
     }
@@ -57,7 +68,6 @@ public class Meta extends Model{
     public String getObjetivo() {
         return objetivo;
     }
-
     public void setObjetivo(String objetivo) {
         this.objetivo = objetivo;
     }
@@ -65,7 +75,6 @@ public class Meta extends Model{
     public int getIdCategoria() {
         return idCategoria;
     }
-
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
@@ -73,18 +82,28 @@ public class Meta extends Model{
     public String getDataInicio() {
         return dataInicio;
     }
-
     public void setDataInicio(String dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public String getDataTermino() {
-        return dataTermino;
+    public String getDataCriacao() {
+        return dataCriacao;
+    }
+    public void setDataCriacao(String dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
-    public void setDataTermino(String dataTermino) {
-        this.dataTermino = dataTermino;
+    public String getDataConclusao() {
+        return dataConclusao;
+    }
+    public void setDataConclusao(String dataConclusao) {
+        this.dataConclusao = dataConclusao;
     }
 
-
+    public void setRealizada(int realizada) {
+        this.realizada = realizada;
+    }
+    public int getRealizada() {
+        return realizada;
+    }
 }

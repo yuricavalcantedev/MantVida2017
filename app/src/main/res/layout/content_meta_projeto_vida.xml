@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="Título :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinner_categoria_criar_projetovida"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp"
+                android:id="@+id/textView6"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textAlignment="center"
+                android:ems="10"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentStart="true"
+                android:id="@+id/et_titulo_criar_projetovida"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:text="Como :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_titulo_criar_projetovida"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="11dp"
+                android:id="@+id/textView8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:ems="10"
+                android:layout_below="@+id/textView8"
+                android:layout_alignParentStart="true"
+                android:id="@+id/et_como_criar_projetovida"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:text="Objetivo :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minLines="2"
+                android:id="@+id/textView9"
+                android:layout_below="@+id/et_como_criar_projetovida"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="11dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:text="Data Início :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_objetivo_criar_projetovida"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textView10"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:text="Data Conclusão :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_data_inicio_criar_projetovida"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="11dp"
+                android:id="@+id/textView11"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/et_objetivo_criar_projetovida"
+                android:layout_below="@+id/textView9"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:textAlignment="center"
+                android:ems="10"
+                android:id="@+id/et_data_inicio_criar_projetovida"
+                android:layout_alignTop="@+id/textView10"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="19dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:textAlignment="center"
+                android:ems="10"
+                android:id="@+id/et_data_conclusao_criar_projetovida"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
