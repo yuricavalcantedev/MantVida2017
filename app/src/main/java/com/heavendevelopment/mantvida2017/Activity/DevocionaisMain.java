@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +24,14 @@ import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.DevocionalService;
 
 import java.util.List;
+import java.util.Locale;
 
 public class DevocionaisMain extends AppCompatActivity {
 
     Context context;
-    ListView listViewDevocionais ;
+    ListView listViewDevocionais;
+    private AdapterDevocional adapterDevocional;
+    private List<Devocional> listaDevocionais;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +118,50 @@ public class DevocionaisMain extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        return true;
-    }
+    getMenuInflater().inflate(R.menu.menu_search, menu);
+    MenuItem searchItem = menu.findItem(R.id.action_search);
+
+    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+    searchView.setQueryHint("Título...");
+    searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+        }
+    });
+
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String searchQuery) {
+            adapterDevocional.filter(searchQuery.toString().trim());
+            listViewDevocionais.invalidate();
+            return true;
+        }
+    });
+
+    MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+        @Override
+        public boolean onMenuItemActionCollapse(MenuItem item) {
+            // Do something when collapsed
+            return true;  // Return true to collapse action view
+        }
+
+        @Override
+        public boolean onMenuItemActionExpand(MenuItem item) {
+            // Do something when expanded
+            return true;  // Return true to expand action view
+        }
+    });
+    return true;
+}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,17 +170,30 @@ public class DevocionaisMain extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void fillListViewDevocionais(){
 
         DevocionalService devocionalService = new DevocionalService(context);
-        List<Devocional> listaDevocionais = devocionalService.getDevocionais();
 
-        AdapterDevocional adapterDevocional = new AdapterDevocional(context,listaDevocionais);
+        for(int i = 0; i < 20; i ++){
+
+            Devocional devocional = new Devocional("Parashá "+i,"Título "+i,"03/12/2016","TextoChave "+i,"Mensagem "+i);
+            devocionalService.criarDevocional(devocional);
+        }
+
+        listaDevocionais = devocionalService.getDevocionais();
+
+        adapterDevocional = new AdapterDevocional(context,listaDevocionais);
         listViewDevocionais.setAdapter(adapterDevocional);
 
     }
+
+
 }

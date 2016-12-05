@@ -3,33 +3,53 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_projetoVida"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_plano_leitura"
+            android:icon="@drawable/ic_plano_leitua"
+            android:title="Plano de Leitura" />
+
+        <item
+            android:id="@+id/nav_projeto_vida"
+            android:icon="@drawable/ic_projeto_vida"
             android:title="Projeto de Vida" />
         <item
-            android:id="@+id/nav_Devocional"
-            android:icon="@drawable/ic_menu_gallery"
+            android:id="@+id/nav_devocional"
+            android:icon="@drawable/ic_devocionais"
             android:title="Devocional" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_eventos"
+            android:icon="@drawable/ic_eventos"
+            android:title="Eventos" />
+
+        <item
+            android:id="@+id/nav_alimento_celular"
+            android:icon="@drawable/ic_alimento_celular"
+            android:title="Alimento Celular" />
+
         <item
             android:id="@+id/nav_mapa"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_maps"
             android:title="Mapa" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Comunicação">
         <menu>
+
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_ajuda"
+                android:icon="@drawable/ic_help"
+                android:title="Ajuda" />
+
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_configuracoes"
+                android:icon="@drawable/ic_settings"
+                android:title="Configurações" />
+
+            <item
+                android:id="@+id/nav_info_desenvolvedor"
+                android:icon="@drawable/ic_info"
+                android:title="Sobre o Desenvolvedor" />
         </menu>
     </item>
 

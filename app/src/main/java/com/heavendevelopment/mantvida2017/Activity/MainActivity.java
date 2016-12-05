@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.heavendevelopment.mantvida2017.R;
+import com.heavendevelopment.mantvida2017.Util;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -90,23 +91,40 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_projetoVida) {
+        Util util = new Util(this);
+
+        if(id == R.id.nav_plano_leitura){
+
+            startActivity(new Intent(context,PlanoLeituraMain.class));
+        }
+
+        else if (id == R.id.nav_projeto_vida) {
             // Handle the camera action) {
 
             startActivity(new Intent(context, ProjetoVidaMain.class));
 
-        } else if (id == R.id.nav_Devocional) {
+        } else if (id == R.id.nav_devocional) {
 
             startActivity(new Intent(context, DevocionaisMain.class));
 
-        } else if (id == R.id.nav_mapa) {
+        } else if (id == R.id.nav_alimento_celular) {
 
-          //  startActivity(new Intent(context, MapsActivity.class));
+            util.toast("Função ainda não disponível");
 
-        } else if (id == R.id.nav_share) {
+        }else if (id == R.id.nav_mapa) {
 
-        } else if (id == R.id.nav_send) {
+            util.toast("Função ainda não disponível");
+           //startActivity(new Intent(context, MapsActivity.class));
 
+        } else if (id == R.id.nav_ajuda) {
+
+            util.toast("Função ainda não disponível");
+        } else if (id == R.id.nav_configuracoes) {
+
+            util.toast("Função ainda não disponível");
+        }else if (id == R.id.nav_info_desenvolvedor) {
+
+            util.toast("Função ainda não disponível");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

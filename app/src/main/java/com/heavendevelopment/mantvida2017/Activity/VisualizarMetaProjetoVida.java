@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,8 +25,14 @@ import java.util.regex.Pattern;
 
 public class VisualizarMetaProjetoVida extends AppCompatActivity {
 
+    String arrayCategorias [];
     Context context;
-    private  int idMeta;
+    private int idMeta;
+    private int novaCategoria;
+    ImageView imgCategoria;
+    TextView tvTituloCategria;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -33,6 +40,7 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
         setContentView(R.layout.activity_visualizar_meta_projeto_vida);
 
         context = this;
+        arrayCategorias = getResources().getStringArray(R.array.array_categorias);
 
         Bundle bundle = getIntent().getExtras();
         idMeta = bundle.getInt("idMeta");
@@ -43,8 +51,10 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
         //depois implementar a função do usuário clicar na imagem e aparecer um alertdialog personalizado
         //com as imagens e checkbox dos tipos de categoria que existem
 
-        ImageView imgCategoria = (ImageView) findViewById(R.id.img_categoria_visualizar_meta);
-        TextView tvTituloCategria = (TextView) findViewById(R.id.tv_titulo_visualizar_meta);
+        novaCategoria = meta.getIdCategoria();
+
+        imgCategoria = (ImageView) findViewById(R.id.img_categoria_visualizar_meta);
+        tvTituloCategria = (TextView) findViewById(R.id.tv_titulo_visualizar_meta);
         TextView tvDataCriacaoMeta = (TextView) findViewById(R.id.tv_data_criacao_visualizar_meta);
 
         imgCategoria.setImageResource(chooseImg96Px(meta.getIdCategoria()));
@@ -62,6 +72,14 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
         tilObjetivo.getEditText().setText(meta.getObjetivo());
         tilDataInicio.getEditText().setText(meta.getDataInicio());
         tilDataConclusao.getEditText().setText(meta.getDataConclusao());
+
+        imgCategoria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                criarDialogAtualizarCategoria();
+            }
+        });
 
 
     }
@@ -95,6 +113,34 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void criarDialogAtualizarCategoria(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle("Selecione a nova categoria");
+
+        builder.setSingleChoiceItems(arrayCategorias, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                novaCategoria = item + 1;
+                imgCategoria.setImageResource(chooseImg96Px(novaCategoria));
+                tvTituloCategria.setText(chooseTitleMeta(novaCategoria));
+
+                Toast.makeText(context, "Categoria atualizada", Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+            }
+
+
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
     }
 
     private void atualizarMeta(){
@@ -181,6 +227,7 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
             MetaService metaService = new MetaService(this);
 
             Meta meta = metaService.getMetaById(idMeta);
+            meta.setIdCategoria(novaCategoria);
             meta.setTitulo(titulo);
             meta.setComo(como);
             meta.setObjetivo(objetivo);
@@ -198,6 +245,7 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
                 finish();
 
             }else{
+
                 Toast.makeText(this, "Ocorreu um erro. Tente novamente daqui alguns segundos", Toast.LENGTH_SHORT).show();
 
             }
@@ -245,7 +293,7 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
 
         RelativeLayout relativeLayoutProjetoVidaVisualizar = (RelativeLayout) findViewById(R.id.activity_visualizar_meta_projeto_vida);
 
-        Snackbar.make(relativeLayoutProjetoVidaVisualizar, "To implement", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(relativeLayoutProjetoVidaVisualizar, "Ainda não implementado", Snackbar.LENGTH_LONG).show();
     }
 
     private int chooseImg96Px(int categoria){

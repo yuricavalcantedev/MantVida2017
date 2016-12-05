@@ -241,7 +241,7 @@ public class VisualizarDevocional extends AppCompatActivity {
 
         RelativeLayout relativeLayoutDevocionalVisualizar  = (RelativeLayout) findViewById(R.id.activity_visualizar_devocional);
 
-        Snackbar.make(relativeLayoutDevocionalVisualizar , "To implement", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(relativeLayoutDevocionalVisualizar , "Ainda não implementado", Snackbar.LENGTH_LONG).show();
     }
 
 

@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.heavendevelopment.mantvida2017.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LeituraBiblica extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_leitura_biblica);
     }
 }
