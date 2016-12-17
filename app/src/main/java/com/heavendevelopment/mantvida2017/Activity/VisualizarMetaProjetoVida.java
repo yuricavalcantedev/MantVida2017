@@ -1,5 +1,6 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,12 +22,14 @@ import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.MetaService;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VisualizarMetaProjetoVida extends AppCompatActivity {
 
+    private int tvEscolherData = 1;
     String arrayCategorias [];
     Context context;
     private int idMeta;
@@ -81,8 +86,90 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
             }
         });
 
+        tilDataInicio.getEditText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                tvEscolherData = 1;
+                escolherData(v);
+            }
+        });
+
+        tilDataConclusao.getEditText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                tvEscolherData = 2;
+                escolherData(v);
+            }
+        });
+
 
     }
+
+
+    //Métodos auxiliares chamados quando o usuário clica para escolher a data das metas
+    public void escolherData(View v) {
+
+        Calendar calendarInstance = Calendar.getInstance();
+        int mes = calendarInstance.get(Calendar.MONTH);
+        int dia = calendarInstance.get(Calendar.DAY_OF_MONTH);
+        int ano = calendarInstance.get(Calendar.YEAR);
+
+        //acrescento um mês caso seja a data de conclusão só para não ficar a mesma data
+        if(tvEscolherData == 2)
+            mes += 1;
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener, ano, mes, dia);
+        datePickerDialog.show();
+
+
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+
+            //0 - TextView ligada ao Início.
+            //1 - TextView ligada à Conclusão.
+
+            EditText tvData = null;
+
+            //o mês que o usuário seleciona, vem com o valor -1 do mês selecionado
+            //porque começa em 0.
+
+            selectedMonth += 1;
+
+            //Se for igual a 1 é porque a textView é a do ínicio
+            if (tvEscolherData == 1) {
+                tvData = ((TextInputLayout) findViewById(R.id.til_dataInicio_criar_meta)).getEditText();
+            }else {
+                tvData = ((TextInputLayout) findViewById(R.id.til_dataConclusao_criar_meta)).getEditText();
+            }
+            String day = "", month = "";
+
+            //se o dia ou mês selecionados forem menor do que 10, eu adiciono um 0 na frente só para ficar mais bonito
+            //o formato da data
+
+            if (selectedDay < 10)
+                day = "0" + selectedDay;
+            else
+                day = selectedDay+"";
+
+            if (selectedMonth < 10)
+                month = "0" + selectedMonth;
+            else
+                month = selectedMonth+"";
+
+            String dataSelecionada = day + "/" + month + "/" + selectedYear;
+
+            tvData.setText(dataSelecionada);
+
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

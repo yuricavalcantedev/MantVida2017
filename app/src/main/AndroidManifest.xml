@@ -50,7 +50,11 @@
         <activity android:name=".Activity.CadastrarActivity" />
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.PlanoLeituraMain" />
-        <activity android:name=".Activity.LeituraBiblica"></activity>
+        <activity android:name=".Activity.LeituraBiblica" />
+        <activity android:name=".Activity.AlimentoCelularMain" />
+        <activity android:name=".Activity.PalavrasMain" />
+        <activity android:name=".Activity.VisualizarPalavra" />
+        <activity android:name=".SplashProjetoVida"></activity>
     </application>
 
 </manifest>

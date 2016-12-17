@@ -79,7 +79,6 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
 
     }
 
-
     public class SpinnerAdapter extends ArrayAdapter<String> {
 
         String [] categoriesArray;
@@ -132,7 +131,6 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
         }
 
     }
-
 
     //Métodos auxiliares chamados quando o usuário clica para escolher a data das metas
     public void escolherData(View v) {

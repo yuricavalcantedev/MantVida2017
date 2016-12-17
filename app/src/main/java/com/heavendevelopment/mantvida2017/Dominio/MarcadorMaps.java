@@ -4,22 +4,30 @@ package com.heavendevelopment.mantvida2017.Dominio;
  * Created by Yuri on 30/11/2016.
  */
 
-public class MarcadorIgrejaMaps {
+public class MarcadorMaps {
 
+    private int id;
     private String nome;
     private String endereco;
     private String latitude;
     private String longitude;
 
-    public MarcadorIgrejaMaps(){
+    public MarcadorMaps(){
         super();
     }
 
-    public MarcadorIgrejaMaps(String nome, String endereco, String latitude, String longitude) {
+    public MarcadorMaps(String nome, String endereco, String latitude, String longitude) {
         this.nome = nome;
         this.endereco = endereco;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {

@@ -8,14 +8,10 @@ package com.heavendevelopment.mantvida2017.Dominio;
 public class Devocional {
 
     private int id;
-
     private String parasha;
     private String titulo;
-
     private String dataCriacao;
-
     private String textoChave;
-
     private String mensagemDeDeus;
 
     public Devocional(){

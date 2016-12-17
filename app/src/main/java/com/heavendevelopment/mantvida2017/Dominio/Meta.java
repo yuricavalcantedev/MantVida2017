@@ -10,20 +10,14 @@ public class Meta {
 
     private int id;
     private String titulo;
-
     private String como;
-
     private String objetivo;
 
     //1 - Família, 2 - Ministério, 3 - Formação, 4 - Restituição, 5 - Finanças
     private int idCategoria;
-
     private String dataInicio;
-
     private String dataCriacao;
-
     private String dataConclusao;
-
     private int realizada;
 
     public Meta(){
