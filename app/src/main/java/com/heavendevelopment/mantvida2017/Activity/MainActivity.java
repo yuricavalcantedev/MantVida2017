@@ -33,15 +33,6 @@ public class MainActivity extends AppCompatActivity
 
         context = this;
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -106,6 +97,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_devocional) {
 
             startActivity(new Intent(context, DevocionaisMain.class));
+
+        } else if (id == R.id.nav_eventos) {
+
+            startActivity(new Intent(context, EventosMain.class));
 
         } else if (id == R.id.nav_alimento_celular) {
 

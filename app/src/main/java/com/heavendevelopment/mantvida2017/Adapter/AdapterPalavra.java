@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Palavra;
 import com.heavendevelopment.mantvida2017.R;
 
@@ -51,32 +50,42 @@ public class AdapterPalavra extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
-        if(convertView == null){
+        ViewHolder holder;
+
+        if(convertView == null) {
 
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.item_listview_palavas,viewGroup,false);
+                    inflate(R.layout.item_listview_palavras, viewGroup, false);
 
+            holder = new ViewHolder();
 
-            Palavra palavra = listPalavras.get(position);
+            holder.tvId = (TextView) convertView.findViewById(R.id.tv_item_id_palavra);
+            holder.tvTitulo = (TextView)convertView.findViewById(R.id.tv_item_titulo_palavra);
+            holder.tvAutor = (TextView)convertView.findViewById(R.id.tv_item_autor_palavra);
+            holder.tvData = (TextView)convertView.findViewById(R.id.tv_item_data_palavra);
 
-            String id = palavra.getId()+"";
-            String titulo = palavra.getTitulo()+"";
-            String autor = palavra.getAutor()+"";
-            String data = palavra.getData()+"";
+            convertView.setTag(holder);
 
-            TextView tvId = (TextView) convertView.findViewById(R.id.tv_item_id_palavra);
-            TextView tvTitulo = (TextView)convertView.findViewById(R.id.tv_item_titulo_palavra);
-            TextView tvAutor = (TextView)convertView.findViewById(R.id.tv_item_autor_palavra);
-            TextView tvData = (TextView)convertView.findViewById(R.id.tv_item_data_palavra);
+        }else{
 
-            tvId.setText(id);
-            tvTitulo.setText(titulo);
-            tvAutor.setText(autor);
-            tvData.setText(data);
-
+            holder = (ViewHolder) convertView.getTag();
         }
 
+        Palavra palavra = listPalavras.get(position);
+
+        String id = palavra.getId()+"";
+        String titulo = palavra.getTitulo()+"";
+        String autor = palavra.getAutor()+"";
+        String data = palavra.getData()+"";
+
+
+        holder.tvId.setText(id);
+        holder.tvTitulo.setText(titulo);
+        holder.tvAutor.setText(autor);
+        holder.tvData.setText(data);
+
         return convertView;
+
     }
 
     public void filter(String charText) {
@@ -97,5 +106,13 @@ public class AdapterPalavra extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    private class ViewHolder{
+
+        TextView tvId;
+        TextView tvTitulo;
+        TextView tvAutor;
+        TextView tvData;
+
+    }
 }
 

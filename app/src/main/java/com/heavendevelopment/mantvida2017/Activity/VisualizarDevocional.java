@@ -2,6 +2,7 @@ package com.heavendevelopment.mantvida2017.Activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -18,14 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
-import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.DevocionalService;
-import com.heavendevelopment.mantvida2017.Service.MetaService;
 
 import java.util.GregorianCalendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class VisualizarDevocional extends AppCompatActivity {
 
@@ -53,7 +50,6 @@ public class VisualizarDevocional extends AppCompatActivity {
         TextInputLayout tilMensagemDeus = (TextInputLayout) findViewById(R.id.til_mensagemDeus_visualizar_devocional);
 
         final TextView tvTitulo = (TextView) findViewById(R.id.tv_titulo_visualizar_devocional);
-        TextView tvParasha = (TextView) findViewById(R.id.tv_parasha_visualizar_devocional);
         TextView tvDataCriacao = (TextView) findViewById(R.id.tv_data_criacao_visualizar_devocional);
         final EditText etTítulo = tilTitulo.getEditText();
         EditText etTextoChave = tilTextoChave.getEditText();
@@ -61,7 +57,6 @@ public class VisualizarDevocional extends AppCompatActivity {
 
 
         tvTitulo.setText(devocional.getTitulo());
-        tvParasha.setText(devocional.getParasha());
         tvDataCriacao.setText("Data de Criação : " + devocional.getDataCriacao());
         etTítulo.setText(devocional.getTitulo());
         etTextoChave.setText(devocional.getTextoChave());
@@ -239,9 +234,17 @@ public class VisualizarDevocional extends AppCompatActivity {
 
     private void compartilharDevocional(){
 
-        RelativeLayout relativeLayoutDevocionalVisualizar  = (RelativeLayout) findViewById(R.id.activity_visualizar_devocional);
+//        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+//        builder.setTitle("Compartilhar via...");
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_SEND);
+//        intent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+//        intent.setType("text/plain");
+//        builder.setIntent(this, intent);
+//
+//        BottomSheet bottomSheet = builder.create();
+//        bottomSheet.show();
 
-        Snackbar.make(relativeLayoutDevocionalVisualizar , "Ainda não implementado", Snackbar.LENGTH_LONG).show();
     }
 
 

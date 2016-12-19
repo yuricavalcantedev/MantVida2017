@@ -184,7 +184,7 @@ public class DevocionaisMain extends AppCompatActivity {
 
         for(int i = 0; i < 20; i ++){
 
-            Devocional devocional = new Devocional("Parashá "+i,"Título "+i,"03/12/2016","TextoChave "+i,"Mensagem "+i);
+            Devocional devocional = new Devocional("Título "+i,"03/12/2016","TextoChave "+i,"Mensagem "+i);
             devocionalService.criarDevocional(devocional);
         }
 

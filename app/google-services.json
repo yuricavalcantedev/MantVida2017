@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "609522753127",
+    "firebase_url": "https://mimetic-slate-150514.firebaseio.com",
+    "project_id": "mimetic-slate-150514",
+    "storage_bucket": "mimetic-slate-150514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609522753127:android:e4e0b4d315ff5f88",
+        "android_client_info": {
+          "package_name": "com.heavendevelopment.mantvida2017"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609522753127-4kgdv7pp92fi8h55obi9q4ap6k2ri2ed.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADDOPUXgsLp0HSGgGxr8hhJEqCw7NYswM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

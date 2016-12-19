@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
+import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.Dominio.Usuario;
 
@@ -58,7 +59,6 @@ public class DatabaseAccess {
         }
     }
 
-
     public boolean cadastrarMeta(Meta meta){
 
         ContentValues cValues = new ContentValues();
@@ -89,7 +89,6 @@ public class DatabaseAccess {
         ContentValues cValues = new ContentValues();
 
         cValues.put("titulo",devocional.getTitulo());
-        cValues.put("parasha", devocional.getParasha());
         cValues.put("dataCriacao", devocional.getDataCriacao());
         cValues.put("textoChave", devocional.getTextoChave());
         cValues.put("mensagemDeus", devocional.getMensagemDeDeus());
@@ -148,16 +147,37 @@ public class DatabaseAccess {
 
             devocional.setId(cursor.getInt(0));
             devocional.setTitulo(cursor.getString(1));
-            devocional.setParasha(cursor.getString(2));
-            devocional.setDataCriacao(cursor.getString(3));
-            devocional.setTextoChave(cursor.getString(4));
-            devocional.setMensagemDeDeus(cursor.getString(5));
+            devocional.setDataCriacao(cursor.getString(2));
+            devocional.setTextoChave(cursor.getString(3));
+            devocional.setMensagemDeDeus(cursor.getString(4));
 
             listaDevocionais.add(devocional);
         }
 
         cursor.close();
         return listaDevocionais;
+
+    }
+
+    public ArrayList<Evento> getEventos(){
+
+        ArrayList<Evento> listaEventos = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY id ASC", null);
+
+        while(cursor.moveToNext()){
+
+            Evento evento = new Evento();
+
+            evento.setId(cursor.getInt(0));
+            evento.setNome(cursor.getString(1));
+            evento.setData(cursor.getString(2));
+            evento.setDescricao(cursor.getString(3));
+
+            listaEventos.add(evento);
+        }
+
+        cursor.close();
+        return listaEventos;
 
     }
 
@@ -191,7 +211,6 @@ public class DatabaseAccess {
         ContentValues cValues = new ContentValues();
 
         cValues.put("titulo",devocional.getTitulo());
-        cValues.put("parasha", devocional.getParasha());
         cValues.put("dataCriacao", devocional.getDataCriacao());
         cValues.put("textoChave", devocional.getTextoChave());
         cValues.put("mensagemDeus", devocional.getMensagemDeDeus());
@@ -288,10 +307,9 @@ public class DatabaseAccess {
 
                 devocional.setId(cursor.getInt(0));
                 devocional.setTitulo(cursor.getString(1));
-                devocional.setParasha(cursor.getString(2));
-                devocional.setDataCriacao(cursor.getString(3));
-                devocional.setTextoChave(cursor.getString(4));
-                devocional.setMensagemDeDeus(cursor.getString(5));
+                devocional.setDataCriacao(cursor.getString(2));
+                devocional.setTextoChave(cursor.getString(3));
+                devocional.setMensagemDeDeus(cursor.getString(4));
 
                 cursor.close();
 

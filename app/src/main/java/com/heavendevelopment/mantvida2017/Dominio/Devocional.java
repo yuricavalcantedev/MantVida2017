@@ -1,6 +1,5 @@
 package com.heavendevelopment.mantvida2017.Dominio;
 
-
 /**
  * Created by Yuri on 22/11/2016.
  */
@@ -8,7 +7,6 @@ package com.heavendevelopment.mantvida2017.Dominio;
 public class Devocional {
 
     private int id;
-    private String parasha;
     private String titulo;
     private String dataCriacao;
     private String textoChave;
@@ -19,10 +17,9 @@ public class Devocional {
         super();
     }
 
-    public Devocional(String parasha, String titulo, String dataCriacao, String textoChave, String mensagemDeDeus) {
+    public Devocional(String titulo, String dataCriacao, String textoChave, String mensagemDeDeus) {
 
         super();
-        this.parasha = parasha;
         this.titulo = titulo;
         this.dataCriacao = dataCriacao;
         this.textoChave = textoChave;
@@ -34,13 +31,6 @@ public class Devocional {
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getParasha() {
-        return parasha;
-    }
-    public void setParasha(String parasha) {
-        this.parasha = parasha;
     }
 
     public String getTitulo() {

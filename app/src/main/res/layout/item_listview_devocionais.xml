@@ -13,25 +13,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <TextView
-        android:text="Vayêshev - E habitou"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:id="@+id/tv_item_devocional_parasha"
-        android:layout_below="@+id/tv_item_devocional_titulo"
-        android:layout_alignStart="@+id/tv_item_devocional_titulo" />
-
-    <TextView
-        android:text="22/12/16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_item_data_devocional"
-        android:layout_marginEnd="11dp"
-        android:layout_alignBaseline="@+id/tv_item_devocional_parasha"
-        android:layout_alignBottom="@+id/tv_item_devocional_parasha"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
         android:text="id "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,14 +21,14 @@
         android:id="@+id/tv_item_devocional_idDevocional"
         android:visibility="invisible" />
 
-    <View
+    <TextView
+        android:text="22/12/16"
         android:layout_width="wrap_content"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
-        android:layout_below="@+id/tv_item_devocional_parasha"
-        android:layout_alignStart="@+id/tv_item_devocional_parasha"
-         />
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_item_data_devocional"
+        android:layout_below="@+id/tv_item_devocional_titulo"
+        android:layout_alignStart="@+id/tv_item_devocional_titulo"
+        android:layout_marginTop="8dp" />
 
 
 </RelativeLayout>

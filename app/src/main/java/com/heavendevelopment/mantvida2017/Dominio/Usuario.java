@@ -1,5 +1,8 @@
 package com.heavendevelopment.mantvida2017.Dominio;
 
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * Created by Yuri on 22/11/2016.
  */

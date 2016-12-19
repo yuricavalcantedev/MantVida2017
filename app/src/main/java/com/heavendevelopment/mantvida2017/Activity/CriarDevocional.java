@@ -108,7 +108,7 @@ public class CriarDevocional extends AppCompatActivity {
 
         if(camposValidados){
 
-            Devocional devocional = new Devocional(parasha, titulo,dataCriacao,textoChave,mensagemDeDeus);
+            Devocional devocional = new Devocional(titulo,dataCriacao,textoChave,mensagemDeDeus);
 
             DevocionalService devocionalService = new DevocionalService(context);
             boolean devocionalCriado = devocionalService.criarDevocional(devocional);
