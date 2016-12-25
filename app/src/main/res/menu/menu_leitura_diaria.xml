@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="Devocionais"
+        android:icon="@drawable/ic_devocionais_branco"
+        android:id="@+id/ic_menu_devocional"
+        app:showAsAction="ifRoom"/>
+
+</menu>
