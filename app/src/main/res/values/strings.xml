@@ -16,6 +16,16 @@
 
     </array>
 
+    <array name="array_versoes_biblia">
+
+        <item>NVI - Nova Versão Internacional</item>
+        <item>NTLH - Nova Tradução na Linguagem de Hoje</item>
+        <item>ACF - Almeida Corrigida Fiel</item>
+        <item>KJV - King James Version (Inglês)</item>
+
+    </array>
+
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_visualizar_evento">VisualizarEventoActivity</string>
 
 </resources>

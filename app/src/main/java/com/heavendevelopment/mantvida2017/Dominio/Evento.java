@@ -74,6 +74,9 @@ public class Evento {
         int diaAtual = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
         int mesAtual = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
 
+        diaAtual = 30;
+        mesAtual = 6;
+
         String []arrayData = data.split(".");
 
         mes = Integer.parseInt(arrayData[1]);

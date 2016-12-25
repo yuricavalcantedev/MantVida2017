@@ -13,11 +13,4 @@
         android:id="@+id/ic_menu_delete"
         app:showAsAction="always"/>
 
-    <item android:title="Compartilhar"
-        android:icon="@drawable/ic_share"
-        android:id="@+id/ic_menu_share"
-        app:showAsAction="always"/>
-
-
-
 </menu>

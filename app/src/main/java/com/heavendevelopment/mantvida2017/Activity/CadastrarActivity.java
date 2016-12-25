@@ -15,14 +15,18 @@ import com.heavendevelopment.mantvida2017.Service.UsuarioService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class CadastrarActivity extends AppCompatActivity {
 
-    TextInputLayout tilNome;
-    TextInputLayout tilLogin;
-    TextInputLayout tilSenha;
-    TextInputLayout tilRepetirSenha;
-    TextInputLayout tilDataNascimento;
-    Button btCadastrar;
+    @BindView(R.id.til_nome_cadastrar) TextInputLayout tilNome;
+    @BindView(R.id.til_login_cadastrar)  TextInputLayout tilLogin;
+    @BindView(R.id.til_senha_cadastrar) TextInputLayout tilSenha;
+    @BindView(R.id.til_repetir_senha_cadastrar) TextInputLayout tilRepetirSenha;
+    @BindView(R.id.til_dataNascimento_cadastrar) TextInputLayout tilDataNascimento;
+
     Context context;
 
     @Override
@@ -32,36 +36,21 @@ public class CadastrarActivity extends AppCompatActivity {
 
         context = this;
 
-        initViews();
+        ButterKnife.bind(this);
 
-        btCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                boolean signIn = verifyData();
-
-                if(signIn) {
-                    signInUser();
-                    Toast.makeText(context, "Cadastro realizado com sucesso.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-
-            }
-        });
 
     }
 
-    private void initViews(){
+    @OnClick(R.id.bt_cadastrar)
+    public void cadastrarUsuario(){
 
+        boolean signIn = verifyData();
 
-        tilNome = (TextInputLayout) findViewById(R.id.til_nome_cadastrar);
-        tilLogin = (TextInputLayout) findViewById(R.id.til_login_cadastrar);
-        tilSenha = (TextInputLayout) findViewById(R.id.til_senha_cadastrar);
-        tilRepetirSenha = (TextInputLayout) findViewById(R.id.til_repetir_senha_cadastrar);
-        tilDataNascimento = (TextInputLayout) findViewById(R.id.til_dataNascimento_cadastrar);
-        btCadastrar = (Button) findViewById(R.id.bt_cadastrar);
-
-
+        if(signIn) {
+            signInUser();
+            Toast.makeText(context, "Cadastro realizado com sucesso.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     private boolean verifyData(){
@@ -145,4 +134,5 @@ public class CadastrarActivity extends AppCompatActivity {
         usuarioService.cadastrarUsuario(usuario);
 
     }
+
 }

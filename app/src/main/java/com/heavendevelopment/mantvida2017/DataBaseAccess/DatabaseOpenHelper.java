@@ -16,8 +16,13 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     private static final int BD_VERSION = 1;
 
 
+
     public DatabaseOpenHelper(Context ctx) {
         super(ctx, BD_NAME, null, BD_VERSION);
+    }
+
+    public DatabaseOpenHelper(Context ctx, String BD) {
+        super(ctx, BD, null, BD_VERSION);
     }
 
     //Vai dar certo para glória do Senhor Jesus.
@@ -28,7 +33,6 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     }
 
     /**
-     *
      * @param db db of application
      * this method update the wrong data of table "tblleitura_1tri"
      */

@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.Dominio.Usuario;
+import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +32,35 @@ public class DatabaseAccess {
      * @param context
      */
 
+    //passar como parâmetro, a versão que o usuário escolheu
+    //e passar como parâmetro para o construtor do DatabaseOpenHelper
     private DatabaseAccess(Context context) {
         this.openHelper = new DatabaseOpenHelper(context);
+    }
+
+    private DatabaseAccess(Context context, int versaoBiblia) {
+        this.openHelper = new DatabaseOpenHelper(context, escolherBDBiblia(versaoBiblia));
+    }
+
+    //1 - NVI; 2 - NTLH; 3 - ACF; 4 - KJV
+
+    private String escolherBDBiblia(int versaoBiblia){
+
+        String BD_NAME = "";
+
+        switch (versaoBiblia){
+
+            case 1: BD_NAME = "NVI";
+                break;
+            case 2: BD_NAME = "NTLH";
+                break;
+            case 3: BD_NAME = "ACF";
+                break;
+            case 4: BD_NAME = "KJV";
+                break;
+        }
+
+        return BD_NAME;
     }
 
     /**
@@ -47,6 +76,14 @@ public class DatabaseAccess {
         }
         return instance;
     }
+
+    public static DatabaseAccess getInstance(Context context, int versaoBiblia) {
+        if (instance == null) {
+            instance = new DatabaseAccess(context, versaoBiblia);
+        }
+        return instance;
+    }
+
 
     public void open() {
 
@@ -327,6 +364,59 @@ public class DatabaseAccess {
 
     }
 
+    //get the reference of the biblical reading of the day
+    public String getRefReadingOfDay(int dia, int mes){
+
+        String reference = null;
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT titulo_original_leitura, id_livros, capitulos FROM leitura_biblica", null);
+
+            //reference;chapters;verses
+
+            if(cursor.moveToFirst())
+                reference = cursor.getString(0) + ";" + cursor.getString(1) + ";" + cursor.getString(2);
+
+            cursor.close();
+        }catch (Exception ex){
+
+            return ex.getMessage();
+        }
+
+        return reference;
+    }
+
+    //get the reading of the day
+    public ArrayList<Versículo> getReadingOfDay(int id_livro, int capitulo){
+
+        ArrayList<Versículo> listaVersiculos = new ArrayList<>();
+        Cursor cursor = null;
+
+        try{
+
+            cursor = database.rawQuery("SELECT verse, text FROM biblia_acf WHERE book_id = "+id_livro + " AND chapter = "+ capitulo, null);
+
+            while(cursor.moveToNext()){
+
+                Versículo versículo = new Versículo();
+                versículo.setNumVersiculo(Integer.parseInt(cursor.getString(0)));
+                versículo.setTexto(cursor.getString(1));
+
+                listaVersiculos.add(versículo);
+            }
+
+        }catch(Exception ex){
+
+            return null;
+        }
+
+        cursor.close();
+        return listaVersiculos;
+
+    }
+
+
     public String getUserName(){
 
         String retornoNome = null;
@@ -418,6 +508,8 @@ public class DatabaseAccess {
 
         return true;
     }
+
+
 
 
 }

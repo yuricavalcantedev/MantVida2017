@@ -28,7 +28,13 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
+
 public class CriarMetaProjetoVida extends AppCompatActivity {
+
+    @BindView(R.id.spinner_categoria_criar_projetovida) Spinner spinnerCategorias;
 
     private int tvEscolherData = 1;
     int categoriaSelecionada = 1;
@@ -39,9 +45,10 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_projeto_vida);
 
+        ButterKnife.bind(this);
+
         EditText etDataInicio = ((TextInputLayout)findViewById(R.id.til_dataInicio_criar_meta)).getEditText();
         EditText etDataConclusao = ((TextInputLayout)findViewById(R.id.til_dataConclusao_criar_meta)).getEditText();
-        Spinner spinnerCategorias = (Spinner) findViewById(R.id.spinner_categoria_criar_projetovida);
 
         String [] categoriesArray = getResources().getStringArray(R.array.array_categorias);
         spinnerCategorias.setAdapter(new CriarMetaProjetoVida.SpinnerAdapter(this,R.layout.item_spinner_meta,categoriesArray));
@@ -79,6 +86,7 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
 
     }
 
+
     public class SpinnerAdapter extends ArrayAdapter<String> {
 
         String [] categoriesArray;
@@ -89,8 +97,7 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
         }
 
         @Override
-        public View getDropDownView(int position, View convertView,
-                                    ViewGroup parent) {
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
             return getCustomView(position, convertView, parent);
         }
 
@@ -197,7 +204,7 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_novo_devocional_meta, menu);
+        getMenuInflater().inflate(R.menu.menu_criar_meta, menu);
         return true;
     }
 
@@ -213,9 +220,6 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
 
             criarMeta();
 
-        }else if(id == R.id.ic_menu_share){
-
-            compartilharMeta();
         }
 
         return super.onOptionsItemSelected(item);
@@ -328,9 +332,5 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
 
 
     }
-
-    private void compartilharMeta(){}
-
-
 
 }

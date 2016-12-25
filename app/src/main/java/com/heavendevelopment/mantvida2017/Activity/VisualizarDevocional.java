@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ExpandedMenuView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -24,10 +23,15 @@ import com.heavendevelopment.mantvida2017.Service.DevocionalService;
 
 import java.util.GregorianCalendar;
 
+import de.mrapp.android.bottomsheet.BottomSheet;
+
 public class VisualizarDevocional extends AppCompatActivity {
 
     Context context;
     private int idDevocional;
+    TextInputLayout tilTitulo;
+    TextInputLayout tilTextoChave;
+    TextInputLayout tilMensagemDeus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,9 @@ public class VisualizarDevocional extends AppCompatActivity {
 
         Devocional devocional = devocionalService.getDevocionalById(idDevocional);
 
-        TextInputLayout tilTitulo = (TextInputLayout) findViewById(R.id.til_titulo_visualizar_devocional);
-        TextInputLayout tilTextoChave = (TextInputLayout) findViewById(R.id.til_textoChave_visualizar_devocional);
-        TextInputLayout tilMensagemDeus = (TextInputLayout) findViewById(R.id.til_mensagemDeus_visualizar_devocional);
+        tilTitulo = (TextInputLayout) findViewById(R.id.til_titulo_visualizar_devocional);
+        tilTextoChave = (TextInputLayout) findViewById(R.id.til_textoChave_visualizar_devocional);
+        tilMensagemDeus = (TextInputLayout) findViewById(R.id.til_mensagemDeus_visualizar_devocional);
 
         final TextView tvTitulo = (TextView) findViewById(R.id.tv_titulo_visualizar_devocional);
         TextView tvDataCriacao = (TextView) findViewById(R.id.tv_data_criacao_visualizar_devocional);
@@ -89,7 +93,7 @@ public class VisualizarDevocional extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_visualizar_devocionais_metas, menu);
+        getMenuInflater().inflate(R.menu.menu_visualizar_devocionais, menu);
         return true;
     }
 
@@ -234,16 +238,27 @@ public class VisualizarDevocional extends AppCompatActivity {
 
     private void compartilharDevocional(){
 
-//        BottomSheet.Builder builder = new BottomSheet.Builder(this);
-//        builder.setTitle("Compartilhar via...");
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_SEND);
-//        intent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-//        intent.setType("text/plain");
-//        builder.setIntent(this, intent);
-//
-//        BottomSheet bottomSheet = builder.create();
-//        bottomSheet.show();
+        String titulo = tilTitulo.getEditText().getText().toString();
+        String textoChave = tilTextoChave.getEditText().getText().toString();
+        String mensagemDeus = tilMensagemDeus.getEditText().getText().toString();
+
+        String textoParaCompartilhar = "MANT VIDA 2017 \n\n \t\t Devocional : \n";
+        textoParaCompartilhar += "Título : " + titulo + "\n";
+        textoParaCompartilhar += "Texto Chave : " + textoChave + "\n";
+        textoParaCompartilhar += "Mensagem de Deus para mim : " + mensagemDeus;
+
+        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+        builder.setTitle("Compartilhar via...");
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, textoParaCompartilhar);
+        intent.setType("text/plain");
+
+        builder.setIntent(this, intent);
+        builder.setStyle(BottomSheet.Style.GRID);
+
+        BottomSheet bottomSheet = builder.create();
+        bottomSheet.show();
 
     }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="9dp"
+        android:id="@+id/tv_item_num_versiculo_leitura"
+        android:fontFamily="sans-serif"
+        android:elevation="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/cast_expanded_controller_background_color" />
+
+    <TextView
+        android:text="In the beginning God created the heavens and skies."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tv_item_num_versiculo_leitura"
+        android:layout_marginStart="5dp"
+        android:id="@+id/tv_item_texto_versiculo_leitura"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/cast_expanded_controller_background_color" />
+</RelativeLayout>

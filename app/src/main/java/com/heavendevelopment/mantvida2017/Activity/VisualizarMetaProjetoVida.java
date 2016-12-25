@@ -24,6 +24,7 @@ import com.heavendevelopment.mantvida2017.Service.MetaService;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,37 +136,47 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
             //0 - TextView ligada ao Início.
             //1 - TextView ligada à Conclusão.
 
-            EditText tvData = null;
+            try{
 
-            //o mês que o usuário seleciona, vem com o valor -1 do mês selecionado
-            //porque começa em 0.
+                EditText tvData = null;
 
-            selectedMonth += 1;
 
-            //Se for igual a 1 é porque a textView é a do ínicio
-            if (tvEscolherData == 1) {
-                tvData = ((TextInputLayout) findViewById(R.id.til_dataInicio_criar_meta)).getEditText();
-            }else {
-                tvData = ((TextInputLayout) findViewById(R.id.til_dataConclusao_criar_meta)).getEditText();
+                //o mês que o usuário seleciona, vem com o valor -1 do mês selecionado
+                //porque começa em 0.
+
+                selectedMonth += 1;
+
+                //Se for igual a 1 é porque a textView é a do ínicio
+                if (tvEscolherData == 1) {
+                    tvData = ((TextInputLayout) findViewById(R.id.til_dataInicio_visualizar_meta)).getEditText();
+                }else {
+                    tvData = ((TextInputLayout) findViewById(R.id.til_dataConclusao_visualizar_meta)).getEditText();
+                }
+                String day = "", month = "";
+
+                //se o dia ou mês selecionados forem menor do que 10, eu adiciono um 0 na frente só para ficar mais bonito
+                //o formato da data
+
+                if (selectedDay < 10)
+                    day = "0" + selectedDay;
+                else
+                    day = selectedDay+"";
+
+                if (selectedMonth < 10)
+                    month = "0" + selectedMonth;
+                else
+                    month = selectedMonth+"";
+
+                String dataSelecionada = day + "/" + month + "/" + selectedYear;
+
+                tvData.setText(dataSelecionada);
+
+            }catch(Exception ex ){
+                Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+
             }
-            String day = "", month = "";
 
-            //se o dia ou mês selecionados forem menor do que 10, eu adiciono um 0 na frente só para ficar mais bonito
-            //o formato da data
 
-            if (selectedDay < 10)
-                day = "0" + selectedDay;
-            else
-                day = selectedDay+"";
-
-            if (selectedMonth < 10)
-                month = "0" + selectedMonth;
-            else
-                month = selectedMonth+"";
-
-            String dataSelecionada = day + "/" + month + "/" + selectedYear;
-
-            tvData.setText(dataSelecionada);
 
         }
     };
@@ -174,7 +185,7 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_visualizar_devocionais_metas, menu);
+        getMenuInflater().inflate(R.menu.menu_visualizar_meta, menu);
         return true;
     }
 
@@ -194,9 +205,6 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
 
             deletarMeta();
 
-        }else if(id == R.id.ic_menu_share){
-
-            compartilharMeta();
         }
 
         return super.onOptionsItemSelected(item);
@@ -374,13 +382,6 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
         alertDialog.show();
 
 
-    }
-
-    private void compartilharMeta(){
-
-        RelativeLayout relativeLayoutProjetoVidaVisualizar = (RelativeLayout) findViewById(R.id.activity_visualizar_meta_projeto_vida);
-
-        Snackbar.make(relativeLayoutProjetoVidaVisualizar, "Ainda não implementado", Snackbar.LENGTH_LONG).show();
     }
 
     private int chooseImg96Px(int categoria){

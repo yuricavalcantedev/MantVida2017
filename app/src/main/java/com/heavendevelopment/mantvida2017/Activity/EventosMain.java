@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Adapter.AdapterEvento;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
@@ -26,11 +27,19 @@ public class EventosMain extends AppCompatActivity {
         context = this;
         listViewEventos = (ListView) findViewById(R.id.listview_eventos_main);
 
-        EventoService eventoService = new EventoService(context);
-        ArrayList<Evento> listEventos = eventoService.getEventos();
+        try{
 
-        AdapterEvento adapterEvento = new AdapterEvento(context,listEventos);
-        listViewEventos.setAdapter(adapterEvento);
+            EventoService eventoService = new EventoService(context);
+            ArrayList<Evento> listEventos = eventoService.getEventos();
+
+            AdapterEvento adapterEvento = new AdapterEvento(context,listEventos);
+            listViewEventos.setAdapter(adapterEvento);
+
+        }catch (Exception e){
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+
 
     }
 }

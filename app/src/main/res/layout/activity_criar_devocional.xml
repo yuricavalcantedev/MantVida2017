@@ -20,73 +20,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:text="Parashá : "
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/textView2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:layout_marginTop="0dp"
+            android:id="@+id/til_titulo_criar_devocional">
 
-        <TextView
-            android:text="Vayêshev (E habitou)"
-            android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:id="@+id/tv_parasha_criar_devocional"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/textView2" />
+            android:layout_marginTop="20dp"
+            android:id="@+id/til_textoChave_criar_devocional"
+            android:layout_below="@+id/til_titulo_criar_devocional"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="2"
+                android:hint="Texto Chave" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/til_textoChave_criar_devocional"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/til_mensagemDeus_criar_devocional">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="3"
+                android:hint="Mensagem de Deus para mim" />
+        </android.support.design.widget.TextInputLayout>
 
 
     </RelativeLayout>
 
 </ScrollView>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
-        android:id="@+id/til_titulo_criar_devocional">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Título" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:id="@+id/til_textoChave_criar_devocional"
-        android:layout_below="@+id/til_titulo_criar_devocional"
-        android:layout_alignParentStart="true">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minLines="2"
-            android:hint="Texto Chave" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/til_textoChave_criar_devocional"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:id="@+id/til_mensagemDeus_criar_devocional">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minLines="3"
-            android:hint="Mensagem de Deus para mim" />
-    </android.support.design.widget.TextInputLayout>
 
 
 </RelativeLayout>
