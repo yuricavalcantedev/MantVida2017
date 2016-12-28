@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
+import com.heavendevelopment.mantvida2017.Dominio.Leitura;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.Dominio.Usuario;
 import com.heavendevelopment.mantvida2017.Dominio.Versículo;
@@ -38,31 +39,7 @@ public class DatabaseAccess {
         this.openHelper = new DatabaseOpenHelper(context);
     }
 
-    private DatabaseAccess(Context context, int versaoBiblia) {
-        this.openHelper = new DatabaseOpenHelper(context, escolherBDBiblia(versaoBiblia));
-    }
-
     //1 - NVI; 2 - NTLH; 3 - ACF; 4 - KJV
-
-    private String escolherBDBiblia(int versaoBiblia){
-
-        String BD_NAME = "";
-
-        switch (versaoBiblia){
-
-            case 1: BD_NAME = "NVI";
-                break;
-            case 2: BD_NAME = "NTLH";
-                break;
-            case 3: BD_NAME = "ACF";
-                break;
-            case 4: BD_NAME = "KJV";
-                break;
-        }
-
-        return BD_NAME;
-    }
-
     /**
      * Return a singleton instance of DatabaseAccess.
      *
@@ -76,14 +53,6 @@ public class DatabaseAccess {
         }
         return instance;
     }
-
-    public static DatabaseAccess getInstance(Context context, int versaoBiblia) {
-        if (instance == null) {
-            instance = new DatabaseAccess(context, versaoBiblia);
-        }
-        return instance;
-    }
-
 
     public void open() {
 
@@ -365,33 +334,41 @@ public class DatabaseAccess {
     }
 
     //get the reference of the biblical reading of the day
-    public String getRefReadingOfDay(int dia, int mes){
+    public ArrayList<Leitura> getReadingOfDay(int dia, int mes){
 
-        String reference = null;
+        ArrayList<Leitura> listLeituras = new ArrayList<>();
+        String tabela = escolheTabelaTrimestre(mes);
 
         try {
 
-            Cursor cursor = database.rawQuery("SELECT titulo_original_leitura, id_livros, capitulos FROM leitura_biblica", null);
+            Cursor cursor = database.rawQuery("SELECT book_id, capitulo, titulo FROM " + tabela + " WHERE mes = " + mes + " AND dia = " + dia, null);
 
-            //reference;chapters;verses
+            while(cursor.moveToNext()){
 
-            if(cursor.moveToFirst())
-                reference = cursor.getString(0) + ";" + cursor.getString(1) + ";" + cursor.getString(2);
+                Leitura leitura = new Leitura();
+                leitura.setDia(dia);
+                leitura.setMes(mes);
+                leitura.setIdLivro(cursor.getInt(0));
+                leitura.setCapitulo(cursor.getInt(1));
+                leitura.setTitulo(cursor.getString(2));
 
-            cursor.close();
+                listLeituras.add(leitura);
+            }
+
         }catch (Exception ex){
-
-            return ex.getMessage();
+            String x = "";
+            return null;
         }
 
-        return reference;
+        return listLeituras;
     }
 
     //get the reading of the day
-    public ArrayList<Versículo> getReadingOfDay(int id_livro, int capitulo){
+    public ArrayList<Versículo> getLeitura(int id_livro, int capitulo){
 
         ArrayList<Versículo> listaVersiculos = new ArrayList<>();
         Cursor cursor = null;
+
 
         try{
 
@@ -400,8 +377,8 @@ public class DatabaseAccess {
             while(cursor.moveToNext()){
 
                 Versículo versículo = new Versículo();
-                versículo.setNumVersiculo(Integer.parseInt(cursor.getString(0)));
-                versículo.setTexto(cursor.getString(1));
+                versículo.setVerse(cursor.getInt(0));
+                versículo.setText(cursor.getString(1));
 
                 listaVersiculos.add(versículo);
             }
@@ -416,6 +393,21 @@ public class DatabaseAccess {
 
     }
 
+    private String escolheTabelaTrimestre(int mes){
+
+        String tabela = "";
+
+        if(mes < 4)
+            tabela = "leitura_1_tri";
+        else if(mes < 7)
+            tabela = "leitura_2_tri";
+        else if(mes < 10)
+            tabela = "leitura_3_tri";
+        else
+            tabela = "leitura_4_tri";
+
+        return tabela;
+    }
 
     public String getUserName(){
 

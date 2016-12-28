@@ -1,25 +1,40 @@
 package com.heavendevelopment.mantvida2017.Dominio;
 
+import java.util.ArrayList;
+
 /**
  * Created by Yuri on 21/12/2016.
  */
 
-public class LeituraDiaria {
+public class Leitura {
 
+    private int id;
     private int dia;
     private int mes;
-    private String tituloleitura;
+    private String titulo;
     private int idLivro;
     private int capitulo;
+    private ArrayList<Versículo> versiculos;
 
-    public LeituraDiaria(){}
+    public Leitura() {
+    }
 
-    public LeituraDiaria(int dia, int mes, String tituloleitura, int idLivro, int capitulo) {
+    public Leitura(int id, int dia, int mes, String titulo, int idLivro, int capitulo, ArrayList<Versículo> versiculos) {
+        this.id = id;
         this.dia = dia;
         this.mes = mes;
-        this.tituloleitura = tituloleitura;
+        this.titulo = titulo;
         this.idLivro = idLivro;
         this.capitulo = capitulo;
+        this.versiculos = versiculos;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getDia() {
@@ -38,12 +53,12 @@ public class LeituraDiaria {
         this.mes = mes;
     }
 
-    public String getTituloleitura() {
-        return tituloleitura;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTituloleitura(String tituloleitura) {
-        this.tituloleitura = tituloleitura;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public int getIdLivro() {
@@ -60,5 +75,13 @@ public class LeituraDiaria {
 
     public void setCapitulo(int capitulo) {
         this.capitulo = capitulo;
+    }
+
+    public ArrayList<Versículo> getVersiculos() {
+        return versiculos;
+    }
+
+    public void setVersiculos(ArrayList<Versículo> versiculos) {
+        this.versiculos = versiculos;
     }
 }

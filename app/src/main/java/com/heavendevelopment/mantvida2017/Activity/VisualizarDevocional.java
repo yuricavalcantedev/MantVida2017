@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -48,6 +49,12 @@ public class VisualizarDevocional extends AppCompatActivity {
         DevocionalService devocionalService = new DevocionalService(this);
 
         Devocional devocional = devocionalService.getDevocionalById(idDevocional);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Ver Devocional");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tilTitulo = (TextInputLayout) findViewById(R.id.til_titulo_visualizar_devocional);
         tilTextoChave = (TextInputLayout) findViewById(R.id.til_textoChave_visualizar_devocional);
@@ -105,7 +112,9 @@ public class VisualizarDevocional extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.ic_menu_save) {
+        if(id == android.R.id.home){
+            finish();
+        }else if (id == R.id.ic_menu_save) {
 
             atualizarDevocional();
 

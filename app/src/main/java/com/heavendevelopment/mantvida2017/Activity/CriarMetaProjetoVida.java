@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +47,12 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
         setContentView(R.layout.activity_criar_projeto_vida);
 
         ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Criar Meta");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         EditText etDataInicio = ((TextInputLayout)findViewById(R.id.til_dataInicio_criar_meta)).getEditText();
         EditText etDataConclusao = ((TextInputLayout)findViewById(R.id.til_dataConclusao_criar_meta)).getEditText();
@@ -216,7 +223,9 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.ic_menu_save) {
+        if(id == android.R.id.home){
+            finish();
+        }else if (id == R.id.ic_menu_save) {
 
             criarMeta();
 

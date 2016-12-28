@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,12 @@ public class DevocionaisMain extends AppCompatActivity {
 
         listViewDevocionais = (ListView) findViewById(R.id.listview_devocionais_main);
         context = this;
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Devocionais");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fillListViewDevocionais();
 
@@ -170,11 +177,13 @@ public class DevocionaisMain extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
+        if(id == android.R.id.home){
+            finish();
+        }else if (id == R.id.action_search) {
 
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

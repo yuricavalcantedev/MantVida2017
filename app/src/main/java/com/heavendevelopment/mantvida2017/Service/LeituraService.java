@@ -3,6 +3,7 @@ package com.heavendevelopment.mantvida2017.Service;
 import android.content.Context;
 
 import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
+import com.heavendevelopment.mantvida2017.Dominio.Leitura;
 import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 
 import java.util.ArrayList;
@@ -20,32 +21,26 @@ public class LeituraService {
         this.context = context;
     }
 
-    public String getRefReadingOfDay(int day, int month){
+    public ArrayList<Leitura> getReadingOfDay(int day, int month){
 
-        String referenceBiblical;
+        ArrayList<Leitura> listLeitura = new ArrayList<>();
 
-        //pegar do sharedPreferences
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        referenceBiblical = databaseAccess.getRefReadingOfDay(day,month);
+        listLeitura = databaseAccess.getReadingOfDay(day,month);
         databaseAccess.close();
 
-        return referenceBiblical;
+        return listLeitura;
 
     }
 
     public ArrayList<Versículo> getLeituraDiaria(int id_livro, int capitulo){
 
-
-        //pegar do sharedPreferences
-        int versaoBiblia = 1 ;
-
-
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        ArrayList <Versículo> listaVersiculos = databaseAccess.getReadingOfDay(id_livro, capitulo);
+        ArrayList <Versículo> listaVersiculos = databaseAccess.getLeitura(id_livro, capitulo);
         databaseAccess.close();
 
         return listaVersiculos;

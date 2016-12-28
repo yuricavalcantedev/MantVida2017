@@ -1,131 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_criar_projeto_vida"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.heavendevelopment.mantvida2017.Activity.CriarMetaProjetoVida">
+    android:fitsSystemWindows="true"
+    tools:context="com.heavendevelopment.mantvida2017.Activity.VisualizarDevocional">
 
-    <ScrollView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_criar_projeto_vida"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.heavendevelopment.mantvida2017.Activity.CriarMetaProjetoVida">
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:text="Escolha a categoria da meta :"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView5"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/textView3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:layout_alignParentLeft="true" />
-
-            <Spinner
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner_categoria_criar_projetovida"
-                android:entries="@array/array_categorias"
-                android:layout_below="@+id/textView3"
-                android:layout_alignParentStart="true" />
+                android:layout_height="match_parent">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/distance_between_til"
-                android:id="@+id/til_como_criar_meta"
-                android:layout_below="@+id/til_titulo_criar_meta"
-                android:layout_alignParentStart="true">
+                <TextView
+                    android:text="Escolha a categoria da meta :"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView5"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/textView3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_alignParentLeft="true" />
 
-                <EditText
+                <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minLines="2"
-                    android:hint="Como" />
+                    android:id="@+id/spinner_categoria_criar_projetovida"
+                    android:entries="@array/array_categorias"
+                    android:layout_below="@+id/textView3"
+                    android:layout_alignParentStart="true" />
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/til_como_criar_meta"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/distance_between_til"
-                android:id="@+id/til_objetivo_criar_meta">
-
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minLines="2"
-                    android:hint="Objetivo" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginTop="@dimen/distance_between_til"
+                    android:id="@+id/til_como_criar_meta"
+                    android:layout_below="@+id/til_titulo_criar_meta"
+                    android:layout_alignParentStart="true">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/distance_between_til"
-                android:layout_below="@+id/til_objetivo_criar_meta"
-                android:layout_alignParentStart="true"
-                android:id="@+id/til_dataInicio_criar_meta">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minLines="2"
+                        android:hint="Como" />
 
-                <EditText
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:hint="Data Início" />
+                    android:layout_below="@+id/til_como_criar_meta"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/distance_between_til"
+                    android:id="@+id/til_objetivo_criar_meta">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minLines="2"
+                        android:hint="Objetivo" />
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/til_dataInicio_criar_meta"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/distance_between_til"
-                android:id="@+id/til_dataConclusao_criar_meta">
-
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:hint="Data Conclusão" />
+                    android:layout_marginTop="@dimen/distance_between_til"
+                    android:layout_below="@+id/til_objetivo_criar_meta"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/til_dataInicio_criar_meta">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:hint="Data Início" />
 
-            <TextView
-                android:text="Todos os campos são obrigatórios"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/textView5" />
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/til_titulo_criar_meta"
-                android:layout_below="@+id/spinner_categoria_criar_projetovida"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/distance_between_til">
-
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Título"
-                    android:textAlignment="viewStart" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_below="@+id/til_dataInicio_criar_meta"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/distance_between_til"
+                    android:id="@+id/til_dataConclusao_criar_meta">
 
-        </RelativeLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:hint="Data Conclusão" />
 
-    </ScrollView>
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:text="Todos os campos são obrigatórios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/textView5" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/til_titulo_criar_meta"
+                    android:layout_below="@+id/spinner_categoria_criar_projetovida"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/distance_between_til">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Título"
+                        android:textAlignment="viewStart" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

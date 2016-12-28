@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -36,6 +37,12 @@ public class CriarDevocional extends AppCompatActivity {
         ButterKnife.bind(this);
         context = this;
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Criar Devocional");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -53,7 +60,9 @@ public class CriarDevocional extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.ic_menu_save) {
+        if(id == android.R.id.home){
+            finish();
+        }else if (id == R.id.ic_menu_save) {
             criarDevocional();
 
         }else if(id == R.id.ic_menu_share){

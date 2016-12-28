@@ -6,62 +6,51 @@ package com.heavendevelopment.mantvida2017.Dominio;
 
 public class Versículo {
 
-    private int id;
-    private int numVersiculo;
-    private int capitulo;
-    private int idLivro;
-    private String texto;
+    private int verse;
+    private int chapter;
+    private int book_id;
+    private String text;
 
     public Versículo() {
-        super();
     }
 
-    public Versículo(int id, int num, int capitulo, int idLivro, String texto) {
-        super();
-        this.id = id;
-        this.numVersiculo = num;
-        this.capitulo = capitulo;
-        this.idLivro = idLivro;
-        this.texto = texto;
+    public Versículo(int verse, int chapter, int book_id, String text) {
+        this.verse = verse;
+        this.chapter = chapter;
+        this.book_id = book_id;
+        this.text = text;
     }
 
-    public int getId() {
-        return id;
+    public int getVerse() {
+        return verse;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVerse(int verse) {
+        this.verse = verse;
     }
 
-    public int getNumVersiculo() {
-        return numVersiculo;
+    public int getChapter() {
+        return chapter;
     }
 
-    public void setNumVersiculo(int numVersiculo) {
-        this.numVersiculo = numVersiculo;
+    public void setChapter(int chapter) {
+        this.chapter = chapter;
     }
 
-    public int getCapitulo() {
-        return capitulo;
+    public int getBook_id() {
+        return book_id;
     }
 
-    public void setCapitulo(int capitulo) {
-        this.capitulo = capitulo;
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
     }
 
-    public int getIdLivro() {
-        return idLivro;
+    public String getText() {
+        return text;
     }
 
-    public void setIdLivro(int idLivro) {
-        this.idLivro = idLivro;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
 }

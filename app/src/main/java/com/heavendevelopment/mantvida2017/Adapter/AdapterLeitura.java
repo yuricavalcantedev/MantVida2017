@@ -38,7 +38,7 @@ public class AdapterLeitura extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return listVersiculos.get(position).getId();
+        return listVersiculos.get(position).getBook_id();
     }
 
     @Override
@@ -64,8 +64,8 @@ public class AdapterLeitura extends BaseAdapter {
 
         Versículo versículo = listVersiculos.get(position);
 
-        holder.tvNumVerso.setText(versículo.getNumVersiculo()+"");
-        holder.tvTextoVerso.setText(versículo.getTexto());
+        holder.tvNumVerso.setText(versículo.getVerse()+"");
+        holder.tvTextoVerso.setText(versículo.getText());
 
         return convertView;
     }
