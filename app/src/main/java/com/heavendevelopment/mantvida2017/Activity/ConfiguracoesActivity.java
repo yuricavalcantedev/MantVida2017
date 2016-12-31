@@ -2,13 +2,13 @@ package com.heavendevelopment.mantvida2017.Activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -25,26 +25,46 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     @BindView(R.id.seekbar_tamanho_letra_configuracoes) SeekBar seekBarTamFonte;
     @BindView(R.id.spinner_versao_biblia_configuracoes) Spinner spinnerVersoesBiblia;
 
-
-    Context context;
+    private Context context;
+    private int versaoSelecionadaSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracoes);
 
+        context = this;
         ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Configurações");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //pegar do shared_preferences, as informações salvas.
 
-        SharedPreferences sharedPreferences = getSharedPreferences("configuracoes_preferences", MODE_PRIVATE);
-        boolean modoNoturno = sharedPreferences.getBoolean("pref_config_modo_noturno", false);
-        int tamFonteLeitura = sharedPreferences.getInt("pref_config_tam_fonte", 20);
-        String versaoBiblia = sharedPreferences.getString("pref_config_versao_biblia", "NVI - Nova Versão Internacional");
+        SharedPreferences sharedPreferences = getSharedPreferences(getResources().getString(R.string.settings_preferences), MODE_PRIVATE);
+        boolean modoNoturno = sharedPreferences.getBoolean("setting_modo_noturno", false);
+        int tamFonteLeitura = sharedPreferences.getInt("setting_tam_fonte", 20);
+        int versaoBiblia = sharedPreferences.getInt("setting_version_bible", 1);
 
-        switchModoNoturno.setEnabled(modoNoturno);
+        switchModoNoturno.setChecked(modoNoturno);
         seekBarTamFonte.setProgress(tamFonteLeitura);
-        spinnerVersoesBiblia.setPrompt(versaoBiblia);
+        spinnerVersoesBiblia.setSelection(versaoBiblia - 1); // -1 porque eu salvo começando de 1.
+
+
+        spinnerVersoesBiblia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                versaoSelecionadaSpinner = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -63,7 +83,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.ic_menu_save) {
+        if(id == android.R.id.home){
+            finish();
+        }else if (id == R.id.ic_menu_save) {
             salvarConfiguracoes();
         }
 
@@ -72,23 +94,41 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     private void salvarConfiguracoes(){
 
-        SharedPreferences sharedPreferences = getSharedPreferences("configuracoes_preferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getResources().getString(R.string.settings_preferences), MODE_PRIVATE);
         boolean modoNoturno;
 
         int tamFonteLeitura = seekBarTamFonte.getProgress();
-        String versaoBiblia = "";
-        modoNoturno = switchModoNoturno.isEnabled();
+        modoNoturno = switchModoNoturno.isChecked();
 
-//        Spinner spinnerVersoesBiblia = (Spinner) findViewById(R.id.spinner_versao_biblia_configuracoes);
-//        versaoBiblia = spinnerVersoesBiblia.getPrompt().toString();
+        String nomeVersao = escolheVersaoBiblia(versaoSelecionadaSpinner);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("pref_config_modo_noturno", modoNoturno);
-        editor.putInt("pref_config_tam_fonte", tamFonteLeitura);
-        editor.putString("pref_config_versao_biblia", versaoBiblia);
+        editor.putBoolean("setting_modo_noturno", modoNoturno);
+        editor.putInt("setting_tam_fonte", tamFonteLeitura);
+        editor.putString("setting_versao_biblia_string", nomeVersao);
+        editor.putInt("setting_version_bible", versaoSelecionadaSpinner);
 
         editor.commit();
 
+        Util util = new Util(context);
+        util.toast("As configurações foram salvas");
+
+    }
+
+    private String escolheVersaoBiblia(int itemSpinnerSelecionado){
+
+        String nomeVersao;
+
+        if(itemSpinnerSelecionado == 1)
+            nomeVersao = "NVI - Nova Versão Internacional";
+        else if(itemSpinnerSelecionado == 2)
+            nomeVersao = "NTLH - Nova Tradução na Linguagem de Hoje";
+        else if(itemSpinnerSelecionado == 3)
+            nomeVersao = "ACF - Almeida Corrigida Fiel";
+        else
+            nomeVersao = "KJV - King James Version";
+
+        return nomeVersao;
     }
 
 }

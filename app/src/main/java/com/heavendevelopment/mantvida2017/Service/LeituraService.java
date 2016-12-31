@@ -16,9 +16,16 @@ import java.util.GregorianCalendar;
 public class LeituraService {
 
     private Context context;
+    private int versionBible;
 
     public LeituraService(Context context) {
         this.context = context;
+    }
+
+    public LeituraService(Context context, int versionBible) {
+
+        this.context = context;
+        this.versionBible = versionBible;
     }
 
     public ArrayList<Leitura> getReadingOfDay(int day, int month){
@@ -35,9 +42,23 @@ public class LeituraService {
 
     }
 
-    public ArrayList<Versículo> getLeituraDiaria(int id_livro, int capitulo){
+    public String getRefReadingOfDay(int day, int month){
+
+        String referenciaLeitura;
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        referenciaLeitura = databaseAccess.getRefReadingOfDay(day,month);
+        databaseAccess.close();
+
+        return referenciaLeitura;
+
+    }
+
+    public ArrayList<Versículo> getLeituraDiaria(int id_livro, int capitulo){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context, versionBible);
         databaseAccess.open();
 
         ArrayList <Versículo> listaVersiculos = databaseAccess.getLeitura(id_livro, capitulo);

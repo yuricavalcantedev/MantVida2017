@@ -2,16 +2,21 @@ package com.heavendevelopment.mantvida2017.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +39,9 @@ public class LeituraBiblica extends AppCompatActivity {
     Leitura leituraAtual;
     ArrayList<Leitura> listLeitura;
     int posLeituraAtual;
+    int tamFonteLeitura;
+    boolean modoNoturno;
+    int versaoBiblia;
 
     @BindView(R.id.tv_titulo_leitura_biblica)
     TextView tvTituloLeitura;
@@ -53,7 +61,6 @@ public class LeituraBiblica extends AppCompatActivity {
         setContentView(R.layout.activity_leitura_biblica);
 
         context = this;
-        leituraService = new LeituraService(context);
         posLeituraAtual = 0;
         ButterKnife.bind(this);
 
@@ -63,6 +70,25 @@ public class LeituraBiblica extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings_preferences), MODE_PRIVATE);
+        tamFonteLeitura = preferences.getInt("setting_tam_fonte",20);
+        modoNoturno = preferences.getBoolean("setting_modo_noturno", false);
+
+        //A VERSÃO 1 É A VERÃO NVI - NOVA VERSÃO INTERNACIONAL
+        versaoBiblia = preferences.getInt("setting_version_bible", 1);
+        leituraService = new LeituraService(context,versaoBiblia);
+
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_leitura_biblica);
+
+        //VERIFICA SE A LEITURA ESTÁ EM MODO NOTURNO.
+        if(modoNoturno){
+            img_seta_avancar.setBackgroundResource(R.drawable.ic_seta_avancar_white);
+            img_seta_voltar.setBackgroundResource(R.drawable.ic_seta_voltar_white);
+            tvTituloLeitura.setTextColor(Color.WHITE);
+            coordinatorLayout.setBackgroundColor(Color.BLACK);
+        }
+
         try{
 
             Bundle bundle = getIntent().getExtras();
@@ -71,7 +97,7 @@ public class LeituraBiblica extends AppCompatActivity {
 
             listLeitura = leituraService.getReadingOfDay(diaLeitura,mesLeitura);
 
-            ArrayList<Versículo> versiculosLeitura = new ArrayList<>();
+            ArrayList<Versículo> versiculosLeitura;
             for(int i = 0; i < listLeitura.size(); i++) {
                 versiculosLeitura = leituraService.getLeituraDiaria(listLeitura.get(i).getIdLivro(), listLeitura.get(i).getCapitulo());
                 listLeitura.get(i).setVersiculos(versiculosLeitura);
@@ -80,7 +106,7 @@ public class LeituraBiblica extends AppCompatActivity {
             leituraAtual = listLeitura.get(posLeituraAtual);
             tvTituloLeitura.setText(leituraAtual.getTitulo());
 
-            AdapterLeitura adapterLeitura = new AdapterLeitura(context, leituraAtual.getVersiculos());
+            AdapterLeitura adapterLeitura = new AdapterLeitura(context, leituraAtual.getVersiculos(), tamFonteLeitura, modoNoturno);
             listView.setAdapter(adapterLeitura);
             img_seta_voltar.setVisibility(View.INVISIBLE);
 
@@ -90,7 +116,7 @@ public class LeituraBiblica extends AppCompatActivity {
                     posLeituraAtual --;
                     if(posLeituraAtual >= 0) {
                         leituraAtual = listLeitura.get(posLeituraAtual);
-                        AdapterLeitura adapterLeitura = new AdapterLeitura(context, leituraAtual.getVersiculos());
+                        AdapterLeitura adapterLeitura = new AdapterLeitura(context, leituraAtual.getVersiculos(), tamFonteLeitura, modoNoturno);
                         listView.setAdapter(adapterLeitura);
 
                         img_seta_avancar.setEnabled(true);
@@ -113,7 +139,7 @@ public class LeituraBiblica extends AppCompatActivity {
 
                     if(posLeituraAtual <= listLeitura.size() - 1) {
                         leituraAtual = listLeitura.get(posLeituraAtual);
-                        AdapterLeitura adapterLeitura = new AdapterLeitura(context, leituraAtual.getVersiculos());
+                        AdapterLeitura adapterLeitura = new AdapterLeitura(context, leituraAtual.getVersiculos(),tamFonteLeitura, modoNoturno);
                         listView.setAdapter(adapterLeitura);
 
                         tvTituloLeitura.setText(leituraAtual.getTitulo());
@@ -130,13 +156,9 @@ public class LeituraBiblica extends AppCompatActivity {
                 }
             });
 
-
         }catch (Exception ex){
 
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
-            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
-            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
-
         }
 
     }

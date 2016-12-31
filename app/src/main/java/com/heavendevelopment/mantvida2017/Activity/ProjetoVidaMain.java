@@ -1,10 +1,15 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,21 +23,39 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Adapter.AdapterMeta;
+import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.MetaService;
 import com.heavendevelopment.mantvida2017.Util;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjetoVidaMain extends AppCompatActivity {
 
-    Context context;
-    ListView listViewProjetoVida;
-    List<Meta> listaMetas;
-    AdapterMeta adapterMeta;
+    private Context context;
+    private ListView listViewProjetoVida;
+    private List<Meta> listaMetas;
+    private AdapterMeta adapterMeta;
+    private Document document;
+    private final int PERMISSION_CODE = 200;
+    private AlertDialog alerta;
+    Util util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +64,13 @@ public class ProjetoVidaMain extends AppCompatActivity {
 
         listViewProjetoVida = (ListView) findViewById(R.id.listview_projetoVida_main);
         context = this;
+        util = new Util(context);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Projeto de Vida");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        fillListViewProjetoVida();
 
         //LISTENER DE VISUALIZAR UMA META CRIADA
         listViewProjetoVida.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -124,6 +146,33 @@ public class ProjetoVidaMain extends AppCompatActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+
+        fillListViewProjetoVida();
+
+    }
+
+    private void fillListViewProjetoVida(){
+
+        MetaService metaService = new MetaService(context);
+        listaMetas = metaService.getMetas();
+
+        TextView tv_nenhuma_meta = (TextView) findViewById(R.id.tv_nenhum_projeto_vida_main);
+
+        if(listaMetas .size() == 0)
+            tv_nenhuma_meta
+                    .setVisibility(View.VISIBLE);
+        else
+            tv_nenhuma_meta
+                    .setVisibility(View.INVISIBLE);
+
+        adapterMeta = new AdapterMeta(context,listaMetas);
+        listViewProjetoVida.setAdapter(adapterMeta);
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_search_projeto_vida, menu);
@@ -186,32 +235,202 @@ public class ProjetoVidaMain extends AppCompatActivity {
             return true;
         }else if (id == R.id.action_gerar_projeto_vida){
 
-            Util util = new Util(this);
-            util.toast("Gerar Projeto de Vida em PDF. Ainda não implementado");
+            //chama a rotina de criar o PDF.
+            callWriteOnSDCard();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void fillListViewProjetoVida(){
 
-        MetaService metaService = new MetaService(context);
-        listaMetas = metaService.getMetas();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        int idCategoriaAux;
-        for(int i = 1; i < 20; i ++){
+        switch (requestCode) {
+            case PERMISSION_CODE:
+                for (int i = 0; i < permissions.length; i++) {
 
-            idCategoriaAux = i;
+                    if (permissions[i].equalsIgnoreCase(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
 
-            if(i > 5)
-                idCategoriaAux = 1;
-
-            Meta meta = new Meta("Título "+i,"","04/12/2016",idCategoriaAux,"","","04/12/2016");
-            metaService.criarMeta(meta);
+                        createDeleteFolder();
+                    }
+                }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
-        adapterMeta = new AdapterMeta(context,listaMetas);
-        listViewProjetoVida.setAdapter(adapterMeta);
+    public void callWriteOnSDCard() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                callDialog(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+            }
+        } else {
+            createDeleteFolder();
+        }
 
     }
 
+    // FILE
+    public void createDeleteFolder() {
+        String path = Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017";
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017");
+
+        if (file.exists()) {
+            new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017", "Projeto de Vida.pdf").delete();
+            if (file.delete()) {
+
+
+                util.toast("Aperte mais uma vez para gerar o Projeto de Vida em pdf");
+
+            }
+        } else {
+            if (file.mkdir()) {
+                createFile(path);
+            } else {
+            }
+        }
+    }
+
+    public void createFile(final String path) {
+
+        try {
+
+            String filename = "Projeto de Vida 2017.pdf";
+            String projetoVida;
+
+            document = new Document(PageSize.A4);
+
+            File dir = new File(path, filename);
+            if (!dir.exists()) {
+                dir.getParentFile().mkdirs();
+            }
+
+            FileOutputStream fOut = new FileOutputStream(dir);
+            fOut.flush();
+
+            //Fontes
+            Font fontTitulo = new Font(Font.FontFamily.COURIER, 25, Font.BOLD);
+            Font fontCategoria = new Font(Font.FontFamily.TIMES_ROMAN, 18);
+            Font fontMetas = new Font(Font.FontFamily.HELVETICA, 14);
+            Font fontSubTitulo = new Font(Font.FontFamily.TIMES_ROMAN, 18);
+
+            Paragraph titulo = new Paragraph("Projeto de Vida 2017", fontTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+
+            Paragraph subTitulo = new Paragraph("O ano da chuva de avivamento e bençãos de Deus", fontSubTitulo);
+            subTitulo.setAlignment(Element.ALIGN_CENTER);
+
+            PdfWriter.getInstance(document, fOut);
+            document.open();
+
+            document.add(titulo);
+
+            document.addTitle("Projeto de Vida 2017");
+            document.addSubject("O ano da chuva de avivamento e bençãos de Deus");
+
+            MetaService metaService = new MetaService(context);
+
+            ArrayList<Meta> metasFamilia = metaService.getMetasByCategory(1);
+            ArrayList<Meta> metasMinisterio = metaService.getMetasByCategory(2);
+            ArrayList<Meta> metasFormacao = metaService.getMetasByCategory(3);
+            ArrayList<Meta> metasRestituicao = metaService.getMetasByCategory(4);
+            ArrayList<Meta> metasFinancas = metaService.getMetasByCategory(5);
+
+            ArrayList<ArrayList<Meta>> listMetas = new ArrayList<>();
+            listMetas.add(metasFamilia);
+            listMetas.add(metasMinisterio);
+            listMetas.add(metasFormacao);
+            listMetas.add(metasRestituicao);
+            listMetas.add(metasFinancas);
+
+            //titulo, dataInicio, dataTérmino
+            //1 - Família, 2 - Ministério, 3 - Formação, 4 - Restituição, 5 - Finanças
+
+            for (int i = 0; i < listMetas.size() - 1; i++) {
+
+                projetoVida = "";
+                String nomeCategoria = escolheNomeCategoria(i + 1);
+                Paragraph paragraphAreas = new Paragraph(nomeCategoria + "\n\n", fontCategoria);
+                paragraphAreas.setAlignment(Element.CHAPTER);
+                document.add(paragraphAreas);
+
+                Paragraph paragraphMetas;
+
+                for (int j = 0; j <= listMetas.get(i).size() - 1; j++) {
+
+                    Meta meta = listMetas.get(i).get(j);
+                    projetoVida += (meta.getTitulo() + " - de " + meta.getDataInicio() + " a " + meta.getDataConclusao() + "\n" );
+                }
+
+                paragraphMetas = new Paragraph(projetoVida, fontMetas);
+                paragraphMetas.setSpacingAfter(20);
+                document.add(paragraphMetas);
+
+            }
+
+           util.toast("Projeto de vida.pdf criado com sucesso na pasta MantVida 2017");
+
+            //Image logoIgreja = Image.getInstance(getClass().getResource("/com/example/alysson/mantvida2016/lg_icant72x72_gold.png"));
+            //logoIgreja.setAlignment(Element.ALIGN_BOTTOM);
+            //document.add(logoIgreja);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+        }
+    }
+
+    // UTIL
+    public void callDialog(final String[] permissions) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Deseja criar o pdf do seu Projeto de Vida 2017 ?");
+
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                ActivityCompat.requestPermissions(ProjetoVidaMain.this, permissions, PERMISSION_CODE);
+                util.toast("Pdf criado com sucesso!");
+
+                alerta.cancel();
+            }
+        });
+
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                alerta.cancel();
+            }
+        });
+
+
+        alerta = builder.create();
+        alerta.show();
+
+    }
+
+    private String escolheNomeCategoria (int idCategoria){
+
+        String nomeCategoria;
+
+        if(idCategoria == 1)
+            nomeCategoria = "Família";
+        else if (idCategoria == 2)
+            nomeCategoria = "Ministério";
+        else if (idCategoria == 3)
+            nomeCategoria = "Formação";
+        else if (idCategoria == 4)
+            nomeCategoria = "Restituição";
+        else
+            nomeCategoria = "Finanças";
+
+        return nomeCategoria;
+    }
 }

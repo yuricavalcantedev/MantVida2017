@@ -6,6 +6,7 @@ import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,6 +44,19 @@ public class MetaService {
         databaseAccess.close();
         return listaMetas;
 
+    }
+
+    public ArrayList<Meta> getMetasByCategory(int idCategoria){
+
+        //1 - Família, 2 - Ministério, 3 - Formação, 4 - Restituição, 5 - Finanças
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        ArrayList<Meta> listaMetas = databaseAccess.getMetasByCategory(idCategoria);
+
+        databaseAccess.close();
+        return listaMetas;
     }
 
     public Meta getMetaById(int idMeta){

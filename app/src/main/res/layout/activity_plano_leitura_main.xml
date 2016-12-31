@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             app:mcv_showOtherDates="all"
             app:mcv_selectionColor="@color/colorAgreeBottoms"
-            />
+            app:mcv_weekDayTextAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +51,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="Leitura : Deuteronômio 22 a 24 e Salmos "
+            android:textColor="@android:color/black" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

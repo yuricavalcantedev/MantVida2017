@@ -249,18 +249,20 @@ public class VisualizarDevocional extends AppCompatActivity {
 
         String titulo = tilTitulo.getEditText().getText().toString();
         String textoChave = tilTextoChave.getEditText().getText().toString();
-        String mensagemDeus = tilMensagemDeus.getEditText().getText().toString();
+        String mensagemDeDeus = tilMensagemDeus.getEditText().getText().toString();
 
-        String textoParaCompartilhar = "MANT VIDA 2017 \n\n \t\t Devocional : \n";
-        textoParaCompartilhar += "Título : " + titulo + "\n";
-        textoParaCompartilhar += "Texto Chave : " + textoChave + "\n";
-        textoParaCompartilhar += "Mensagem de Deus para mim : " + mensagemDeus;
+
+        String textoCompartilhar = "Devocional - " + titulo+ " - MANT VIDA \n\n";
+        textoCompartilhar += "Escondi a tua Palavra no meu coração para não pecar contra Ti. (Sl 119:11)\n\n";
+        textoCompartilhar += "Título:\n" + titulo + "\n\n";
+        textoCompartilhar += "Texto chave:\n" + textoChave + "\n\n";
+        textoCompartilhar += "Mensagem de Deus para mim:\n" + mensagemDeDeus + "\n\n";
 
         BottomSheet.Builder builder = new BottomSheet.Builder(this);
         builder.setTitle("Compartilhar via...");
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, textoParaCompartilhar);
+        intent.putExtra(Intent.EXTRA_TEXT, textoCompartilhar );
         intent.setType("text/plain");
 
         builder.setIntent(this, intent);

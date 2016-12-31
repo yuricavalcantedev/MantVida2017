@@ -3,11 +3,13 @@ package com.heavendevelopment.mantvida2017.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +49,12 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
 
         context = this;
         arrayCategorias = getResources().getStringArray(R.array.array_categorias);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Ver Meta");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getIntent().getExtras();
         idMeta = bundle.getInt("idMeta");
@@ -197,7 +205,9 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.ic_menu_save) {
+        if(id == android.R.id.home){
+            finish();
+        }else if (id == R.id.ic_menu_save) {
 
             atualizarMeta();
 
@@ -368,11 +378,11 @@ public class VisualizarMetaProjetoVida extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         dialog.dismiss();
-                        RelativeLayout relativeLayoutProjetoVidaVisualizar = (RelativeLayout) findViewById(R.id.activity_visualizar_meta_projeto_vida);
+                        CoordinatorLayout coordinatorLayoutMeta = (CoordinatorLayout) findViewById(R.id.activity_visualizar_meta_projeto_vida);
 
                         metaService.deletarMeta(idMeta);
 
-                        Snackbar.make(relativeLayoutProjetoVidaVisualizar, "Meta excluída com sucesso", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(coordinatorLayoutMeta, "Meta excluída com sucesso", Snackbar.LENGTH_LONG).show();
 
                         finish();
                     }

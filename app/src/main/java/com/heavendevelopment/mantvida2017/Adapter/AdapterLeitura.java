@@ -1,6 +1,8 @@
 package com.heavendevelopment.mantvida2017.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,9 @@ import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 import com.heavendevelopment.mantvida2017.R;
 
 import java.util.ArrayList;
+import java.util.logging.SocketHandler;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Yuri on 21/12/2016.
@@ -20,10 +25,15 @@ public class AdapterLeitura extends BaseAdapter {
 
     private Context context;
     private ArrayList<Versículo> listVersiculos;
+    private int tamFonte;
+    private boolean modoNoturno;
 
-    public AdapterLeitura(Context context, ArrayList<Versículo> listVersiculos) {
+    public AdapterLeitura(Context context, ArrayList<Versículo> listVersiculos, int tamFonte, boolean modoNoturno) {
         this.context = context;
         this.listVersiculos = listVersiculos;
+        this.tamFonte = tamFonte;
+        this.modoNoturno = modoNoturno;
+
     }
 
     @Override
@@ -48,8 +58,12 @@ public class AdapterLeitura extends BaseAdapter {
 
         if(convertView == null){
 
-            convertView = LayoutInflater.from(context).
-                    inflate(R.layout.item_listview_leitura_biblica,viewGroup,false);
+            if(modoNoturno)
+                convertView = LayoutInflater.from(context).
+                        inflate(R.layout.item_listview_leitura_biblica_modo_noturno, viewGroup, false);
+            else
+                convertView = LayoutInflater.from(context).
+                        inflate(R.layout.item_listview_leitura_biblica, viewGroup, false);
 
             holder = new ViewHolder();
 
@@ -66,6 +80,7 @@ public class AdapterLeitura extends BaseAdapter {
 
         holder.tvNumVerso.setText(versículo.getVerse()+"");
         holder.tvTextoVerso.setText(versículo.getText());
+        holder.tvTextoVerso.setTextSize(tamFonte);
 
         return convertView;
     }

@@ -52,11 +52,18 @@ public class PlanoLeituraMain extends AppCompatActivity {
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
         int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
+        int ano = gregorianCalendar.get(gregorianCalendar.YEAR);
 
-        //String leituraDeHoje = leituraService.getReadingOfDay(diaHoje,mesHoje);
+        //só para quando as pessoas quiserem fazer alguma leitura, antes do dia primeiro, serem jogadas direto para o dia primeiro
+        if(ano == 2016){
+            diaHoje = 1;
+            mesHoje = 1;
+        }
+
+        String refLeituraDeHoje = leituraService.getRefReadingOfDay(diaHoje,mesHoje);
 
         TextView tvLeituraHoje = (TextView) findViewById(R.id.tv_leitura_diaria_plano_leitura_main);
-        tvLeituraHoje.setText("ainda não implementado");
+        tvLeituraHoje.setText("Leitura : " + refLeituraDeHoje);
 
 
         calendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
@@ -68,6 +75,7 @@ public class PlanoLeituraMain extends AppCompatActivity {
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
 
+
         calendarView.setTitleMonths(labelsMeses);
         calendarView.setWeekDayLabels(labelsDias);
 
@@ -75,26 +83,27 @@ public class PlanoLeituraMain extends AppCompatActivity {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
-                listLeituraHoje = new ArrayList<Leitura>();
+                listLeituraHoje = new ArrayList<>();
 
                 int dia = date.getDay();
                 int mes = date.getMonth() + 1;
 
+                //ENQUANTO NÃO TERMINO O PREENCHIMENTO DO BANCO
+                if(mes > 3){
+                    dia = 1;
+                    mes = 1;
+                }
+
                 listLeituraHoje = leituraService.getReadingOfDay(dia, mes);
 
-                String tituloLeituraDiaria = "";
-
-                for(int i = 0; i < listLeituraHoje.size(); i++)
-                    tituloLeituraDiaria += listLeituraHoje.get(i).getTitulo()+ " ";
-
+                String refLeituraDataSelecionada = leituraService.getRefReadingOfDay(dia,mes);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context)
                         .setTitle("Plano de Leitura")
-                        .setMessage("Leitura : " + tituloLeituraDiaria);
+                        .setMessage("Leitura: " + refLeituraDataSelecionada);
                 builder.setPositiveButton("Ler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
 
                         Bundle bundle = new Bundle();
                         bundle.putInt("diaLeitura", listLeituraHoje.get(0).getDia());

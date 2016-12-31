@@ -48,8 +48,6 @@ public class DevocionaisMain extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fillListViewDevocionais();
-
         listViewDevocionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,6 +117,13 @@ public class DevocionaisMain extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        fillListViewDevocionais();
 
     }
 
@@ -191,13 +196,13 @@ public class DevocionaisMain extends AppCompatActivity {
 
         DevocionalService devocionalService = new DevocionalService(context);
 
-        for(int i = 0; i < 20; i ++){
-
-            Devocional devocional = new Devocional("Título "+i,"03/12/2016","TextoChave "+i,"Mensagem "+i);
-            devocionalService.criarDevocional(devocional);
-        }
-
         listaDevocionais = devocionalService.getDevocionais();
+        TextView tv_nenhum_devocional = (TextView) findViewById(R.id.tv_nenhum_devocional_main);
+
+        if(listaDevocionais.size() == 0)
+            tv_nenhum_devocional.setVisibility(View.VISIBLE);
+        else
+            tv_nenhum_devocional.setVisibility(View.INVISIBLE);
 
         adapterDevocional = new AdapterDevocional(context,listaDevocionais);
         listViewDevocionais.setAdapter(adapterDevocional);

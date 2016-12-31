@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/black"
     android:layout_height="wrap_content">
 
     <TextView
@@ -15,7 +16,7 @@
         android:fontFamily="sans-serif"
         android:elevation="10dp"
         android:textSize="12sp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/white" />
 
     <TextView
         android:text="In the beginning God created the heavens and skies."
@@ -26,6 +27,6 @@
         android:layout_marginStart="5dp"
         android:id="@+id/tv_item_texto_versiculo_leitura"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>

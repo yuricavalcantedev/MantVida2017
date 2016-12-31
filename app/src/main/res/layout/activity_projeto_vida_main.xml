@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
+        android:background="@android:color/white"
         tools:context="com.heavendevelopment.mantvida2017.Activity.ProjetoVidaMain">
 
         <ListView
@@ -38,17 +39,35 @@
             android:id="@+id/listview_projetoVida_main"
             android:divider="@android:color/background_light" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_criar_meta"
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:text="Sem metas,crie uma agora mesmo :D "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:elevation="6dp"
-            android:src="@drawable/ic_plus"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            app:backgroundTint="@color/colorAgreeBottoms" />
+
+            android:id="@+id/tv_nenhum_projeto_vida_main"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_criar_meta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="6dp"
+        android:src="@drawable/ic_plus"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:backgroundTint="@color/colorAgreeBottoms" />
 
 </android.support.design.widget.CoordinatorLayout>

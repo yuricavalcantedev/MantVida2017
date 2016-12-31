@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,12 +17,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.heavendevelopment.mantvida2017.R;
+import com.heavendevelopment.mantvida2017.Service.LeituraService;
 import com.heavendevelopment.mantvida2017.Util;
+
+import java.util.GregorianCalendar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Context context;
+
+    @BindView(R.id.fab_main)
+    FloatingActionButton fabLeitura;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +41,36 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
 
-
         context = this;
+        ButterKnife.bind(this);
+
+        fabLeitura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //esse código está se repetindo no "PlanoLeituraMain", isso não é bom, depois tento resolver.
+                GregorianCalendar gregorianCalendar = new GregorianCalendar();
+                int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
+                int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
+                int ano = gregorianCalendar.get(gregorianCalendar.YEAR);
+
+                //só para quando as pessoas quiserem fazer alguma leitura, antes do dia primeiro, serem jogadas direto para o dia primeiro
+                if(ano == 2016){
+                    diaHoje = 1;
+                    mesHoje = 1;
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("diaLeitura", diaHoje);
+                bundle.putInt("mesLeitura", mesHoje);
+
+                Intent intent = new Intent(context, LeituraBiblica.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,6 +80,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        CardView cardViewProjetoVida = (CardView) findViewById(R.id.cardview_projeto_vida_main);
+        CardView cardViewEvento = (CardView) findViewById(R.id.cardview_proximo_evento);
+
+        cardViewProjetoVida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, ProjetoVidaTexto.class));
+            }
+        });
+
+        cardViewEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //inicia a activity com o evento clicado
+                Util util = new Util(context);
+                util.toast("Descrição ainda não disponível");
+            }
+        });
+
 
     }
 
@@ -58,7 +116,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -68,11 +125,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -107,20 +159,9 @@ public class MainActivity extends AppCompatActivity
 
             util.toast("Função ainda não disponível");
 
-        }else if (id == R.id.nav_mapa) {
+        }else if (id == R.id.nav_configuracoes) {
 
-            util.toast("Função ainda não disponível");
-           //startActivity(new Intent(context, MapsActivity.class));
-
-        } else if (id == R.id.nav_ajuda) {
-
-            util.toast("Função ainda não disponível");
-        } else if (id == R.id.nav_configuracoes) {
-
-            util.toast("Função ainda não disponível");
-        }else if (id == R.id.nav_info_desenvolvedor) {
-
-            util.toast("Função ainda não disponível");
+            startActivity(new Intent(context, ConfiguracoesActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

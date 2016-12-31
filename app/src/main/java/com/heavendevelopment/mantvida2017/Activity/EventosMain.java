@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -12,6 +14,7 @@ import com.heavendevelopment.mantvida2017.Adapter.AdapterEvento;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.EventoService;
+import com.heavendevelopment.mantvida2017.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +30,24 @@ public class EventosMain extends AppCompatActivity {
         setContentView(R.layout.activity_eventos_main);
 
         context = this;
-        listViewEventos = (ListView) findViewById(R.id.listview_eventos_main);
+        final Util util = new Util(context);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Eventos");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        listViewEventos = (ListView) findViewById(R.id.listview_eventos_main);
+
+        listViewEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                util.toast("Descrição ainda não disponível");
+            }
+        });
+
 
         try{
 
