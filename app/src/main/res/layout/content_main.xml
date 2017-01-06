@@ -91,20 +91,14 @@
                         android:layout_marginBottom="5dp"
                         android:layout_below="@+id/tv_main_titulo_evento"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_main_guia"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true" />
 
                     <TextView
                         android:text="Ver Descrição"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:id="@+id/textView2"
-                        android:layout_alignTop="@+id/tv_main_data_evento" />
+                        android:id="@+id/tv_main_descricao_evento"
+                        android:layout_below="@+id/tv_main_data_evento"
+                        android:layout_alignStart="@+id/tv_main_data_evento" />
 
 
                 </RelativeLayout>

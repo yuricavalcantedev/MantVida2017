@@ -241,7 +241,6 @@ public class ProjetoVidaMain extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
@@ -282,10 +281,8 @@ public class ProjetoVidaMain extends AppCompatActivity {
         if (file.exists()) {
             new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017", "Projeto de Vida.pdf").delete();
             if (file.delete()) {
-
-
                 util.toast("Aperte mais uma vez para gerar o Projeto de Vida em pdf");
-
+                //TA FALTANDO DELETAR O ARQUIVO
             }
         } else {
             if (file.mkdir()) {

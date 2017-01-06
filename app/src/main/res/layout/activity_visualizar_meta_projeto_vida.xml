@@ -141,6 +141,24 @@
                     android:hint="Data Conclusão" />
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:text="Duplo clique para abrir o calendário"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til_dataConclusao_visualizar_meta"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="12dp"
+                android:id="@+id/textView7" />
+
+            <TextView
+                android:text="Duplo clique para abrir o calendário"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til_dataInicio_visualizar_meta"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="12dp"
+                android:id="@+id/textView13" />
+
         </RelativeLayout>
 
     </ScrollView>

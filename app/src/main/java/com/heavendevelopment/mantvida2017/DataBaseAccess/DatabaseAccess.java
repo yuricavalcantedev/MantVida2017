@@ -223,6 +223,20 @@ public class DatabaseAccess {
 
     }
 
+    public String getDescricaoEvento(int idEvento){
+
+        String descricaoEvento = "";
+        Cursor cursor = database.rawQuery("SELECT descricao FROM evento WHERE id = " + idEvento, null);
+
+        if(cursor.moveToFirst())
+            descricaoEvento = cursor.getString(0);
+
+        cursor.close();
+
+        return descricaoEvento;
+
+    }
+
     public boolean atualizarMeta(Meta meta){
 
         ContentValues cValues = new ContentValues();

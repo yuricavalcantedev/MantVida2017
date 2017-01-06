@@ -298,22 +298,22 @@ public class CriarMetaProjetoVida extends AppCompatActivity {
 
         //falta comparar se a data de conclusão é menor do que a do início.
 
-        if(titulo.length() < 8){
-            tilTitulo.setError("Este campo deve ter no mínimo 8 letras");
+        if(titulo.length() < 5){
+            tilTitulo.setError("Este campo deve ter no mínimo 5 letras");
             camposValidados = false;
         }else{
             tilTitulo.setErrorEnabled(false);
         }
 
-        if(como.length() < 8){
-            tilComo.setError("Este campo deve ter no mínimo 8 letras");
+        if(como.length() < 5){
+            tilComo.setError("Este campo deve ter no mínimo 5 letras");
             camposValidados = false;
         }else{
             tilComo.setErrorEnabled(false);
         }
 
-        if(objetivo.length() < 8){
-            tilObjetivo.setError("Este campo deve ter no mínimo 8 letras");
+        if(objetivo.length() < 5){
+            tilObjetivo.setError("Este campo deve ter no mínimo 5 letras");
             camposValidados = false;
         }else{
             tilObjetivo.setErrorEnabled(false);

@@ -15,8 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.heavendevelopment.mantvida2017.R;
+import com.heavendevelopment.mantvida2017.Service.EventoService;
 import com.heavendevelopment.mantvida2017.Service.LeituraService;
 import com.heavendevelopment.mantvida2017.Util;
 
@@ -91,15 +93,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        cardViewEvento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //inicia a activity com o evento clicado
-                Util util = new Util(context);
-                util.toast("Descrição ainda não disponível");
-            }
-        });
+        TextView tvDescricaoEvento = (TextView) findViewById(R.id.tv_main_descricao_evento);
+        EventoService eventoService = new EventoService(context);
 
+
+        //FAZER ISSO USANDO UMA LÓGICA PRA PEGAR O EVENTO ATUAL.
+        String descricaoAtual = eventoService.getDescricaoEvento(1);
+        tvDescricaoEvento.setText(descricaoAtual);
 
     }
 

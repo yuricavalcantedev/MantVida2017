@@ -34,5 +34,17 @@ public class EventoService {
 
     }
 
+    public String getDescricaoEvento(int idEvento){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        String descricaoEvento = databaseAccess.getDescricaoEvento(idEvento);
+
+        databaseAccess.close();
+
+        return descricaoEvento;
+
+    }
 
 }

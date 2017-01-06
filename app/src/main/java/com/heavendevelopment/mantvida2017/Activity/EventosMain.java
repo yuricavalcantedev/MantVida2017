@@ -1,6 +1,7 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,8 +22,9 @@ import java.util.List;
 
 public class EventosMain extends AppCompatActivity {
 
-    ListView listViewEventos;
-    Context context;
+    private ListView listViewEventos;
+    private Context context;
+    private ArrayList<Evento> listEventos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +42,34 @@ public class EventosMain extends AppCompatActivity {
 
         listViewEventos = (ListView) findViewById(R.id.listview_eventos_main);
 
+
+        EventoService eventoService = new EventoService(context);
+        listEventos = eventoService.getEventos();
+
+        AdapterEvento adapterEvento = new AdapterEvento(context,listEventos);
+        listViewEventos.setAdapter(adapterEvento);
+
         listViewEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                util.toast("Descrição ainda não disponível");
+                Evento evento = listEventos.get(position);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("tituloEvento", evento.getNome());
+                bundle.putString("dataEvento", evento.getData());
+                bundle.putString("descricaoEvento", evento.getDescricao());
+
+                Intent intent = new Intent(context, VisualizarEventoActivity.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
             }
         });
 
 
         try{
 
-            EventoService eventoService = new EventoService(context);
-            ArrayList<Evento> listEventos = eventoService.getEventos();
-
-            AdapterEvento adapterEvento = new AdapterEvento(context,listEventos);
-            listViewEventos.setAdapter(adapterEvento);
 
         }catch (Exception e){
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();

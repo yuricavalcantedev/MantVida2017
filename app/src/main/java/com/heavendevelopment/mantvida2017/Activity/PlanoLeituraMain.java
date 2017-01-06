@@ -32,7 +32,7 @@ public class PlanoLeituraMain extends AppCompatActivity {
     String[] labelsMeses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
 
-    String[] labelsDias = new String[]{"Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"};
+    String[] labelsDias = new String[]{"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class PlanoLeituraMain extends AppCompatActivity {
         calendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
 
         calendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.SATURDAY)
+                .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setMinimumDate(CalendarDay.from(2017, 0, 1))
                 .setMaximumDate(CalendarDay.from(2017, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)

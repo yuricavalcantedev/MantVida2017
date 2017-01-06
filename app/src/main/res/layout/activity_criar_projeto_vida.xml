@@ -147,6 +147,22 @@
                         android:textAlignment="viewStart" />
                 </android.support.design.widget.TextInputLayout>
 
+                <TextView
+                    android:text="Duplo clique para abrir o calendário"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:layout_below="@+id/til_dataConclusao_criar_meta"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:text="Duplo clique para abrir o calendário"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2"
+                    android:layout_below="@+id/til_dataInicio_criar_meta"
+                    android:layout_alignParentEnd="true" />
+
             </RelativeLayout>
 
         </ScrollView>
