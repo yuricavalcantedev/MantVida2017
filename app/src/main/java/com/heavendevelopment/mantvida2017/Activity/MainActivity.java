@@ -1,10 +1,18 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -96,12 +104,73 @@ public class MainActivity extends AppCompatActivity
         TextView tvDescricaoEvento = (TextView) findViewById(R.id.tv_main_descricao_evento);
         EventoService eventoService = new EventoService(context);
 
-
         //FAZER ISSO USANDO UMA LÓGICA PRA PEGAR O EVENTO ATUAL.
         String descricaoAtual = eventoService.getDescricaoEvento(1);
         tvDescricaoEvento.setText(descricaoAtual);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("notificationIntimidade",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        boolean notificationDia13 = sharedPreferences.getBoolean("notification13",false);
+
+        if(!notificationDia13){
+
+            String descricao = getResources().getString(R.string.descricao_evento_intimidade);
+            gerarNotificacaoIntimidade(descricao);
+
+            editor.putBoolean("notification13",true);
+            editor.apply();
+
+        }
+
+
     }
+    private void gerarNotificacaoIntimidade(String descricao){
+
+        NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("tituloEvento","Intimidade");
+        bundle.putString("dataEvento", "13.01.17");
+        bundle.putString("descricaoEvento", descricao);
+        bundle.putString("situacaoEvento", "");
+
+        Intent intentVer= new Intent(context, VisualizarEventoActivity.class);
+        intentVer.putExtras(bundle);
+
+
+        intentVer.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent piVerDescricao = PendingIntent.getActivity(context,0,intentVer,PendingIntent.FLAG_CANCEL_CURRENT);
+
+        android.support.v7.app.NotificationCompat.InboxStyle style = new android.support.v7.app.NotificationCompat.InboxStyle();
+        style.addLine("O intimidade já é amanhã (Sexta - 13).");
+        style.addLine("Não perca, vamos buscá-Lo!");
+        style.addLine("Clique para ver a descrição do evento.");
+
+
+        Notification notification = new NotificationCompat.Builder(context)
+                // Show controls on lock screen even when user hides sensitive content.
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setSmallIcon(R.drawable.lg_icant22x22)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_intimidade_72_dp))
+                // Add media control buttons that invoke intents in your media service
+                .addAction(R.drawable.ic_done_white_24dp, "Ver Evento",piVerDescricao)  // #1
+                // Apply the media style template
+                .setContentTitle("MantVida Evento - Intimidade")
+                .setTicker("MantVida Evento - Intimidade")
+                .setContentText("O intimidade já é amanhã (Sexta - 13).\n Não perca, vamos buscá-Lo! Clique para ver a descrição do evento.")
+                .setStyle(style)
+                .setSound(soundUri)
+                .build();
+
+        notification.vibrate = new long[]{150, 300, 150, 600};
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        nm.notify(R.drawable.lg_icant22x22, notification);
+
+    }
+
+
 
     @Override
     public void onBackPressed() {

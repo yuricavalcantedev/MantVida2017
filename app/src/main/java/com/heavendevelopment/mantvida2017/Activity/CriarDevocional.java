@@ -43,6 +43,16 @@ public class CriarDevocional extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //caso essa activity tenha sido chamada de dentro da leitura.
+        Intent intent = getIntent();
+        String versiculoCopiado;
+
+        if(intent != null){
+            versiculoCopiado = intent.getStringExtra("versiculoCopiado");
+            tilTextoChave.getEditText().setText(versiculoCopiado);
+        }
+
     }
 
     @Override

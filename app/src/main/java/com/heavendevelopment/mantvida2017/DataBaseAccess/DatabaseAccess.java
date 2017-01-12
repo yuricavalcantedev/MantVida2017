@@ -201,10 +201,14 @@ public class DatabaseAccess {
 
     }
 
+    public Evento getEventoDoDia(){
+        return null;
+    }
+
     public ArrayList<Evento> getEventos(){
 
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY id ASC", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY data ASC", null);
 
         while(cursor.moveToNext()){
 
@@ -471,11 +475,11 @@ public class DatabaseAccess {
         String bibleTable = "";
 
         if(bibleVersion == 1)
-            bibleTable = "biblia_acf";
-        else if(bibleVersion == 2)
             bibleTable = "biblia_nvi";
-        else if(bibleVersion == 3)
+        else if(bibleVersion == 2)
             bibleTable = "biblia_ntlh";
+        else if(bibleVersion == 3)
+            bibleTable = "biblia_acf";
         else
             bibleTable = "biblia_kjv";
 

@@ -52,13 +52,6 @@ public class PlanoLeituraMain extends AppCompatActivity {
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
         int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
-        int ano = gregorianCalendar.get(gregorianCalendar.YEAR);
-
-        //só para quando as pessoas quiserem fazer alguma leitura, antes do dia primeiro, serem jogadas direto para o dia primeiro
-        if(ano == 2016){
-            diaHoje = 1;
-            mesHoje = 1;
-        }
 
         String refLeituraDeHoje = leituraService.getRefReadingOfDay(diaHoje,mesHoje);
 

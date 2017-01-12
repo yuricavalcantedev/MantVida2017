@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Adapter.AdapterEvento;
@@ -53,12 +54,15 @@ public class EventosMain extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                TextView tvSituacao = (TextView) view.findViewById(R.id.tv_item_estado_evento);
+
                 Evento evento = listEventos.get(position);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("tituloEvento", evento.getNome());
                 bundle.putString("dataEvento", evento.getData());
                 bundle.putString("descricaoEvento", evento.getDescricao());
+                bundle.putString("situacaoEvento", tvSituacao.getText().toString());
 
                 Intent intent = new Intent(context, VisualizarEventoActivity.class);
                 intent.putExtras(bundle);

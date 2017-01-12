@@ -1,6 +1,7 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,9 @@ public class VisualizarEventoActivity extends AppCompatActivity {
     @BindView(R.id.tv_descricao_visualizar_evento)
     TextView tvDescricaoEvento;
 
+    @BindView(R.id.tv_situacao_visualizar)
+    TextView tvSituacaoEvento;
+
     private Context context;
 
     @Override
@@ -49,6 +53,14 @@ public class VisualizarEventoActivity extends AppCompatActivity {
         tvDataEvento.setText(bundle.getString("dataEvento"));
         tvDescricaoEvento.setText(bundle.getString("descricaoEvento"));
 
+        String situacaoEvento = bundle.getString("situacaoEvento");
+
+        if(situacaoEvento.equals("Realizado"))
+            tvSituacaoEvento.setTextColor(Color.RED);
+        else if(situacaoEvento.equals("Em andamento"))
+            tvSituacaoEvento.setTextColor(Color.BLUE);
+
+        tvSituacaoEvento.setText(situacaoEvento);
     }
 
     @Override

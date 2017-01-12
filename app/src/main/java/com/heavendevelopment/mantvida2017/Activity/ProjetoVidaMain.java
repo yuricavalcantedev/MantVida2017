@@ -282,7 +282,6 @@ public class ProjetoVidaMain extends AppCompatActivity {
             new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017", "Projeto de Vida.pdf").delete();
             if (file.delete()) {
                 util.toast("Aperte mais uma vez para gerar o Projeto de Vida em pdf");
-                //TA FALTANDO DELETAR O ARQUIVO
             }
         } else {
             if (file.mkdir()) {
@@ -430,4 +429,5 @@ public class ProjetoVidaMain extends AppCompatActivity {
 
         return nomeCategoria;
     }
+
 }

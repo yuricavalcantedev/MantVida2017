@@ -1,5 +1,7 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,12 +10,15 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -21,20 +26,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Adapter.AdapterLeitura;
+import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Leitura;
 import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.LeituraService;
+import com.heavendevelopment.mantvida2017.Util;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.mrapp.android.bottomsheet.BottomSheet;
 
 public class LeituraBiblica extends AppCompatActivity {
 
     Context context;
+    Activity thisActivity;
     LeituraService leituraService;
     Leitura leituraAtual;
     ArrayList<Leitura> listLeitura;
@@ -60,6 +69,7 @@ public class LeituraBiblica extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leitura_biblica);
 
+        thisActivity = this;
         context = this;
         posLeituraAtual = 0;
         ButterKnife.bind(this);
@@ -70,6 +80,78 @@ public class LeituraBiblica extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+
+                PopupMenu popupMenu = new PopupMenu(context, view, Gravity.END);
+
+
+                popupMenu.getMenuInflater().inflate(R.menu.menu_popup_leitura, popupMenu.getMenu());
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        TextView tvLivroCapitulo = (TextView) findViewById(R.id.tv_titulo_leitura_biblica);
+                        TextView tvNumVersiculo = (TextView) view.findViewById(R.id.tv_item_num_versiculo_leitura);
+                        TextView tvTextoVersiculo = (TextView) view.findViewById(R.id.tv_item_texto_versiculo_leitura);
+
+                        String livro_capitulo = tvLivroCapitulo.getText().toString();
+                        livro_capitulo = livro_capitulo.substring(0, livro_capitulo.length() - 1);
+
+                        String numVersiculo = tvNumVersiculo.getText().toString();
+                        String textoVersiculo = tvTextoVersiculo.getText().toString();
+                        String versao = versaoBibliaTexto(versaoBiblia);
+
+                        String versoCompleto = textoVersiculo + " - " + versao + "\n" + livro_capitulo + "." + numVersiculo;
+
+                        if (item.getItemId() == R.id.item_copiar) {
+
+                            android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+                            ClipData clipData = ClipData.newPlainText("text", versoCompleto);
+                            clipboardManager.setPrimaryClip(clipData);
+
+                            Util util = new Util(context);
+                            util.toast("Versículo copiado");
+
+                        } else if (item.getItemId() == R.id.item_devocional) {
+
+                            Intent intent = new Intent(context, CriarDevocional.class);
+                            intent.putExtra("versiculoCopiado", versoCompleto);
+
+                            startActivity(intent);
+
+                        } else {
+
+                            versoCompleto += "\nMANT VIDA 2017";
+
+                            BottomSheet.Builder builder = new BottomSheet.Builder(context);
+                            builder.setTitle("Compartilhar via...");
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_SEND);
+                            intent.putExtra(Intent.EXTRA_TEXT, versoCompleto);
+                            intent.setType("text/plain");
+
+                            builder.setIntent(thisActivity, intent);
+                            builder.setStyle(BottomSheet.Style.GRID);
+
+                            BottomSheet bottomSheet = builder.create();
+                            bottomSheet.show();
+
+                        }
+
+                        return true;
+                    }
+
+                });
+
+                return true;
+            }
+        });
 
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings_preferences), MODE_PRIVATE);
         tamFonteLeitura = preferences.getInt("setting_tam_fonte",20);
@@ -187,6 +269,21 @@ public class LeituraBiblica extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private String versaoBibliaTexto(int versaoBiblia){
+
+        String versaoTexto;
+
+        if(versaoBiblia == 1)
+            versaoTexto = "NVI";
+        else if(versaoBiblia == 2)
+            versaoTexto = "NTLH";
+        else if(versaoBiblia == 3)
+            versaoTexto = "ACF";
+        else
+            versaoTexto = "KJV";
+
+        return versaoTexto;
+    }
 
 
 }

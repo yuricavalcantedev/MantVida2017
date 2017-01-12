@@ -34,6 +34,19 @@ public class EventoService {
 
     }
 
+    public Evento getEventoDoDia(){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        Evento evento = databaseAccess.getEventoDoDia();
+
+        databaseAccess.close();
+
+        return evento;
+
+    }
+
     public String getDescricaoEvento(int idEvento){
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);

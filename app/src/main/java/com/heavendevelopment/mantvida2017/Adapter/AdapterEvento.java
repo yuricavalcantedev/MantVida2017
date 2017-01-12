@@ -1,6 +1,7 @@
 package com.heavendevelopment.mantvida2017.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.R;
+import com.heavendevelopment.mantvida2017.Util;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Yuri on 17/12/2016.
@@ -71,29 +74,81 @@ public class AdapterEvento extends BaseAdapter {
             holder.tvNome.setText(evento.getNome());
             holder.tvData.setText("Data : " + evento.getData());
 
-            //0 - não realizado, 1- em andamento, 2 - próximo evento, 3 - realizado
-            setTextoTvEstadoEvento(holder.tvEstadoEvento, evento.getEstadoEvento());
+        try{
+
+            int situacaoEvento = getSituacaoEvento(evento);
+
+            //1- em andamento, 2 - próximo evento, 3 - realizado
+            if(situacaoEvento == 0) {
+                holder.tvEstadoEvento.setText("");
+                holder.tvEstadoEvento.setTextColor(Color.WHITE);
+            }else if(situacaoEvento == 1){
+
+                holder.tvEstadoEvento.setText("Em andamento");
+                holder.tvEstadoEvento.setTextColor(Color.BLUE);
+            }else if(situacaoEvento == 3){
+
+                holder.tvEstadoEvento.setText("Realizado");
+                holder.tvEstadoEvento.setTextColor(Color.RED);
+            }
+
+        }catch (Exception ex){
+            Util util = new Util(context);
+            util.toast(ex.getMessage());
+        }
 
         return convertView;
     }
 
-    private void setTextoTvEstadoEvento(TextView tvRealizado ,int estadoEvento){
+    private int getSituacaoEvento(Evento evento){
 
-        switch (estadoEvento){
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        int diaAtual = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
+        int mesAtual = gregorianCalendar.get(GregorianCalendar.MONTH) + 1;
 
-            case 1 : tvRealizado.setText("Em andamento");
-                tvRealizado.setTextColor(context.getResources().getColor(android.R.color.holo_blue_dark));
-                break;
-            case 2 : tvRealizado.setText("Próximo evento");
-                tvRealizado.setTextColor(context.getResources().getColor(android.R.color.holo_green_light));
-                break;
-            case 3 : tvRealizado.setText("Já realizado");
-                tvRealizado.setTextColor(context.getResources().getColor(android.R.color.holo_red_light));
-                break;
-            default: tvRealizado.setText("");
-                break;
+        int situacao = 0;
+        int diaComposto1 = 0, diaComposto2 = 0;
+        int diaEvento = 0;
+
+        String []arrayData = evento.getData().split("[.]");
+
+        int mesEvento = Integer.parseInt(arrayData[1]);
+
+        if(arrayData[0].contains("a")){
+
+            String [] arrayDataAux = arrayData[0].split("a");
+            diaComposto1 = Integer.parseInt(arrayDataAux[0].replace(" ",""));
+            diaComposto2 = Integer.parseInt(arrayDataAux[1].replace(" ",""));
+
+        }else
+            diaEvento = Integer.parseInt(arrayData[0]);
+
+        if(mesEvento < mesAtual)
+            situacao = 3;
+        else if(mesEvento > mesAtual)
+            situacao = 0;
+        else {
+            //se não, o mês atual é o mês do evento, então faço a verificação dos dias
+
+            //se entrar aqui é porque o evento é de um dia só.
+            if (diaComposto1 == 0) {
+                if (diaEvento == diaAtual)
+                    situacao = 1;
+                else if (diaEvento < diaAtual)
+                    situacao = 3;
+                else if (diaEvento > diaAtual)
+                    situacao = 0;
+            }else{
+                if(diaAtual >= diaComposto1 && diaAtual <= diaComposto2)
+                    situacao = 1;
+                else if(diaAtual > diaComposto2)
+                    situacao = 3;
+                else if(diaAtual < diaComposto1)
+                    situacao = 0;
+            }
         }
 
+        return situacao;
     }
 
     private static class ViewHolder{
