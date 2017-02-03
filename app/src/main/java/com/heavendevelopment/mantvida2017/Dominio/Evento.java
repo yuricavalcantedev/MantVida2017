@@ -1,18 +1,17 @@
 package com.heavendevelopment.mantvida2017.Dominio;
 
-import java.util.GregorianCalendar;
-
 /**
  * Created by Yuri on 05/12/2016.
  */
 
 public class Evento {
 
-    private int id;
+    private double id;
     private String nome;
     private String data;
     private String descricao;
-
+    private String dia;
+    private int mes;
 
     public Evento() {
     }
@@ -24,10 +23,10 @@ public class Evento {
 
     }
 
-    public int getId() {
+    public double getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(double id) {
         this.id = id;
     }
 
@@ -52,4 +51,17 @@ public class Evento {
         this.descricao = descricao;
     }
 
+    public String getDia() {
+        return dia;
+    }
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
 }

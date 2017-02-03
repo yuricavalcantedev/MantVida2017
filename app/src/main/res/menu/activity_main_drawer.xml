@@ -26,6 +26,11 @@
         android:icon="@drawable/ic_alimento_celular"
         android:title="Alimento Celular" />
 
+        <!--<item-->
+            <!--android:id="@+id/nav_localizacao"-->
+            <!--android:icon="@drawable/ic_maps"-->
+            <!--android:title="Localização" />-->
+
     <item
         android:id="@+id/nav_configuracoes"
         android:icon="@drawable/ic_settings"

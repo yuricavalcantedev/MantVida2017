@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--Nome-->
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_item_nome_alimento_celular"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="11dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/black" />
+
+    <!--Número-->
+    <TextView
+        android:text="Número"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_below="@+id/tv_item_nome_alimento_celular"
+        android:layout_alignStart="@+id/tv_item_nome_alimento_celular"
+        android:id="@+id/tv_item_numero_alimento_celular" />
+
+    <!--Data-->
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/tv_item_data_alimento_celular"
+        android:layout_below="@+id/tv_item_nome_alimento_celular"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

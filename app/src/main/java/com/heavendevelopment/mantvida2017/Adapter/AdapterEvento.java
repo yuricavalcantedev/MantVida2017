@@ -43,7 +43,7 @@ public class AdapterEvento extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return listEventos.get(position).getId();
+        return position;
     }
 
     @Override

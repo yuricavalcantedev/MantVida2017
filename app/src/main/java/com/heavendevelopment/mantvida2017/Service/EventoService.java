@@ -6,6 +6,7 @@ import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -39,25 +40,16 @@ public class EventoService {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        Evento evento = databaseAccess.getEventoDoDia();
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        int diaHoje = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
+        int mesHoje = gregorianCalendar.get(GregorianCalendar.MONTH) + 1;
 
+        Evento evento = databaseAccess.getEventoDoDia(diaHoje,mesHoje);
         databaseAccess.close();
 
         return evento;
 
     }
 
-    public String getDescricaoEvento(int idEvento){
-
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
-        databaseAccess.open();
-
-        String descricaoEvento = databaseAccess.getDescricaoEvento(idEvento);
-
-        databaseAccess.close();
-
-        return descricaoEvento;
-
-    }
 
 }

@@ -37,6 +37,7 @@
         android:text="22/12/16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_projetovida_titulo"
         android:id="@+id/tv_item_projetovida_dataConclusao"
         android:layout_alignBottom="@+id/img_item_projetovida_categoria"
         android:layout_alignStart="@+id/tv_item_projetovida_titulo" />

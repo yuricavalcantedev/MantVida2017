@@ -7,21 +7,18 @@ package com.heavendevelopment.mantvida2017.Dominio;
 public class AlimentoCelular {
 
     private int id;
+    private int numero;
     private String nome;
     private String data;
-    private String versiculoChave;
-    private String texto;
-    private byte[] imagem;
+    private String link;
 
     public AlimentoCelular() {
     }
 
-    public AlimentoCelular(String nome, String data, String versiculoChave, String texto, byte[] imagem) {
+    public AlimentoCelular(String nome, String data, String link) {
         this.nome = nome;
         this.data = data;
-        this.versiculoChave = versiculoChave;
-        this.texto = texto;
-        this.imagem = imagem;
+        this.link = link;
     }
 
     public int getId() {
@@ -45,24 +42,17 @@ public class AlimentoCelular {
         this.data = data;
     }
 
-    public String getVersiculoChave() {
-        return versiculoChave;
+    public String getLink() {
+        return link;
     }
-    public void setVersiculoChave(String versiculoChave) {
-        this.versiculoChave = versiculoChave;
-    }
-
-    public String getTexto() {
-        return texto;
-    }
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setLink(String link) {
+        this.link = link;
     }
 
-    public byte[] getImagem() {
-        return imagem;
+    public int getNumero() {
+        return numero;
     }
-    public void setImagem(byte[] imagem) {
-        this.imagem = imagem;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 }

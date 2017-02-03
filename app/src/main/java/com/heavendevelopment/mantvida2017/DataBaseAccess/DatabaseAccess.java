@@ -2,12 +2,11 @@ package com.heavendevelopment.mantvida2017.DataBaseAccess;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
+import com.heavendevelopment.mantvida2017.Dominio.AlimentoCelular;
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.Dominio.Leitura;
@@ -15,7 +14,6 @@ import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.Dominio.Usuario;
 import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +76,26 @@ public class DatabaseAccess {
         }
     }
 
+    public boolean cadastrarAlimentoCelular(AlimentoCelular alimentoCelular){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("titulo",alimentoCelular.getNome());
+        cValues.put("data", alimentoCelular.getData());
+        cValues.put("link", alimentoCelular.getLink());
+
+        try {
+
+            database.insert("alimento_celular", null, cValues);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean cadastrarMeta(Meta meta){
 
         ContentValues cValues = new ContentValues();
@@ -123,6 +141,51 @@ public class DatabaseAccess {
         }
 
         return true;
+    }
+
+    public List<AlimentoCelular> getAlimentosCelulares(){
+
+        ArrayList<AlimentoCelular> listaAlimentoCelulares = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("SELECT * FROM alimento_celular", null);
+
+        while(cursor.moveToNext()){
+
+            AlimentoCelular alimentoCelular = new AlimentoCelular();
+
+            alimentoCelular.setNome(cursor.getString(1));
+            alimentoCelular.setData(cursor.getString(2));
+            alimentoCelular.setLink(cursor.getString(3));
+
+            listaAlimentoCelulares.add(alimentoCelular);
+        }
+
+        cursor.close();
+        return listaAlimentoCelulares;
+
+    }
+
+    public AlimentoCelular getAlimentoCelularByNumero(int numero){
+
+        AlimentoCelular alimentoCelular = new AlimentoCelular();
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT link FROM alimento_celular WHERE numero = "+numero , null);
+
+            if(cursor.moveToFirst())
+                alimentoCelular.setLink(cursor.getString(0));
+
+
+            cursor.close();
+        }catch (Exception ex){
+
+            return null;
+
+        }
+
+        return alimentoCelular;
+
     }
 
     public List<Meta> getMetas(){
@@ -201,14 +264,87 @@ public class DatabaseAccess {
 
     }
 
-    public Evento getEventoDoDia(){
-        return null;
+    public Evento getEventoDoDia(int dia, int mes){
+
+        Evento eventoHoje = null;
+
+        ArrayList<Evento> listaEventos = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM evento WHERE mes = " + mes, null);
+
+        //pega os eventos do mês atual.
+
+        int qtdEventos = listaEventos.size();
+        int diaEventoInicio = 0, diaEventoFim = 0;
+        int eventoUmDia = 0;
+        String [] eventoComDias;
+
+
+        //enquanto ele for andando nos eventos que vinheram do banco, eu vou vendo se cada um deles é o evento de hoje ou não.
+        while(cursor.moveToNext()){
+
+            Evento evento = new Evento();
+
+            evento.setId(cursor.getInt(0));
+            evento.setNome(cursor.getString(1));
+            evento.setData(cursor.getString(2));
+            evento.setDescricao(cursor.getString(3));
+            evento.setDia(cursor.getString(4));
+            evento.setMes(cursor.getInt(5));
+
+            //divido o 'dia" por "a" para ver se é um evento de um dia ou não.
+            eventoComDias = evento.getDia().split("a");
+
+            //evento de um dia
+            if(eventoComDias.length == 1) {
+
+                eventoUmDia = Integer.parseInt(evento.getDia());
+
+                if(eventoUmDia == dia)
+                    listaEventos.add(evento);
+
+            }//evento tem mais de um dia
+            else{
+
+                diaEventoInicio = Integer.parseInt(eventoComDias[0]);
+                diaEventoFim = Integer.parseInt(eventoComDias[1]);
+
+                if(dia >= diaEventoInicio && dia <= diaEventoFim)
+                    listaEventos.add(evento);
+            }
+
+        }
+
+        //nesse ponto, a lista de evento está com o(s) evento(s) do dia.
+
+        //se há mais de um evento no dia, eu crio um novo evento com a junção dos dois eventos.
+        if(listaEventos.size() == 2) {
+
+            Evento eventoUniao = new Evento();
+            eventoUniao.setNome(listaEventos.get(1).getNome() + "\n" + listaEventos.get(0).getNome());
+            eventoUniao.setData(listaEventos.get(0).getData());
+            eventoUniao.setDescricao(listaEventos.get(1).getDescricao() + "\n\n" + listaEventos.get(0).getDescricao());
+
+            eventoHoje = eventoUniao;
+        }//se não há evento eu crio um apenas para mostrar as informações corretas
+        else if(listaEventos.size() == 0){
+            Evento evento = new Evento();
+            evento.setNome("Nenhum evento");
+            evento.setData("");
+            evento.setDescricao("Não existem eventos acontecendo hoje");
+
+            eventoHoje = evento;
+        }// senão, é porque há apenas um evento no dia
+        else{
+            eventoHoje = listaEventos.get(0);
+        }
+
+        return eventoHoje;
     }
 
     public ArrayList<Evento> getEventos(){
 
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY data ASC", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY id ASC", null);
 
         while(cursor.moveToNext()){
 
@@ -224,20 +360,6 @@ public class DatabaseAccess {
 
         cursor.close();
         return listaEventos;
-
-    }
-
-    public String getDescricaoEvento(int idEvento){
-
-        String descricaoEvento = "";
-        Cursor cursor = database.rawQuery("SELECT descricao FROM evento WHERE id = " + idEvento, null);
-
-        if(cursor.moveToFirst())
-            descricaoEvento = cursor.getString(0);
-
-        cursor.close();
-
-        return descricaoEvento;
 
     }
 

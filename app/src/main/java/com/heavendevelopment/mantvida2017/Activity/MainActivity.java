@@ -1,19 +1,11 @@
 package com.heavendevelopment.mantvida2017.Activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,10 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.EventoService;
-import com.heavendevelopment.mantvida2017.Service.LeituraService;
 import com.heavendevelopment.mantvida2017.Util;
 
 import java.util.GregorianCalendar;
@@ -38,15 +33,26 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Evento eventoDeHoje;
     Context context;
 
     @BindView(R.id.fab_main)
     FloatingActionButton fabLeitura;
 
+    @BindView(R.id.tv_main_titulo_evento)
+    TextView tvTituloEvento;
+
+    @BindView(R.id.tv_main_data_evento)
+    TextView tvDataEvento;
+
+    @BindView(R.id.tv_main_descricao_evento)
+    TextView tvDescricaoEvento;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
@@ -54,123 +60,85 @@ public class MainActivity extends AppCompatActivity
         context = this;
         ButterKnife.bind(this);
 
-        fabLeitura.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        try{
 
-                //esse código está se repetindo no "PlanoLeituraMain", isso não é bom, depois tento resolver.
-                GregorianCalendar gregorianCalendar = new GregorianCalendar();
-                int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
-                int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
-                int ano = gregorianCalendar.get(gregorianCalendar.YEAR);
 
-                //só para quando as pessoas quiserem fazer alguma leitura, antes do dia primeiro, serem jogadas direto para o dia primeiro
-                if(ano == 2016){
-                    diaHoje = 1;
-                    mesHoje = 1;
+            fabLeitura.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //esse código está se repetindo no "PlanoLeituraMain", isso não é bom, depois tento resolver.
+                    GregorianCalendar gregorianCalendar = new GregorianCalendar();
+                    int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
+                    int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
+
+                    if(mesHoje == 2 && diaHoje < 7)
+                        diaHoje -= 1;
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("diaLeitura", diaHoje);
+                    bundle.putInt("mesLeitura", mesHoje);
+
+                    Intent intent = new Intent(context, LeituraBiblica.class);
+                    intent.putExtras(bundle);
+
+                    startActivity(intent);
+
                 }
+            });
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("diaLeitura", diaHoje);
-                bundle.putInt("mesLeitura", mesHoje);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
 
-                Intent intent = new Intent(context, LeituraBiblica.class);
-                intent.putExtras(bundle);
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
 
-                startActivity(intent);
+            CardView cardViewProjetoVida = (CardView) findViewById(R.id.cardview_projeto_vida_main);
+            CardView cardViewEvento = (CardView) findViewById(R.id.cardview_proximo_evento);
 
-            }
-        });
+            EventoService eventoService = new EventoService(context);
+            eventoDeHoje = eventoService.getEventoDoDia();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+            tvTituloEvento.setText(eventoDeHoje.getNome());
+            tvDataEvento.setText(eventoDeHoje.getData());
+            tvDescricaoEvento.setText(eventoDeHoje.getDescricao());
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+            cardViewProjetoVida.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(context, ProjetoVidaTexto.class));
+                }
+            });
 
-        CardView cardViewProjetoVida = (CardView) findViewById(R.id.cardview_projeto_vida_main);
-        CardView cardViewEvento = (CardView) findViewById(R.id.cardview_proximo_evento);
+            cardViewEvento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        cardViewProjetoVida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, ProjetoVidaTexto.class));
-            }
-        });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("tituloEvento", eventoDeHoje.getNome());
+                    bundle.putString("dataEvento", eventoDeHoje .getData());
+                    bundle.putString("descricaoEvento", eventoDeHoje .getDescricao());
+                    bundle.putString("situacaoEvento", "Em andamento");
 
-        TextView tvDescricaoEvento = (TextView) findViewById(R.id.tv_main_descricao_evento);
-        EventoService eventoService = new EventoService(context);
+                    Intent intent = new Intent(context, VisualizarEventoActivity.class);
+                    intent.putExtras(bundle);
 
-        //FAZER ISSO USANDO UMA LÓGICA PRA PEGAR O EVENTO ATUAL.
-        String descricaoAtual = eventoService.getDescricaoEvento(1);
-        tvDescricaoEvento.setText(descricaoAtual);
+                    startActivity(intent);
+                }
+            });
 
-        SharedPreferences sharedPreferences = getSharedPreferences("notificationIntimidade",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        boolean notificationDia13 = sharedPreferences.getBoolean("notification13",false);
+            TextView tvDescricaoEvento = (TextView) findViewById(R.id.tv_main_descricao_evento);
 
-        if(!notificationDia13){
 
-            String descricao = getResources().getString(R.string.descricao_evento_intimidade);
-            gerarNotificacaoIntimidade(descricao);
 
-            editor.putBoolean("notification13",true);
-            editor.apply();
+        }catch(Exception ex){
 
         }
 
-
     }
-    private void gerarNotificacaoIntimidade(String descricao){
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("tituloEvento","Intimidade");
-        bundle.putString("dataEvento", "13.01.17");
-        bundle.putString("descricaoEvento", descricao);
-        bundle.putString("situacaoEvento", "");
-
-        Intent intentVer= new Intent(context, VisualizarEventoActivity.class);
-        intentVer.putExtras(bundle);
-
-
-        intentVer.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent piVerDescricao = PendingIntent.getActivity(context,0,intentVer,PendingIntent.FLAG_CANCEL_CURRENT);
-
-        android.support.v7.app.NotificationCompat.InboxStyle style = new android.support.v7.app.NotificationCompat.InboxStyle();
-        style.addLine("O intimidade já é amanhã (Sexta - 13).");
-        style.addLine("Não perca, vamos buscá-Lo!");
-        style.addLine("Clique para ver a descrição do evento.");
-
-
-        Notification notification = new NotificationCompat.Builder(context)
-                // Show controls on lock screen even when user hides sensitive content.
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setSmallIcon(R.drawable.lg_icant22x22)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_intimidade_72_dp))
-                // Add media control buttons that invoke intents in your media service
-                .addAction(R.drawable.ic_done_white_24dp, "Ver Evento",piVerDescricao)  // #1
-                // Apply the media style template
-                .setContentTitle("MantVida Evento - Intimidade")
-                .setTicker("MantVida Evento - Intimidade")
-                .setContentText("O intimidade já é amanhã (Sexta - 13).\n Não perca, vamos buscá-Lo! Clique para ver a descrição do evento.")
-                .setStyle(style)
-                .setSound(soundUri)
-                .build();
-
-        notification.vibrate = new long[]{150, 300, 150, 600};
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        nm.notify(R.drawable.lg_icant22x22, notification);
-
-    }
-
-
 
     @Override
     public void onBackPressed() {
@@ -204,8 +172,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Util util = new Util(this);
-
         if(id == R.id.nav_plano_leitura){
 
             startActivity(new Intent(context,PlanoLeituraMain.class));
@@ -226,9 +192,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_alimento_celular) {
 
-            util.toast("Função ainda não disponível");
+            startActivity(new Intent(context, AlimentosMainActivity.class));
 
-        }else if (id == R.id.nav_configuracoes) {
+        } else if (id == R.id.nav_configuracoes) {
 
             startActivity(new Intent(context, ConfiguracoesActivity.class));
         }
@@ -237,4 +203,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
