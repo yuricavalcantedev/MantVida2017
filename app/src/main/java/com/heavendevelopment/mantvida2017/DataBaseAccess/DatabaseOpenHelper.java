@@ -2,10 +2,16 @@ package com.heavendevelopment.mantvida2017.DataBaseAccess;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
 
+import com.heavendevelopment.mantvida2017.Dominio.Evento;
+import com.heavendevelopment.mantvida2017.Service.EventoService;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+import java.util.List;
 
 
 /**
@@ -15,10 +21,10 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
-    //a nova versão que vai pra ser publicada é a 5
+    //a nova versão que vai pra ser publicada é a 8
 
     private static final String BD_NAME = "db_mantvida_2017";
-    private static final int BD_VERSION = 5;
+    private static final int BD_VERSION = 11 ;
     private Context context;
 
     public DatabaseOpenHelper(Context ctx) {
@@ -37,10 +43,14 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
                 case 5 : updateVersao5AlimentoCelulares(db);
                     break;
+                case 6 : updateVersao6Eventos(db);
+                case 7 : update7PlanoLeituraAndMaps(db);
+                case 11 : update8Ajuda(db);
             }
 
         }catch (Exception ex){
 
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -48,6 +58,345 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     /**
      * @param db db of application
      **/
+
+    private void update8Ajuda(SQLiteDatabase db){
+
+        try {
+
+            String dropCabecalhoAjuda = "DROP TABLE IF EXISTS lista_cabecalhos_ajuda";
+            String dropItensCabecalhoAjuda = "";
+
+            String createTableCabecalhoAjuda = "CREATE TABLE lista_cabecalhos_ajuda (\n" +
+                    "    id     INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                    "    titulo STRING\n" +
+                    ");";
+
+            String createTableItensCabecalhoAjuda = "CREATE TABLE lista_itens_cabecalho_ajuda (\n" +
+                    "    id           INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                    "    id_cabecalho INTEGER REFERENCES lista_cabecalhos_ajuda (id),\n" +
+                    "    titulo       STRING\n" +
+                    ");";
+
+            db.execSQL(dropCabecalhoAjuda);
+            db.execSQL(dropItensCabecalhoAjuda);
+            db.execSQL(createTableCabecalhoAjuda);
+            db.execSQL(createTableItensCabecalhoAjuda);
+
+            int[] idCabecalhos = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+            String[] tituloCabecalho = new String[]{"Como faço para ler a leitura de hoje?",
+                    "Como deixar os dias que li marcados?", "Como criar uma meta no meu projeto de vida?",
+                    "Como visualizar uma meta do meu projeto de vida?", "Como editar uma meta do meu projeto de vida?",
+                    "Como excluir uma meta do meu projeto de vida?", "Como criar um devocional?",
+                    "Como compartilhar um devocional que eu criei?", "Como editar um devocional?", "Como excluir um devocional?",
+                    "Como traçar um trajeto entre onde eu estou e uma igreja no mapa?", "Como deixar minha leitura em modo noturno?" };
+
+            int[] idItenCabecalhos = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                    34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63};
+
+            int[] idForenKeyCabecalhos = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+                    6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 9, 10, 11, 11, 11, 11, 11, 12, 12, 12};
+
+            String[] tituloItensCabecalho = new String[]{"Existem 2 maneiras:", "    ", "1.1 Vá para a tela principal do aplicativo.",
+                    "1.2 Selecione o botão em formato de círculo com um livro dentro, no canto inferior direito da tela.", "       ",
+                    "2.1 Vá para o menu principal.", "2.2 Selecione 'Plano de Leitura'.", "2.3 Selecione no dia de hoje (ele contêm um pequeno círculo azul).",
+                    "2.4 Selecione 'LER'.", "Não é necessário, o aplicativo já faz isso por você automaticamente.", "1. Vá para o menu principal.",
+                    "2. Selecione 'Projeto de Vida'.", "3. Selecione o botão no canto inferior direito da tela.", "4. Informe todas as informações da sua meta.",
+                    "5. Selecione no botão superior direito.", "1. Vá para o menu principal.", "2. Selecione 'Projeto de Vida'.", "3. Selecione na meta desejada.",
+                    "1. Vá para o menu principal.", "2. Selecione 'Projeto de Vida'.", "3. Selecione na meta desejada.", "4. Altere sua meta com as novas informações.",
+                    "5. Selecione no primeiro botão superior direito.", "Existem 2 maneiras:", "    ", "1.1 Vá para o menu principal.", "1.2 Selecione 'Projeto de Vida'.",
+                    "1.3 Selecione na meta desejada.", "1.4 Selecione no segundo botão superior direito.", "1.5 Selecione 'EXCLUIR'.", "     ",
+                    "2.1 Vá para o menu principal.", "2.2 Selecione 'Projeto de Vida'.", "2.3 Pressione e segure uma das metas listadas.",
+                    "2.4 Selecione 'EXCLUIR'", "Existem 2 maneiras:", "    ", "1.1 Vá para o menu principal.", "1.2 Selecione 'Plano de Leitura'.",
+                    "1.3 Selecione no dia de hoje (ele contêm um pequeno círculo azul).", "1.4 Selecione 'LER'.", "1.5 Selecione o botão superior direito.",
+                    "1.6 Informe todas as informações necessárias.", "1.7 Selecione o primeiro botão superior direito.", "    ", "2.1 Vá para o menu principal.",
+                    "2.2 Selecione 'Devocionais'.", "2.3 Selecione o botão no canto inferior direito da tela.", "2.4 Informe todas as informações necessárias.",
+                    "2.5 Selecione o primeiro botão superior direito.", "1. Selecione um devocional que você já criou ou está criando nesse momento.",
+                    "2. Selecione o botão que cuja figura é semelhante a 3 pontos interligados.", "3. Selecione a rede social ou app que deseja compartilhar o devocional.",
+                    "De forma semelhante a como se edita uma meta do projeto de vida.", "De forma semelhante a como se edita uma meta do projeto de vida.",
+                    "1. Vá para o menu principal.", "2. Selecione 'Localização'.", "3. Selecione a igreja que você deseja ir.",
+                    "4. Selecione o botão cuja figura é uma placa azul (ele vai aparecer depois de você selecionar a igreja, no canto inferior direito).",
+                    "5. Selecione a opção que habilita a sua localização.", "1. Vá para o menu principal.", "2. Selecione 'Configurações'.", "3. Habilite a opção 'Modo Noturno'." };
+
+
+            for (int i = 0; i < idCabecalhos.length; i++) {
+
+                ContentValues content_aux1 = new ContentValues();
+
+                content_aux1.put("id", idCabecalhos[i]);
+                content_aux1.put("titulo", tituloCabecalho[i]);
+
+                db.insert("lista_cabecalhos_ajuda", null, content_aux1);
+            }
+
+            for (int i = 0; i < idItenCabecalhos.length; i++) {
+
+                ContentValues content_aux1 = new ContentValues();
+
+                content_aux1.put("id", idItenCabecalhos[i]);
+                content_aux1.put("id_cabecalho", idForenKeyCabecalhos[i]);
+                content_aux1.put("titulo", tituloItensCabecalho[i]);
+
+                db.insert("lista_itens_cabecalho_ajuda", null, content_aux1);
+            }
+
+        }catch (Exception ex){
+
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void update7PlanoLeituraAndMaps(SQLiteDatabase db){
+
+        try{
+
+            String dropLeituraDecorator = "DROP TABLE IF EXISTS leitura_decorator";
+            String dropMarcadorMaps = "DROP TABLE IF EXISTS marcadorMaps";
+
+            String createTableLeituraDecorator = "CREATE TABLE leitura_decorator (\n" +
+                    "    id     INTEGER,\n" +
+                    "    mes    INTEGER,\n" +
+                    "    dia    INTEGER,\n" +
+                    "    estado INTEGER\n" +
+                    ");\n";
+
+            String createTableMarcadorMaps = "CREATE TABLE marcadorMaps (\n" +
+                    "    id        INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                    "    nome      STRING  NOT NULL,\n" +
+                    "    latitude  DOUBLE  NOT NULL,\n" +
+                    "    longitude DOUBLE  NOT NULL\n" +
+                    ");";
+
+            db.execSQL(dropLeituraDecorator);
+            db.execSQL(dropMarcadorMaps);
+            db.execSQL(createTableLeituraDecorator);
+            db.execSQL(createTableMarcadorMaps);
+
+            int [] idMarcadoresMaps = new int[]{1,2,3,4,5};
+
+            String [] nomesMarcadoresMaps = new String[]{"Mant-CE - Aldeota",
+                    "Mant-CE - Conj.Ceará",
+                    "Mant-USA - Peabody MA",
+                    "Mant-PA - Marabá",
+                    "Mant-TO - Palmas"};
+
+            double [] latitude = new double[]{-3.738108, -3.782177, 42.527103, -5.371304, -10.152779};
+            double [] longitude = new double[]{-38.517243, -38.611822, -70.924446, -49.128333, -48.339345};
+
+
+            for(int i = 0; i < idMarcadoresMaps.length; i++){
+
+                ContentValues content_aux1 = new ContentValues();
+
+                content_aux1.put("id", idMarcadoresMaps[i]);
+                content_aux1.put("nome", nomesMarcadoresMaps[i]);
+                content_aux1.put("latitude", latitude[i]);
+                content_aux1.put("longitude", longitude[i]);
+
+                db.insert("marcadorMaps",null, content_aux1);
+            }
+
+            int [] idLeituraDecorator = new int [] { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                    31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,
+                    61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,
+                    91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,
+                    121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,
+                    151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,
+                    181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,
+                    211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,
+                    241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,
+                    271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
+                    301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,
+                    331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,
+                    361,362,363,364,365 };
+
+            int [] mesLeituraDecorator = new int [] { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+                    2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,
+                    3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,
+                    4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+                    4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5
+                    ,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+                    6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7
+                    ,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8
+                    ,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,9,
+                    9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+                    9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+                    10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,11,
+                    11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+                    11,11,11,11,11,11,11,11,11,11 };
+
+            int [] diaLeituraDecorator = new int [] { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                    31,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+                    ,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,2,526,27,28,29,30,
+                    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 };
+
+            int [] estadoLeituraDecorator = new int [] {   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                    ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                    ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                    ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+
+            for(int i = 0; i < idLeituraDecorator.length; i++){
+
+                ContentValues content_aux1 = new ContentValues();
+
+                content_aux1.put("id", idLeituraDecorator[i]);
+                content_aux1.put("mes", mesLeituraDecorator[i]);
+                content_aux1.put("dia", diaLeituraDecorator[i]);
+                content_aux1.put("estado", estadoLeituraDecorator[i]);
+
+                db.insert("leitura_decorator",null, content_aux1);
+            }
+
+        }catch (Exception ex){
+
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void updateVersao6Eventos(SQLiteDatabase db){
+
+        //parte dos eventos
+
+        try{
+
+            String dropTableEventos = "DROP TABLE IF EXISTS evento";
+
+            String createTableEventos = "CREATE TABLE evento (\n" +
+                    "    id        DOUBLE  UNIQUE,\n" +
+                    "    nome      TEXT    NOT NULL,\n" +
+                    "    dia       TEXT,\n" +
+                    "    mes       INTEGER,\n" +
+                    "    data      TEXT    NOT NULL,\n" +
+                    "    descricao TEXT\n" +
+                    ");\n";
+
+            int [] idEventos = new int[]{1,2,3,4,5,6,7,8,9,10,
+                    11,12,13,14,15,16,17,18,19,20,
+                    21,22,23,24,25,26,17,28,29,30,31};
+
+            int [] mesEventos = new int[]{1,1,1,1,2,3,3,4,4,4,4,5,6,6,6,7,7,7,
+                    8,8,8,8,9,9,9,10,10,11,12,12,12} ;
+
+            String [] diaEventos = new String[]{"01a12","13","21","27a29","26a28",
+                    "4","10a12","1","13a16","20a22",
+                    "24","22a30","01a03","9a10","23a25",
+                    "1","06a08","14a16","1","10a12",
+                    "13","21","09a11","09a11","30",
+                    "04a13","23a29","03a05","08a10","30",
+                    "31"};
+
+            String [] nomeEventos = new String[]{"Campanha do Projeto de Vida","Unção de novos líderes","Conectado com uma vida (Rede Jovem)",
+                    "Encontro de Adolescentes","Acamp Jovem","Chá para Mulheres","Encontro com Deus (Homens e Mulheres)",
+                    "Conclusão da 1ª etapa do Plano de Leitura","Liberação Profética","Congresso de Mulheres","Início Camapanha de Ana",
+                    "Pentecostes (Israel)","Pentecostes(Israel)","Congresso de encerramento Campanha de Ana","Encontro de Adolescentes",
+                    "Conclusão da 2ª etapado Plano de Leitura","Festa de Pentecostes","Encontro com Deus (Homens)",
+                    "Abertura Campanha de Daniel","Congresso de Sacerdotes","Café da manhã para a Família (Todas as igrejas)",
+                    "Encerramento Campanha de Daniel","Encontro com Deus para Mulheres","Encontro de Casais","Encerramento (Células) 3ª Etapa do Plano de Leitura",
+                    "Festa Tabernáculos Israel","Festa de Tabernáculos em Marabá","Encontro com Deus para Homens","Encontro de Multiplicadores",
+                    "Encerramento (Células) 4ª etapa do Plano de Leitura","Culto da Virada"};
+
+            String [] dataEventos = new String[]{"01 a 12.01.17","13.01.17","21.01.17","27 a 29.01.17","26 a 28.02.17","04.03.17",
+                    "10 a 12.03.17","01.04.17","13 a 16.04.17","20 a 22.04.17","24.04.17","22 a 30.05.17","01 a 03.06.17","9 a 10.06.17",
+                    "23 a 25.06.17","01.07.17","06 a 08.07.17","14 a 16.07.17","01.08.17","10 a 12.08.17","13.08.17","21.08.17",
+                    "09 a 11.09.17","09 a 11.09.17","30.09.17","04 a 13.10.17","23 a 29.10.17","03 a 05.11.17","08 a 10.12.17",
+                    "30.12.17","31.12.17"};
+
+            String [] descricaoEventos = new String[]{"Serão 12 cultos, iniciando em 1º. de Janeiro e indo até o dia 12. É o momento de você marcar território de conquista em 2017. O Senhor nos deu a chave da vitória quando nos instruiu a buscar primeiro o seu Reino e a sua Justiça. Então, ao priorizar cultuar nestes primeiros 12 dias de 2017, você está dizendo como será a sua vida durante todo ano. Priorize, quem mais precisa é você.",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível","Descrição ainda não disponível",
+                    "Descrição ainda não disponível","Descrição ainda não disponível"};
+
+            db.execSQL(dropTableEventos);
+            db.execSQL(createTableEventos);
+
+
+            for(int i =0; i < idEventos.length; i++){
+
+                ContentValues content_aux1 = new ContentValues();
+
+                content_aux1.put("id", idEventos[i]);
+                content_aux1.put("nome", nomeEventos[i]);
+                content_aux1.put("dia",diaEventos[i]);
+                content_aux1.put("mes", mesEventos[i]);
+                content_aux1.put("data", dataEventos[i]);
+                content_aux1.put("descricao", descricaoEventos[i]);
+
+                db.insert("evento",null, content_aux1);
+            }
+
+            //parte dos alimentos celulares
+
+            String dropTableAlimentoCelular = "DROP TABLE IF EXISTS alimento_celular";
+
+            String queryCreateTableAlimentoCelular = "CREATE TABLE alimento_celular (\n" +
+                    "    id     INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                    "    numero INTEGER,\n" +
+                    "    titulo TEXT    NOT NULL,\n" +
+                    "    data   TEXT,\n" +
+                    "    link   TEXT\n" +
+                    ");";
+
+            db.execSQL(dropTableAlimentoCelular);
+            db.execSQL(queryCreateTableAlimentoCelular);
+
+            int [] idAlimento = new int[]{1,2,3};
+            int [] numeroAlimento = new int[]{1,2,3};
+
+            String [] tituloAlimento = new String[]{"Benção no pronunciamento das sentenças",
+                    "Benção na forma certa do tratamento com Deus",
+                    "Benção na adversidade"};
+
+            String [] dataAlimento = new String[]{"23/01/17","31/01/17","06/02/17"};
+            String [] linksAlimento = new String[]{"http://igcristo.com/down/alimentosCelulares/Alimentos%20Celulares%20de%20Multiplicacao%20-%20001-2017%20-%20Bencao%20no%20pronunciamento%20das%20sentencas.pdf",
+                    "http://igcristo.com/down/alimentosCelulares/Alimentos%20Celulares%20de%20Multiplicacao%20-%20002-2017%20-%20Bencao%20na%20forma%20certa%20do%20tratamento%20com%20Deus.pdf",
+                    "http://igcristo.com/down/alimentosCelulares/Alimentos%20Celulares%20de%20Multiplicacao%20-%20003-2017%20-%20Bencao%20na%20advsersidade.pdf"
+            };
+
+            for(int i =0; i < idAlimento.length; i++){
+
+                ContentValues content_aux1 = new ContentValues();
+
+                content_aux1.put("id", idAlimento[i]);
+                content_aux1.put("numero", numeroAlimento[i]);
+                content_aux1.put("titulo",tituloAlimento[i]);
+                content_aux1.put("data", dataAlimento[i]);
+                content_aux1.put("link", linksAlimento[i]);
+
+                db.insert("alimento_celular",null, content_aux1);
+            }
+
+        }catch(Exception ex){
+
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
 
     private void updateVersao5AlimentoCelulares(SQLiteDatabase db){
 
@@ -385,7 +734,6 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
     private void updateTableLeitura3Tri(SQLiteDatabase db){
 
-
         String dropTableLeitura3Tri = "DROP IF EXISTS leitura_3_tri";
 
         String createTabelaLeitura3Tri = "CREATE TABLE leitura_3_tri (\n" +
@@ -560,8 +908,6 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     }
 
     private void updateTableLeitura4Tri(SQLiteDatabase db){
-
-
 
         String dropTableLeitura4Tri = "DROP IF EXISTS leitura_4_tri";
 

@@ -22,47 +22,6 @@ public class UsuarioService {
         this.context = context;
     }
 
-    public boolean cadastrarUsuario(Usuario usuario){
-
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
-        databaseAccess.open();
-
-        boolean cadastrado = databaseAccess.cadastrarUsuario(usuario);
-
-        databaseAccess.close();
-
-        return cadastrado;
-    }
-
-    public boolean atualizarUsuario(Usuario usuario){
-
-        return true;
-    }
-
-    public Usuario recuperarInformacoes(String dataNascimento){
-
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
-        databaseAccess.open();
-
-        Usuario usuario = databaseAccess.recuperarInformaoes(dataNascimento);
-
-        databaseAccess.close();
-
-        return usuario;
-
-    }
-
-    public boolean autenticarLogin(String login, String senha){
-
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
-        databaseAccess.open();
-
-        boolean loginCorreto = databaseAccess.autenticarLogin(login,senha);
-
-        databaseAccess.close();
-
-        return loginCorreto;
-    }
 
     public String getNomeUsuario(){
 

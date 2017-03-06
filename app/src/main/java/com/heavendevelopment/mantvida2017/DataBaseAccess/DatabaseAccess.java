@@ -5,16 +5,22 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2017.Dominio.AlimentoCelular;
+import com.heavendevelopment.mantvida2017.Dominio.CabecalhoAjuda;
 import com.heavendevelopment.mantvida2017.Dominio.Devocional;
+import com.heavendevelopment.mantvida2017.Dominio.EstadoLeitura;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
+import com.heavendevelopment.mantvida2017.Dominio.ItemCabecalhoAjuda;
 import com.heavendevelopment.mantvida2017.Dominio.Leitura;
+import com.heavendevelopment.mantvida2017.Dominio.MarcadorMaps;
 import com.heavendevelopment.mantvida2017.Dominio.Meta;
 import com.heavendevelopment.mantvida2017.Dominio.Usuario;
 import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -153,9 +159,12 @@ public class DatabaseAccess {
 
             AlimentoCelular alimentoCelular = new AlimentoCelular();
 
-            alimentoCelular.setNome(cursor.getString(1));
-            alimentoCelular.setData(cursor.getString(2));
-            alimentoCelular.setLink(cursor.getString(3));
+            //id, numero,titulo,data,link
+            alimentoCelular.setId(cursor.getInt(0));
+            alimentoCelular.setNumero(cursor.getInt(1));
+            alimentoCelular.setNome(cursor.getString(2));
+            alimentoCelular.setData(cursor.getString(3));
+            alimentoCelular.setLink(cursor.getString(4));
 
             listaAlimentoCelulares.add(alimentoCelular);
         }
@@ -271,6 +280,7 @@ public class DatabaseAccess {
         ArrayList<Evento> listaEventos = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT * FROM evento WHERE mes = " + mes, null);
 
+
         //pega os eventos do mês atual.
 
         int qtdEventos = listaEventos.size();
@@ -278,65 +288,74 @@ public class DatabaseAccess {
         int eventoUmDia = 0;
         String [] eventoComDias;
 
+        try{
 
-        //enquanto ele for andando nos eventos que vinheram do banco, eu vou vendo se cada um deles é o evento de hoje ou não.
-        while(cursor.moveToNext()){
+            //enquanto ele for andando nos eventos que vinheram do banco, eu vou vendo se cada um deles é o evento de hoje ou não.
+            while(cursor.moveToNext()){
 
-            Evento evento = new Evento();
+                Evento evento = new Evento();
 
-            evento.setId(cursor.getInt(0));
-            evento.setNome(cursor.getString(1));
-            evento.setData(cursor.getString(2));
-            evento.setDescricao(cursor.getString(3));
-            evento.setDia(cursor.getString(4));
-            evento.setMes(cursor.getInt(5));
+                evento.setId(cursor.getInt(0));
+                evento.setNome(cursor.getString(1));
+                evento.setDia(cursor.getString(2));
+                evento.setMes(cursor.getInt(3));
+                evento.setData(cursor.getString(4));
+                evento.setDescricao(cursor.getString(5));
 
-            //divido o 'dia" por "a" para ver se é um evento de um dia ou não.
-            eventoComDias = evento.getDia().split("a");
 
-            //evento de um dia
-            if(eventoComDias.length == 1) {
+                //divido o 'dia" por "a" para ver se é um evento de um dia ou não.
+                eventoComDias = evento.getDia().split("a");
 
-                eventoUmDia = Integer.parseInt(evento.getDia());
+                //evento de um dia
+                if(eventoComDias.length == 1) {
 
-                if(eventoUmDia == dia)
-                    listaEventos.add(evento);
+                    eventoUmDia = Integer.parseInt(evento.getDia());
 
-            }//evento tem mais de um dia
-            else{
+                    if(eventoUmDia == dia)
+                        listaEventos.add(evento);
 
-                diaEventoInicio = Integer.parseInt(eventoComDias[0]);
-                diaEventoFim = Integer.parseInt(eventoComDias[1]);
+                }//evento tem mais de um dia
+                else{
 
-                if(dia >= diaEventoInicio && dia <= diaEventoFim)
-                    listaEventos.add(evento);
+                    diaEventoInicio = Integer.parseInt(eventoComDias[0]);
+                    diaEventoFim = Integer.parseInt(eventoComDias[1]);
+
+                    if(dia >= diaEventoInicio && dia <= diaEventoFim)
+                        listaEventos.add(evento);
+                }
+
             }
 
+            //nesse ponto, a lista de evento está com o(s) evento(s) do dia.
+
+            //se há mais de um evento no dia, eu crio um novo evento com a junção dos dois eventos.
+            if(listaEventos.size() == 2) {
+
+                Evento eventoUniao = new Evento();
+                eventoUniao.setNome(listaEventos.get(1).getNome() + "\n" + listaEventos.get(0).getNome());
+                eventoUniao.setData(listaEventos.get(0).getData());
+                eventoUniao.setDescricao(listaEventos.get(1).getDescricao() + "\n\n" + listaEventos.get(0).getDescricao());
+
+                eventoHoje = eventoUniao;
+            }//se não há evento eu crio um apenas para mostrar as informações corretas
+            else if(listaEventos.size() == 0){
+                Evento evento = new Evento();
+                evento.setNome("Nenhum evento");
+                evento.setData("");
+                evento.setDescricao("Não existem eventos acontecendo hoje");
+
+                eventoHoje = evento;
+            }// senão, é porque há apenas um evento no dia
+            else{
+                eventoHoje = listaEventos.get(0);
+            }
+
+        }catch(Exception ex){
+
+            String x = "";
         }
 
-        //nesse ponto, a lista de evento está com o(s) evento(s) do dia.
 
-        //se há mais de um evento no dia, eu crio um novo evento com a junção dos dois eventos.
-        if(listaEventos.size() == 2) {
-
-            Evento eventoUniao = new Evento();
-            eventoUniao.setNome(listaEventos.get(1).getNome() + "\n" + listaEventos.get(0).getNome());
-            eventoUniao.setData(listaEventos.get(0).getData());
-            eventoUniao.setDescricao(listaEventos.get(1).getDescricao() + "\n\n" + listaEventos.get(0).getDescricao());
-
-            eventoHoje = eventoUniao;
-        }//se não há evento eu crio um apenas para mostrar as informações corretas
-        else if(listaEventos.size() == 0){
-            Evento evento = new Evento();
-            evento.setNome("Nenhum evento");
-            evento.setData("");
-            evento.setDescricao("Não existem eventos acontecendo hoje");
-
-            eventoHoje = evento;
-        }// senão, é porque há apenas um evento no dia
-        else{
-            eventoHoje = listaEventos.get(0);
-        }
 
         return eventoHoje;
     }
@@ -344,7 +363,7 @@ public class DatabaseAccess {
     public ArrayList<Evento> getEventos(){
 
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY id ASC", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM evento ORDER BY mes", null);
 
         while(cursor.moveToNext()){
 
@@ -352,14 +371,40 @@ public class DatabaseAccess {
 
             evento.setId(cursor.getInt(0));
             evento.setNome(cursor.getString(1));
-            evento.setData(cursor.getString(2));
-            evento.setDescricao(cursor.getString(3));
+            evento.setDia(cursor.getString(2));
+            evento.setMes(cursor.getInt(3));
+            evento.setData(cursor.getString(4));
+            evento.setDescricao(cursor.getString(5));
 
             listaEventos.add(evento);
         }
 
         cursor.close();
         return listaEventos;
+
+    }
+
+    public boolean atualizarEvento(Evento evento){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("id", evento.getId());
+        cValues.put("nome", evento.getNome());
+        cValues.put("mes", evento.getMes());
+        cValues.put("data", evento.getData());
+        cValues.put("descricao", evento.getDescricao());
+
+        try {
+
+            database.update("evento", cValues, "id = " + evento.getId(), null);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+
 
     }
 
@@ -646,19 +691,68 @@ public class DatabaseAccess {
         return retornoNome;
     }
 
-    public boolean cadastrarUsuario(Usuario usuario) {
+    public EstadoLeitura getLeituraUmDia(int mes, int dia){
 
-        ContentValues cValues = new ContentValues();
-
-        cValues.put("nome",usuario.getNome());
-        cValues.put("login", usuario.getLogin());
-        cValues.put("senha", usuario.getSenha());
-        cValues.put("email", usuario.getDataNascimento());
-        cValues.put("id",1);
+        EstadoLeitura estadoLeitura = null;
 
         try {
 
-            database.insert("usuario", null, cValues);
+            Cursor cursor = database.rawQuery("SELECT estado FROM leitura_decorator WHERE mes = " + mes + " AND dia = " + dia, null);
+
+            if(cursor.moveToFirst())
+                estadoLeitura = new EstadoLeitura(0,0,cursor.getInt(0));
+
+
+            cursor.close();
+        }catch (Exception ex){
+
+            return null;
+
+        }
+
+        return estadoLeitura;
+
+    }
+
+    public List<EstadoLeitura> getLeiturasAteHoje(int mes, int dia){
+
+        ArrayList<EstadoLeitura> listEstadoLeituras = new ArrayList<>();
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT * FROM leitura_decorator WHERE mes <= " + mes, null);
+
+            while(cursor.moveToNext()){
+
+                EstadoLeitura estadoLeitura = new EstadoLeitura();
+                estadoLeitura.setMes(cursor.getInt(1));
+                estadoLeitura.setDia(cursor.getInt(2));
+                estadoLeitura.setEstado(cursor.getInt(3));
+
+                listEstadoLeituras.add(estadoLeitura);
+
+            }
+
+
+        }catch (Exception ex){
+                return null;
+        }
+
+        return listEstadoLeituras;
+
+    }
+
+    public boolean setEstadoLeitura(int mes,int dia, int estado){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("mes", mes);
+        cValues.put("dia", dia);
+        cValues.put("estado", estado);
+
+        try {
+
+            database.update("leitura_decorator", cValues, "mes = " + mes + " AND dia = " + dia,null);
 
         } catch (Exception ex) {
 
@@ -669,46 +763,20 @@ public class DatabaseAccess {
 
     }
 
-    public Usuario recuperarInformaoes(String dataNascimento){
+    public boolean adicionarMarcadorMaps(MarcadorMaps marcadorMaps){
 
-        Usuario usuario = new Usuario();
+        ContentValues cValues = new ContentValues();
 
-        try {
-
-            Cursor cursor = database.rawQuery("SELECT login,senha FROM usuario WHERE dataNascimento = '" + dataNascimento + "'",null);
-
-            if (cursor.moveToFirst()) {
-
-                usuario.setLogin(cursor.getString(0));
-                usuario.setSenha(cursor.getString(1));
-
-                cursor.close();
-
-            } else
-                return null;
-
-        }catch(Exception ex){
-
-            return null;
-        }
-
-        return usuario;
-
-    }
-
-    public boolean autenticarLogin(String login, String senha){
+        cValues.put("nome",marcadorMaps.getNome());
+        cValues.put("latitude", marcadorMaps.getLatitude());
+        cValues.put("longitude", marcadorMaps.getLongitude());
 
 
         try {
 
-            Cursor cursor = database.rawQuery("SELECT login FROM usuario WHERE login = '"+login+"' AND senha = '"+senha+"'",null);
+            database.insert("marcadorMaps", null, cValues);
 
-            if (cursor.moveToFirst())
-                return true;
-
-            cursor.close();
-
-        }catch(Exception ex){
+        } catch (Exception ex) {
 
             return false;
         }
@@ -716,7 +784,111 @@ public class DatabaseAccess {
         return true;
     }
 
+    public List<MarcadorMaps> getMarcadoresMaps(){
+
+        ArrayList<MarcadorMaps> listMarcadorMaps = new ArrayList<>();
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT * FROM marcadorMaps", null);
+
+            while(cursor.moveToNext()){
+
+                MarcadorMaps marcadorMaps = new MarcadorMaps();
+                marcadorMaps .setNome(cursor.getString(1));
+                marcadorMaps .setLatitude(cursor.getDouble(2));
+                marcadorMaps .setLongitude(cursor.getDouble(3));
+
+                listMarcadorMaps.add(marcadorMaps);
+
+            }
+
+        }catch (Exception ex){
+            return null;
+        }
+
+        return listMarcadorMaps;
 
 
+    }
 
+    public boolean atualizarMarcadorMaps(String nome, double latitude, double longitude){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("nome",nome);
+        cValues.put("latitude", latitude);
+        cValues.put("longitude", longitude);
+
+
+        try {
+
+            database.update("marcadorMaps", cValues, "nome = '"+nome+"'", null);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public List<CabecalhoAjuda> getCabecalhosAjuda(){
+
+        List<CabecalhoAjuda> listCabecalhos = new ArrayList<>();
+        Cursor cursor;
+
+        try{
+
+            cursor = database.rawQuery("SELECT * FROM lista_cabecalhos_ajuda", null);
+
+            while(cursor.moveToNext()){
+
+                CabecalhoAjuda cabecalhoAjuda = new CabecalhoAjuda();
+                cabecalhoAjuda.setId(cursor.getInt(0));
+                cabecalhoAjuda.setTitulo(cursor.getString(1));
+
+                listCabecalhos.add(cabecalhoAjuda);
+            }
+
+        }catch(Exception ex){
+
+            return null;
+        }
+
+        cursor.close();
+        return listCabecalhos;
+
+    }
+
+    public List<ItemCabecalhoAjuda> getItensPorCabecalhoAjuda(int idCabecalho){
+
+        List<ItemCabecalhoAjuda> listaItens = new ArrayList<>();
+        Cursor cursor;
+
+        try {
+
+            cursor = database.rawQuery("SELECT * FROM lista_itens_cabecalho_ajuda WHERE id_cabecalho = " + idCabecalho, null);
+
+            while(cursor.moveToNext()){
+
+                ItemCabecalhoAjuda itemCabecalho = new ItemCabecalhoAjuda();
+                itemCabecalho.setId(cursor.getInt(0));
+                itemCabecalho.setIdCabecalho(cursor.getInt(1));
+                itemCabecalho.setTitulo(cursor.getString(2));
+
+                listaItens.add(itemCabecalho);
+
+            }
+
+
+        }catch (Exception ex){
+            return null;
+        }
+
+        return listaItens;
+
+    }
 }
+

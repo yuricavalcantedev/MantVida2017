@@ -8,17 +8,15 @@ public class MarcadorMaps {
 
     private int id;
     private String nome;
-    private String endereco;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
 
     public MarcadorMaps(){
         super();
     }
 
-    public MarcadorMaps(String nome, String endereco, String latitude, String longitude) {
+    public MarcadorMaps(String nome, double latitude, double longitude) {
         this.nome = nome;
-        this.endereco = endereco;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -37,24 +35,17 @@ public class MarcadorMaps {
         this.nome = nome;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

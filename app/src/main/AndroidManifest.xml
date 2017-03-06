@@ -2,6 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.heavendevelopment.mantvida2017">
 
+    <!--
+     The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+     Google Maps Android API v2, but you must specify either coarse or fine
+     location permissions for the 'MyLocation' functionality.
+    -->
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <!--
+     The following two permissions are not required to use
+     Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <permission
+        android:name="com.heavendevelopment.mantvida2017.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.heavendevelopment.mantvida2017.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="com.heavendevelopment.mantvida2017.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -22,8 +53,6 @@
         <activity android:name=".Activity.VisualizarDevocional" />
         <activity android:name=".Activity.CriarDevocional" />
         <activity android:name=".Activity.CriarMetaProjetoVida" />
-
-
         <activity android:name=".Activity.VisualizarMetaProjetoVida" />
         <activity android:name=".Activity.PlanoLeituraMain" />
         <activity android:name=".Activity.LeituraBiblica" />
@@ -49,7 +78,19 @@
         <activity
             android:name=".Activity.LocalizacaoActivity"
             android:label="@string/title_activity_localizacao" />
-        <activity android:name=".Activity.AlimentosMainActivity"></activity>
+        <activity android:name=".Activity.AlimentosMainActivity" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAw1jbDbGhwFy2uqw893X1LOs7luyRc8KA" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".Activity.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".Activity.AjudaMain"></activity>
     </application>
 
 </manifest>

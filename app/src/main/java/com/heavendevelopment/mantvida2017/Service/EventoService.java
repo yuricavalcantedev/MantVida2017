@@ -1,6 +1,7 @@
 package com.heavendevelopment.mantvida2017.Service;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
@@ -32,6 +33,19 @@ public class EventoService {
         databaseAccess.close();
 
         return listEventos;
+
+    }
+
+    public boolean atualizarEvento(Evento evento){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        boolean eventoAtualizado = databaseAccess.atualizarEvento(evento);
+
+        databaseAccess.close();
+
+        return eventoAtualizado;
 
     }
 

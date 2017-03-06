@@ -55,19 +55,26 @@ public class AlimentosMainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (!checkConnection()) {
-                    Toast.makeText(context, "Você está sem acesso a internet, verifique sua conexão e tente novamente.", Toast.LENGTH_LONG).show();
+                try{
 
-                }else{
+                    if (!checkConnection()) {
+                        Toast.makeText(context, "Você está sem acesso a internet, verifique sua conexão e tente novamente.", Toast.LENGTH_LONG).show();
 
-                    TextView tvNumero = (TextView) view.findViewById(R.id.tv_item_numero_alimento_celular);
-                    int numero = Integer.parseInt(tvNumero.getText().toString());
+                    }else{
 
-                    String link = alimentoCelularService.getLinkAlimentoByNumero(numero);
+                        TextView tvNumero = (TextView) view.findViewById(R.id.tv_item_numero_alimento_celular);
+                        int numero = Integer.parseInt(tvNumero.getText().toString());
 
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(link));
-                    startActivity(i);
+                        String link = alimentoCelularService.getLinkAlimentoByNumero(numero);
+
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(link));
+                        startActivity(i);
+                    }
+
+                }catch (Exception ex){
+
+                    Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }

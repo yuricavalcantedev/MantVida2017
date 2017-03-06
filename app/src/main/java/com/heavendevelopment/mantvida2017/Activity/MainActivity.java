@@ -2,10 +2,10 @@ package com.heavendevelopment.mantvida2017.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,12 +18,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.heavendevelopment.mantvida2017.Dominio.Evento;
 import com.heavendevelopment.mantvida2017.R;
 import com.heavendevelopment.mantvida2017.Service.EventoService;
-import com.heavendevelopment.mantvida2017.Util;
 
 import java.util.GregorianCalendar;
 
@@ -59,6 +56,8 @@ public class MainActivity extends AppCompatActivity
 
         context = this;
         ButterKnife.bind(this);
+
+        final EventoService eventoService = new EventoService(context);
 
         try{
 
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity
             CardView cardViewProjetoVida = (CardView) findViewById(R.id.cardview_projeto_vida_main);
             CardView cardViewEvento = (CardView) findViewById(R.id.cardview_proximo_evento);
 
-            EventoService eventoService = new EventoService(context);
+
             eventoDeHoje = eventoService.getEventoDoDia();
 
             tvTituloEvento.setText(eventoDeHoje.getNome());
@@ -121,7 +120,11 @@ public class MainActivity extends AppCompatActivity
                     bundle.putString("tituloEvento", eventoDeHoje.getNome());
                     bundle.putString("dataEvento", eventoDeHoje .getData());
                     bundle.putString("descricaoEvento", eventoDeHoje .getDescricao());
-                    bundle.putString("situacaoEvento", "Em andamento");
+
+                    if(eventoDeHoje.getNome().equals("Nenhum evento"))
+                        bundle.putString("situacaoEvento", "");
+                    else
+                        bundle.putString("situacaoEvento", "Em andamento");
 
                     Intent intent = new Intent(context, VisualizarEventoActivity.class);
                     intent.putExtras(bundle);
@@ -130,12 +133,22 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-            TextView tvDescricaoEvento = (TextView) findViewById(R.id.tv_main_descricao_evento);
+            //LÓGICA REFERENTE A ATUALIZAÇÃO DE SABER SE A LEITURA FOI OU NÃO REALIZADA, UTILIZANDO CORES NA LEITURA DIÁRIA.
+            SharedPreferences sharedPreferencesMainActivity = context.getSharedPreferences("preferencesMainActivityUpdateLeituraDecorator",MODE_PRIVATE);
+            boolean updatedLeituraDecorator = sharedPreferencesMainActivity.getBoolean("updated",true);
 
+            if(!updatedLeituraDecorator) {
+                changeColorMesesJanFev();
 
+                SharedPreferences.Editor editor = sharedPreferencesMainActivity.edit();
+                editor.putBoolean("updated",true);
+
+                editor.apply();
+            }
 
         }catch(Exception ex){
 
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -194,6 +207,14 @@ public class MainActivity extends AppCompatActivity
 
             startActivity(new Intent(context, AlimentosMainActivity.class));
 
+        }else if(id == R.id.nav_localizacao){
+
+            startActivity(new Intent(context, MapsActivity.class));
+
+        }else if(id == R.id.nav_ajuda){
+
+            startActivity(new Intent(context, AjudaMain.class));
+
         } else if (id == R.id.nav_configuracoes) {
 
             startActivity(new Intent(context, ConfiguracoesActivity.class));
@@ -204,4 +225,29 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void changeColorMesesJanFev(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("preferencesLeituraDecorator",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        int mes = 1;
+        int dia = 1;
+        boolean keepGoing = true;
+
+        while(keepGoing){
+
+            editor.putInt(mes+"/"+dia,1);
+            dia++;
+
+            if(dia == 31) {
+                mes = 2;
+                dia = 1;
+            }
+
+            if(dia == 16 && mes == 2)
+                keepGoing = false;
+        }
+
+        editor.apply();
+    }
 }

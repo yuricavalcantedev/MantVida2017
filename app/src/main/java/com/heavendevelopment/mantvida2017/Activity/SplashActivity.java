@@ -16,18 +16,30 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        new Handler().postDelayed(new Runnable() {
+        try{
 
-            @Override
-            public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(i);
 
-                // close this activity
-                finish();
-            }
-        }, SPLASH_TIME);
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    // This method will be executed once the timer is over
+                    // Start your app main activity
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+
+                    // close this activity
+                    finish();
+                }
+            }, SPLASH_TIME);
+
+        }catch (Exception ex){
+
+            //DO NOTHING. It's only to don't get a error.
+
+        }
+
+
     }
+
 }

@@ -1,13 +1,16 @@
 package com.heavendevelopment.mantvida2017.Service;
 
 import android.content.Context;
+import android.widget.ListView;
 
 import com.heavendevelopment.mantvida2017.DataBaseAccess.DatabaseAccess;
+import com.heavendevelopment.mantvida2017.Dominio.EstadoLeitura;
 import com.heavendevelopment.mantvida2017.Dominio.Leitura;
 import com.heavendevelopment.mantvida2017.Dominio.Versículo;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Yuri on 21/12/2016.
@@ -67,4 +70,42 @@ public class LeituraService {
         return listaVersiculos;
     }
 
+    public void setEstadoLeituraDecorator(int mes,int dia, int estado){
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        databaseAccess.setEstadoLeitura(mes,dia,estado);
+        databaseAccess.close();
+
+
+    }
+
+    public EstadoLeitura getEstadoLeituraUmDia(int mes, int dia){
+
+
+        EstadoLeitura estadoLeitura;
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        estadoLeitura = databaseAccess.getLeituraUmDia(mes,dia);
+        databaseAccess.close();
+
+        return estadoLeitura;
+
+    }
+
+    public List<EstadoLeitura> getEstadoLeituraDecorator(int mes, int dia){
+
+        List<EstadoLeitura> listEstadoLeituras = new ArrayList<>();
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        listEstadoLeituras = databaseAccess.getLeiturasAteHoje(mes,dia);
+        databaseAccess.close();
+
+        return listEstadoLeituras;
+    }
 }

@@ -3,6 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="day_decorator_unreaded">#FF0000</color>
+    <color name="day_decorator_readed">#2E7D32</color>
+    //#00FF00 verde claro
+    //#2E7D32 verde escuro
+    //#FF0000 vermelho claro
+    //#8B0000 vermelho escuro
+    <color name="day_decorator_today">#3082d9</color>
 
     <color name="colorAgreeBottoms">#00796b</color>
 
@@ -14,5 +21,6 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+
 
 </resources>
