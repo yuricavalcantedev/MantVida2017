@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MantVida 2017</string>
+    <string name="app_name">MantVida 2018</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -28,24 +28,15 @@
     <string name="title_activity_visualizar_evento">VisualizarEventoActivity</string>
 
     <string name="settings_preferences">settings_preferences</string>
-    <string name="title_activity_projeto_vida_texto">O ano da chuva de bençãos e avivamento de Deus</string>
+    <string name="title_activity_projeto_vida_texto">Ramo Frutífero</string>
 
     <string name="projeto_vida_texto">
-    Não tenha medo de se molhar!\n\n
+   <i>Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto; porque sem mim nada podeis fazer.(João 15.5)</i>\n\n
 
-Em Isaías 44 o Senhor libera uma palavra formidável para Jacó num momento profético em que Israel carecia de um avivamento. Ali o Senhor chama Jacó de Jerusum, uma forma carinhosa de tratá-lo como filho AMADO.\n\n
+    Ano da Alegria, ano em que as videiras florescerão e os lagares se encherão de vinho.\n\n
 
-Todas as vezes que Deus quer mover o mundo, ele começa demonstrando o seu incondicional amor. Foi assim com Israel. Será assim conosco neste ano de 2017.\n\n
+    Ano em que os celeiros transbordarão e que a Minha Vida será um RAMO FRUTÍFERO por permanecer ligado a Videira Verdadeira
 
-Experimentaremos, pela fé, uma chuva do sobrenatural de Deus, trazendo avivamento e bênçãos para cada um de nós. Para Jerusum o Senhor diz que derramará agua sobre os sedentos e conosco não será diferente.\n\n
-
-Experimentaremos um AVIVAMENTO ardendo como  fogo em nosso coração, levando-nos a uma grande colheita de pessoas para Cristo. \n\n
-
-Em 2017 não perseguiremos as bênçãos de Deus. Elas é que andarão a nossa procura, porque vamos brilhar muito Quem é luz traz claridade a todos que estão em trevas.\n\n
-
-Sintamos muito amados pelo PAI, pois também somos Jerusum do nosso Aba.\n\n
-
-Shalom!\n
     </string>
     <string name="title_activity_localizacao">Map</string>
     <string name="title_activity_maps">Map</string>

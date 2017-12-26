@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.heavendevelopment.mantvida2017.Activity.VisualizarDevocional">
+    tools:context="com.heavendevelopment.mantvida2018.Activity.VisualizarDevocional">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -32,7 +32,8 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.heavendevelopment.mantvida2017.Activity.CriarMetaProjetoVida">
+        tools:context="com.heavendevelopment.mantvida2018.Activity.CriarMetaProjetoVida">
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -163,10 +164,21 @@
                     android:layout_below="@+id/til_dataInicio_criar_meta"
                     android:layout_alignParentEnd="true" />
 
+                <Button
+                    android:id="@+id/bt_salvar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView4"
+                    android:layout_marginTop="24dp"
+                    android:background="@color/colorAgreeBottoms"
+                    android:text="Salvar"
+                    android:textColor="@android:color/white" />
+
             </RelativeLayout>
 
         </ScrollView>
-
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.heavendevelopment.mantvida2017.Activity.VisualizarPalavra">
+    tools:context="com.heavendevelopment.mantvida2018.Activity.VisualizarPalavra">
 
     <TextView
         android:text="Sendo apaixonado por Jesus"

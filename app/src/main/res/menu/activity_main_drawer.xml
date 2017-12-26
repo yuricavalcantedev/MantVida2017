@@ -22,16 +22,6 @@
             android:title="Eventos" />
 
         <item
-            android:id="@+id/nav_alimento_celular"
-            android:icon="@drawable/ic_alimento_celular"
-            android:title="Alimento Celular" />
-
-        <item
-            android:id="@+id/nav_localizacao"
-            android:icon="@drawable/ic_maps"
-            android:title="Localização" />
-
-        <item
             android:id="@+id/nav_ajuda"
             android:icon="@drawable/ic_help"
             android:title="Ajuda" />

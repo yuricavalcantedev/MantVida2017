@@ -10,7 +10,7 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.heavendevelopment.mantvida2017.Activity.MainActivity"
+    tools:context="com.heavendevelopment.mantvida2018.Activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <ScrollView
@@ -36,12 +36,12 @@
                     android:background="@android:color/white">
 
                     <ImageView
+                        android:id="@+id/img_plano_leitura_main"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="250dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:id="@+id/img_plano_leitura_main"
-                        android:background="@drawable/img_projeto_vida_mant_2" />
+                        android:background="@drawable/img_projeto_vida_tam_3" />
 
                     <TextView
                         android:layout_width="wrap_content"

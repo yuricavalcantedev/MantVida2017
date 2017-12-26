@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.heavendevelopment.mantvida2017.Activity.VisualizarDevocional">
+    tools:context="com.heavendevelopment.mantvida2018.Activity.VisualizarDevocional">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:background="@android:color/white"
-        tools:context="com.heavendevelopment.mantvida2017.Activity.ProjetoVidaMain">
+        tools:context="com.heavendevelopment.mantvida2018.Activity.ProjetoVidaMain">
 
         <ListView
             android:layout_width="match_parent"
