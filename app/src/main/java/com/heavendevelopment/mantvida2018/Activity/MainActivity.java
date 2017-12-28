@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -63,22 +65,25 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
 
-                    //esse código está se repetindo no "PlanoLeituraMain", isso não é bom, depois tento resolver.
-                    GregorianCalendar gregorianCalendar = new GregorianCalendar();
-                    int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
-                    int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
+//                    //esse código está se repetindo no "PlanoLeituraMain", isso não é bom, depois tento resolver.
+//                    GregorianCalendar gregorianCalendar = new GregorianCalendar();
+//                    int diaHoje = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
+//                    int mesHoje = gregorianCalendar.get(gregorianCalendar.MONTH) + 1;
+//
+//                    if(mesHoje == 2 && diaHoje < 7)
+//                        diaHoje -= 1;
+//
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt("diaLeitura", diaHoje);
+//                    bundle.putInt("mesLeitura", mesHoje);
+//
+//                    Intent intent = new Intent(context, LeituraBiblica.class);
+//                    intent.putExtras(bundle);
+//
+//                    startActivity(intent);
 
-                    if(mesHoje == 2 && diaHoje < 7)
-                        diaHoje -= 1;
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("diaLeitura", diaHoje);
-                    bundle.putInt("mesLeitura", mesHoje);
-
-                    Intent intent = new Intent(context, LeituraBiblica.class);
-                    intent.putExtras(bundle);
-
-                    startActivity(intent);
+                    CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coorLayoutMain);
+                    Snackbar.make(coordinatorLayout,"Função ainda não disponível",Snackbar.LENGTH_SHORT).show();
 
                 }
             });
@@ -183,6 +188,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id == R.id.nav_plano_leitura){
+//
+//            CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coorLayoutMain);
+//            Snackbar.make(coordinatorLayout,"Função ainda não disponível",Snackbar.LENGTH_SHORT).show();
 
             startActivity(new Intent(context,PlanoLeituraMain.class));
         }

@@ -21,111 +21,131 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
-        android:id="@+id/activity_configuracoes"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/view_divider_1"
+        <RelativeLayout
+            android:id="@+id/activity_configuracoes"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@android:color/darker_gray"
-            android:layout_below="@+id/textView12"
-            android:layout_alignParentStart="true" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
 
-        <SeekBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView14"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/seekbar_tamanho_letra_configuracoes"
-            android:layout_alignParentEnd="true"
-            android:max="42"
-            android:progress="20"
-            android:indeterminateDrawable="@color/colorAgreeBottoms"
-            android:progressTint="@color/colorAgreeBottoms"
-            android:thumbTint="@color/colorAgreeBottoms"
-            style="@style/Widget.AppCompat.SeekBar" />
+            <View
+                android:id="@+id/view_divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/darker_gray"
+                android:layout_below="@+id/textView12"
+                android:layout_alignParentStart="true" />
 
-        <TextView
-            android:text="Tamanho da letra :"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/textView14"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textSize="20sp"
-            android:layout_below="@+id/tv_explicacao_modo_noturno" />
+            <SeekBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView14"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/seekbar_tamanho_letra_configuracoes"
+                android:layout_alignParentEnd="true"
+                android:max="42"
+                android:progress="20"
+                android:indeterminateDrawable="@color/colorAgreeBottoms"
+                android:progressTint="@color/colorAgreeBottoms"
+                android:thumbTint="@color/colorAgreeBottoms"
+                style="@style/Widget.AppCompat.SeekBar" />
 
-        <Switch
-            android:text="Modo Noturno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="16dp"
-            android:id="@+id/switch_modo_noturno_configuracoes"
-            android:layout_below="@+id/view_divider_1"
-            android:layout_alignParentStart="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:text="Tamanho da letra :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/textView14"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_explicacao_modo_noturno" />
 
-        <TextView
-            android:text="O fundo da leitura preto com as letras brancas."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/tv_explicacao_modo_noturno"
-            android:layout_below="@+id/switch_modo_noturno_configuracoes"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="8dp" />
+            <Switch
+                android:text="Modo Noturno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/switch_modo_noturno_configuracoes"
+                android:layout_below="@+id/view_divider_1"
+                android:layout_alignParentStart="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:text="Versão da Bíblia :"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/textView20"
-            android:layout_below="@+id/seekbar_tamanho_letra_configuracoes"
-            android:layout_alignParentStart="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textSize="20sp" />
+            <TextView
+                android:text="O fundo da leitura preto com as letras brancas."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/tv_explicacao_modo_noturno"
+                android:layout_below="@+id/switch_modo_noturno_configuracoes"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/textView20"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp"
-            android:id="@+id/spinner_versao_biblia_configuracoes"
-            android:entries="@array/array_versoes_biblia" />
+            <TextView
+                android:text="Versão da Bíblia :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/textView20"
+                android:layout_below="@+id/seekbar_tamanho_letra_configuracoes"
+                android:layout_alignParentStart="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="20sp" />
 
-        <TextView
-            android:text="Leitura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/textView12"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/textView20"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="15dp"
+                android:id="@+id/spinner_versao_biblia_configuracoes"
+                android:entries="@array/array_versoes_biblia" />
 
-    </RelativeLayout>
+            <TextView
+                android:text="Leitura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/textView12"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:id="@+id/bt_salvar_configuracoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:background="@color/colorAgreeBottoms"
+                android:layout_alignEnd="@+id/spinner_versao_biblia_configuracoes"
+                android:layout_alignStart="@+id/spinner_versao_biblia_configuracoes"
+                android:layout_below="@+id/spinner_versao_biblia_configuracoes"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Salvar" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>

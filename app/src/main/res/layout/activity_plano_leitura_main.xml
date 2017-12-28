@@ -42,16 +42,16 @@
             app:mcv_selectionColor="#3082d9" />
 
         <TextView
+            android:id="@+id/tv_leitura_diaria_plano_leitura_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="31dp"
-            android:id="@+id/tv_leitura_diaria_plano_leitura_main"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:textSize="18sp"
-            tools:text="Leitura : Deuteronômio 22 a 24 e Salmos "
-            android:textColor="@android:color/black" />
+            android:layout_marginBottom="31dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            tools:text="Leitura : Deuteronômio 22 a 24 e Salmos " />
 
         <TextView
             android:text="TextView"

@@ -79,11 +79,11 @@ public class AdapterEvento extends BaseAdapter {
 
             int situacaoEvento = getSituacaoEvento(evento);
 
-            //1- em andamento, 2 - próximo evento, 3 - realizado
-            if(situacaoEvento == 0) {
+            //1- (nada) ,2- em andamento, 3 - realizado
+            if(situacaoEvento == 1) {
                 holder.tvEstadoEvento.setText("");
                 holder.tvEstadoEvento.setTextColor(Color.WHITE);
-            }else if(situacaoEvento == 1){
+            }else if(situacaoEvento == 2){
 
                 holder.tvEstadoEvento.setText("Em andamento");
                 holder.tvEstadoEvento.setTextColor(Color.BLUE);

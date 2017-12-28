@@ -28,24 +28,8 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        //NÃO APAGAR AS VERSÕES ANTERIORES DO BANCO!!!
-
-        try{
-
-            switch(newVersion) {
-
-            }
-
-        }catch (Exception ex){
-
-            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
 
     }
 
-
-    /**
-     * @param db db of application
-     **/
 
 }

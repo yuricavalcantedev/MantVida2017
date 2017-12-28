@@ -1,6 +1,5 @@
 package com.heavendevelopment.mantvida2018.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,14 +10,13 @@ import com.heavendevelopment.mantvida2018.R;
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_TIME = 2000;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        context = this;
+
         try{
 
 
@@ -44,11 +42,5 @@ public class SplashActivity extends AppCompatActivity {
 
 
     }
-
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(context);
-//        MultiDex.install(this);
-//    }
 
 }

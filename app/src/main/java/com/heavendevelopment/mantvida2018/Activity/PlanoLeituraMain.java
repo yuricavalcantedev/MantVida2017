@@ -62,10 +62,10 @@ public class PlanoLeituraMain extends AppCompatActivity {
         int anoCalendario = gregorianCalendar.get(gregorianCalendar.YEAR);
 
         String refLeituraDeHoje = leituraService.getRefReadingOfDay(diaHoje,mesHoje);
+        String referenciasHoje [] = refLeituraDeHoje.split("/");
 
-        //somente para não ficar a referência errada enquanto ainda é 2017
-        if(anoCalendario != anoAtual)
-            anoAtual = 2017;
+        //apenas formatando a forma como as referências irão aparecer no textview.
+        refLeituraDeHoje = referenciasHoje[0] + ", " + referenciasHoje[1] + "/n" + referenciasHoje[2] + ", " + referenciasHoje[3];
 
         String dataLeitura = diaHoje + " de " + chooseMonthName(mesHoje) + " de " + anoAtual;
 
@@ -152,7 +152,7 @@ public class PlanoLeituraMain extends AppCompatActivity {
 
         calendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(anoAtual, 0, 1)) // só para pegar os últimos dias do ano de 2017.
+                .setMinimumDate(CalendarDay.from(anoAtual, 0, 1))
                 .setMaximumDate(CalendarDay.from(anoAtual, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();

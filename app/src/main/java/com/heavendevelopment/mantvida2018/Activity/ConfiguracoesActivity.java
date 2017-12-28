@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -67,13 +68,15 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             }
         });
 
-    }
+        Button btSalvar = (Button) findViewById(R.id.bt_salvar_configuracoes);
+        btSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                salvarConfiguracoes();
+                finish();
+            }
+        });
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_criar_meta, menu);
-        return true;
     }
 
     @Override

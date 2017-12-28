@@ -12,7 +12,6 @@ import com.heavendevelopment.mantvida2018.Dominio.EstadoLeitura;
 import com.heavendevelopment.mantvida2018.Dominio.Evento;
 import com.heavendevelopment.mantvida2018.Dominio.ItemCabecalhoAjuda;
 import com.heavendevelopment.mantvida2018.Dominio.Leitura;
-import com.heavendevelopment.mantvida2018.Dominio.MarcadorMaps;
 import com.heavendevelopment.mantvida2018.Dominio.Meta;
 import com.heavendevelopment.mantvida2018.Dominio.Versículo;
 
@@ -30,12 +29,6 @@ public class DatabaseAccess {
     private static DatabaseAccess instance;
     private static int bibleVersion;
 
-    /**
-     * Private constructor to aboid object creation from outside classes.
-     *
-     * @param context
-     */
-
     //passar como parâmetro, a versão que o usuário escolheu
     //e passar como parâmetro para o construtor do DatabaseOpenHelper
     private DatabaseAccess(Context context) {
@@ -43,12 +36,6 @@ public class DatabaseAccess {
     }
 
     //1 - NVI; 2 - NTLH; 3 - ACF; 4 - KJV
-    /**
-     * Return a singleton instance of DatabaseAccess.
-     *
-     * @param context the Context
-     * @return the instance of DabaseAccess
-     */
 
     public static DatabaseAccess getInstance(Context context) {
         if (instance == null) {
@@ -78,6 +65,9 @@ public class DatabaseAccess {
         }
     }
 
+
+    //METAS
+
     public boolean cadastrarMeta(Meta meta){
 
         ContentValues cValues = new ContentValues();
@@ -102,29 +92,6 @@ public class DatabaseAccess {
 
         return true;
     }
-
-    public boolean cadastrarDevocional(Devocional devocional){
-
-        ContentValues cValues = new ContentValues();
-
-        cValues.put("titulo",devocional.getTitulo());
-        cValues.put("dataCriacao", devocional.getDataCriacao());
-        cValues.put("textoChave", devocional.getTextoChave());
-        cValues.put("mensagemDeus", devocional.getMensagemDeDeus());
-
-
-        try {
-
-            database.insert("devocional", null, cValues);
-
-        } catch (Exception ex) {
-
-            return false;
-        }
-
-        return true;
-    }
-
 
     public List<Meta> getMetas(){
 
@@ -179,6 +146,139 @@ public class DatabaseAccess {
 
     }
 
+    public Meta getMetaById(int idMeta){
+
+        Meta meta = new Meta();
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT * FROM meta WHERE id = " + idMeta,null);
+
+            if (cursor.moveToFirst()) {
+
+                meta.setId(cursor.getInt(0));
+                meta.setTitulo(cursor.getString(1));
+                meta.setComo(cursor.getString(2));
+                meta.setObjetivo(cursor.getString(3));
+                meta.setDataCriacao(cursor.getString(4));
+                meta.setDataInicio(cursor.getString(5));
+                meta.setDataConclusao(cursor.getString(6));
+                meta.setRealizada(cursor.getInt(7));
+                meta.setIdCategoria(cursor.getInt(8));
+
+                cursor.close();
+
+            } else{
+
+                return null;
+            }
+
+        }catch(Exception ex){
+
+            return null;
+        }
+
+        return meta;
+
+    }
+
+    public boolean atualizarMeta(Meta meta){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("titulo",meta.getTitulo());
+        cValues.put("como", meta.getComo());
+        cValues.put("objetivo", meta.getObjetivo());
+        cValues.put("dataCriacao", meta.getDataCriacao());
+        cValues.put("dataInicio", meta.getDataInicio());
+        cValues.put("dataConclusao", meta.getDataConclusao());
+        cValues.put("realizada", meta.getRealizada());
+        cValues.put("idCategoria", meta.getIdCategoria());
+
+        try {
+
+            database.update("meta",cValues,"id = "+meta.getId(),null);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deletarMeta(int idMeta){
+
+        try {
+
+            database.delete("meta", "id = " + idMeta, null);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+    //DEVOCIONAIS
+
+    public boolean cadastrarDevocional(Devocional devocional){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("titulo",devocional.getTitulo());
+        cValues.put("dataCriacao", devocional.getDataCriacao());
+        cValues.put("textoChave", devocional.getTextoChave());
+        cValues.put("mensagemDeus", devocional.getMensagemDeDeus());
+
+
+        try {
+
+            database.insert("devocional", null, cValues);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public Devocional getDevocionalById(int idDevocional){
+
+        Devocional devocional = new Devocional();
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT * FROM devocional WHERE id = " + idDevocional,null);
+
+            if (cursor.moveToFirst()) {
+
+                devocional.setId(cursor.getInt(0));
+                devocional.setTitulo(cursor.getString(1));
+                devocional.setDataCriacao(cursor.getString(2));
+                devocional.setTextoChave(cursor.getString(3));
+                devocional.setMensagemDeDeus(cursor.getString(4));
+
+                cursor.close();
+
+            } else{
+
+                return null;
+            }
+
+        }catch(Exception ex){
+
+            return null;
+        }
+
+        return devocional;
+
+    }
+
     public List<Devocional> getDevocionais(){
 
         ArrayList<Devocional> listaDevocionais = new ArrayList<>();
@@ -201,6 +301,47 @@ public class DatabaseAccess {
         return listaDevocionais;
 
     }
+
+    public boolean atualizarDevocional(Devocional devocional){
+
+        ContentValues cValues = new ContentValues();
+
+        cValues.put("titulo",devocional.getTitulo());
+        cValues.put("dataCriacao", devocional.getDataCriacao());
+        cValues.put("textoChave", devocional.getTextoChave());
+        cValues.put("mensagemDeus", devocional.getMensagemDeDeus());
+
+
+        try {
+
+            database.update("devocional", cValues, "id = " + devocional.getId(), null);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deletarDevocional(int idDevocional){
+
+        try {
+
+            database.delete("devocional", "id = " + idDevocional, null);
+
+        } catch (Exception ex) {
+
+            return false;
+        }
+
+        return true;
+
+
+    }
+
+
+    //EVENTOS
 
     public Evento getEventoDoDia(int dia, int mes){
 
@@ -337,58 +478,71 @@ public class DatabaseAccess {
 
     }
 
-    public boolean atualizarMeta(Meta meta){
+
+    //LEITURA (ACOMPANHAMENTO)
+
+    public EstadoLeitura getLeituraUmDia(int mes, int dia){
+
+        EstadoLeitura estadoLeitura = null;
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT estado FROM leitura_decorator WHERE mes = " + mes + " AND dia = " + dia, null);
+
+            if(cursor.moveToFirst())
+                estadoLeitura = new EstadoLeitura(0,0,cursor.getInt(0));
+
+
+            cursor.close();
+        }catch (Exception ex){
+
+            return null;
+
+        }
+
+        return estadoLeitura;
+
+    }
+
+    public List<EstadoLeitura> getLeiturasAteHoje(int mes, int dia){
+
+        ArrayList<EstadoLeitura> listEstadoLeituras = new ArrayList<>();
+
+        try {
+
+            Cursor cursor = database.rawQuery("SELECT * FROM leitura_decorator WHERE mes <= " + mes, null);
+
+            while(cursor.moveToNext()){
+
+                EstadoLeitura estadoLeitura = new EstadoLeitura();
+                estadoLeitura.setMes(cursor.getInt(1));
+                estadoLeitura.setDia(cursor.getInt(2));
+                estadoLeitura.setEstado(cursor.getInt(3));
+
+                listEstadoLeituras.add(estadoLeitura);
+
+            }
+
+
+        }catch (Exception ex){
+            return null;
+        }
+
+        return listEstadoLeituras;
+
+    }
+
+    public boolean setEstadoLeitura(int mes,int dia, int estado){
 
         ContentValues cValues = new ContentValues();
 
-        cValues.put("titulo",meta.getTitulo());
-        cValues.put("como", meta.getComo());
-        cValues.put("objetivo", meta.getObjetivo());
-        cValues.put("dataCriacao", meta.getDataCriacao());
-        cValues.put("dataInicio", meta.getDataInicio());
-        cValues.put("dataConclusao", meta.getDataConclusao());
-        cValues.put("realizada", meta.getRealizada());
-        cValues.put("idCategoria", meta.getIdCategoria());
+        cValues.put("mes", mes);
+        cValues.put("dia", dia);
+        cValues.put("estado", estado);
 
         try {
 
-            database.update("meta",cValues,"id = "+meta.getId(),null);
-
-        } catch (Exception ex) {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean atualizarDevocional(Devocional devocional){
-
-        ContentValues cValues = new ContentValues();
-
-        cValues.put("titulo",devocional.getTitulo());
-        cValues.put("dataCriacao", devocional.getDataCriacao());
-        cValues.put("textoChave", devocional.getTextoChave());
-        cValues.put("mensagemDeus", devocional.getMensagemDeDeus());
-
-
-        try {
-
-            database.update("devocional", cValues, "id = " + devocional.getId(), null);
-
-        } catch (Exception ex) {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean deletarMeta(int idMeta){
-
-        try {
-
-            database.delete("meta", "id = " + idMeta, null);
+            database.update("leitura_decorator", cValues, "mes = " + mes + " AND dia = " + dia,null);
 
         } catch (Exception ex) {
 
@@ -399,47 +553,25 @@ public class DatabaseAccess {
 
     }
 
-    public boolean deletarDevocional(int idDevocional){
 
-        try {
+    //AJUDA
 
-            database.delete("devocional", "id = " + idDevocional, null);
+    public List<CabecalhoAjuda> getCabecalhosAjuda(){
 
-        } catch (Exception ex) {
+        List<CabecalhoAjuda> listCabecalhos = new ArrayList<>();
+        Cursor cursor;
 
-            return false;
-        }
+        try{
 
-        return true;
+            cursor = database.rawQuery("SELECT * FROM lista_cabecalhos_ajuda", null);
 
+            while(cursor.moveToNext()){
 
-    }
+                CabecalhoAjuda cabecalhoAjuda = new CabecalhoAjuda();
+                cabecalhoAjuda.setId(cursor.getInt(0));
+                cabecalhoAjuda.setTitulo(cursor.getString(1));
 
-    public Meta getMetaById(int idMeta){
-
-        Meta meta = new Meta();
-
-        try {
-
-            Cursor cursor = database.rawQuery("SELECT * FROM meta WHERE id = " + idMeta,null);
-
-            if (cursor.moveToFirst()) {
-
-                meta.setId(cursor.getInt(0));
-                meta.setTitulo(cursor.getString(1));
-                meta.setComo(cursor.getString(2));
-                meta.setObjetivo(cursor.getString(3));
-                meta.setDataCriacao(cursor.getString(4));
-                meta.setDataInicio(cursor.getString(5));
-                meta.setDataConclusao(cursor.getString(6));
-                meta.setRealizada(cursor.getInt(7));
-                meta.setIdCategoria(cursor.getInt(8));
-
-                cursor.close();
-
-            } else{
-
-                return null;
+                listCabecalhos.add(cabecalhoAjuda);
             }
 
         }catch(Exception ex){
@@ -447,41 +579,42 @@ public class DatabaseAccess {
             return null;
         }
 
-        return meta;
+        cursor.close();
+        return listCabecalhos;
 
     }
 
-    public Devocional getDevocionalById(int idDevocional){
+    public List<ItemCabecalhoAjuda> getItensPorCabecalhoAjuda(int idCabecalho){
 
-        Devocional devocional = new Devocional();
+        List<ItemCabecalhoAjuda> listaItens = new ArrayList<>();
+        Cursor cursor;
 
         try {
 
-            Cursor cursor = database.rawQuery("SELECT * FROM devocional WHERE id = " + idDevocional,null);
+            cursor = database.rawQuery("SELECT * FROM lista_itens_cabecalho_ajuda WHERE id_cabecalho = " + idCabecalho, null);
 
-            if (cursor.moveToFirst()) {
+            while(cursor.moveToNext()){
 
-                devocional.setId(cursor.getInt(0));
-                devocional.setTitulo(cursor.getString(1));
-                devocional.setDataCriacao(cursor.getString(2));
-                devocional.setTextoChave(cursor.getString(3));
-                devocional.setMensagemDeDeus(cursor.getString(4));
+                ItemCabecalhoAjuda itemCabecalho = new ItemCabecalhoAjuda();
+                itemCabecalho.setId(cursor.getInt(0));
+                itemCabecalho.setIdCabecalho(cursor.getInt(1));
+                itemCabecalho.setTitulo(cursor.getString(2));
 
-                cursor.close();
+                listaItens.add(itemCabecalho);
 
-            } else{
-
-                return null;
             }
 
-        }catch(Exception ex){
 
+        }catch (Exception ex){
             return null;
         }
 
-        return devocional;
+        return listaItens;
 
     }
+
+
+    //ACESSO A BÍBLIA
 
     //get the reference of the biblical reading of the day
     public String getRefReadingOfDay(int day, int month){
@@ -566,6 +699,9 @@ public class DatabaseAccess {
 
     }
 
+
+    //MÉTODOS AUXILIARES DO ACESSO A BÍBLIA
+
     private String chooseBibleTable(){
 
         String bibleTable = "";
@@ -598,156 +734,7 @@ public class DatabaseAccess {
         return tabela;
     }
 
-    public String getUserName(){
 
-        String retornoNome = null;
-
-        try {
-
-            Cursor cursor = database.rawQuery("SELECT nome FROM usuario", null);
-
-            if(cursor.moveToFirst())
-                retornoNome = cursor.getString(0);
-
-
-            cursor.close();
-        }catch (Exception ex){
-
-            return "";
-
-        }
-
-        return retornoNome;
-    }
-
-    public EstadoLeitura getLeituraUmDia(int mes, int dia){
-
-        EstadoLeitura estadoLeitura = null;
-
-        try {
-
-            Cursor cursor = database.rawQuery("SELECT estado FROM leitura_decorator WHERE mes = " + mes + " AND dia = " + dia, null);
-
-            if(cursor.moveToFirst())
-                estadoLeitura = new EstadoLeitura(0,0,cursor.getInt(0));
-
-
-            cursor.close();
-        }catch (Exception ex){
-
-            return null;
-
-        }
-
-        return estadoLeitura;
-
-    }
-
-    public List<EstadoLeitura> getLeiturasAteHoje(int mes, int dia){
-
-        ArrayList<EstadoLeitura> listEstadoLeituras = new ArrayList<>();
-
-        try {
-
-            Cursor cursor = database.rawQuery("SELECT * FROM leitura_decorator WHERE mes <= " + mes, null);
-
-            while(cursor.moveToNext()){
-
-                EstadoLeitura estadoLeitura = new EstadoLeitura();
-                estadoLeitura.setMes(cursor.getInt(1));
-                estadoLeitura.setDia(cursor.getInt(2));
-                estadoLeitura.setEstado(cursor.getInt(3));
-
-                listEstadoLeituras.add(estadoLeitura);
-
-            }
-
-
-        }catch (Exception ex){
-                return null;
-        }
-
-        return listEstadoLeituras;
-
-    }
-
-    public boolean setEstadoLeitura(int mes,int dia, int estado){
-
-        ContentValues cValues = new ContentValues();
-
-        cValues.put("mes", mes);
-        cValues.put("dia", dia);
-        cValues.put("estado", estado);
-
-        try {
-
-            database.update("leitura_decorator", cValues, "mes = " + mes + " AND dia = " + dia,null);
-
-        } catch (Exception ex) {
-
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public List<CabecalhoAjuda> getCabecalhosAjuda(){
-
-        List<CabecalhoAjuda> listCabecalhos = new ArrayList<>();
-        Cursor cursor;
-
-        try{
-
-            cursor = database.rawQuery("SELECT * FROM lista_cabecalhos_ajuda", null);
-
-            while(cursor.moveToNext()){
-
-                CabecalhoAjuda cabecalhoAjuda = new CabecalhoAjuda();
-                cabecalhoAjuda.setId(cursor.getInt(0));
-                cabecalhoAjuda.setTitulo(cursor.getString(1));
-
-                listCabecalhos.add(cabecalhoAjuda);
-            }
-
-        }catch(Exception ex){
-
-            return null;
-        }
-
-        cursor.close();
-        return listCabecalhos;
-
-    }
-
-    public List<ItemCabecalhoAjuda> getItensPorCabecalhoAjuda(int idCabecalho){
-
-        List<ItemCabecalhoAjuda> listaItens = new ArrayList<>();
-        Cursor cursor;
-
-        try {
-
-            cursor = database.rawQuery("SELECT * FROM lista_itens_cabecalho_ajuda WHERE id_cabecalho = " + idCabecalho, null);
-
-            while(cursor.moveToNext()){
-
-                ItemCabecalhoAjuda itemCabecalho = new ItemCabecalhoAjuda();
-                itemCabecalho.setId(cursor.getInt(0));
-                itemCabecalho.setIdCabecalho(cursor.getInt(1));
-                itemCabecalho.setTitulo(cursor.getString(2));
-
-                listaItens.add(itemCabecalho);
-
-            }
-
-
-        }catch (Exception ex){
-            return null;
-        }
-
-        return listaItens;
-
-    }
 
 }
 

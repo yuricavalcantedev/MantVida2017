@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -273,11 +274,11 @@ public class ProjetoVidaMain extends AppCompatActivity {
 
     // FILE
     public void createDeleteFolder() {
-        String path = Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017";
-        File file = new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017");
+        String path = Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2018";
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2018");
 
         if (file.exists()) {
-            new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2017", "Projeto de Vida.pdf").delete();
+            new File(Environment.getExternalStorageDirectory().toString() + "/Mant Vida 2018", "Projeto de Vida.pdf").delete();
             if (file.delete()) {
                 util.toast("Aperte mais uma vez para gerar o Projeto de Vida em pdf");
             }
@@ -293,7 +294,7 @@ public class ProjetoVidaMain extends AppCompatActivity {
 
         try {
 
-            String filename = "Projeto de Vida 2017.pdf";
+            String filename = "Projeto de Vida 2018.pdf";
             String projetoVida;
 
             document = new Document(PageSize.A4);
@@ -323,8 +324,8 @@ public class ProjetoVidaMain extends AppCompatActivity {
 
             document.add(titulo);
 
-            document.addTitle("Projeto de Vida 2017");
-            document.addSubject("O ano da chuva de avivamento e bençãos de Deus");
+            document.addTitle("Projeto de Vida 2018");
+            document.addSubject("Ramo Frutífero");
 
             MetaService metaService = new MetaService(context);
 
@@ -366,7 +367,8 @@ public class ProjetoVidaMain extends AppCompatActivity {
 
             }
 
-           util.toast("Projeto de vida.pdf criado com sucesso na pasta MantVida 2017");
+           CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coorLayoutProjetoVida);
+           Snackbar.make(coordinatorLayout,"Projeto de vida.pdf criado com sucesso na pasta MantVida 2018",Snackbar.LENGTH_SHORT).show();
 
             //Image logoIgreja = Image.getInstance(getClass().getResource("/com/example/alysson/mantvida2016/lg_icant72x72_gold.png"));
             //logoIgreja.setAlignment(Element.ALIGN_BOTTOM);
@@ -387,7 +389,7 @@ public class ProjetoVidaMain extends AppCompatActivity {
     public void callDialog(final String[] permissions) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Deseja criar o pdf do seu Projeto de Vida 2017 ?");
+        builder.setTitle("Deseja criar o pdf do seu Projeto de Vida 2018 ?");
 
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {

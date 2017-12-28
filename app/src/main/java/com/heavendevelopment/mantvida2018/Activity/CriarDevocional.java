@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.heavendevelopment.mantvida2018.Dominio.Devocional;
@@ -53,6 +55,14 @@ public class CriarDevocional extends AppCompatActivity {
             tilTextoChave.getEditText().setText(versiculoCopiado);
         }
 
+        Button btSalvarDevocional = (Button) findViewById(R.id.bt_salvar_devocional);
+        btSalvarDevocional.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                criarDevocional();
+            }
+        });
+
     }
 
     @Override
@@ -72,12 +82,8 @@ public class CriarDevocional extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if(id == android.R.id.home){
             finish();
-        }else if (id == R.id.ic_menu_save) {
-            criarDevocional();
-
         }else if(id == R.id.ic_menu_share){
             compartilharDevocional();
-
         }
 
         return super.onOptionsItemSelected(item);
