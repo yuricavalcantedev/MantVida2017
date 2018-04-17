@@ -10,7 +10,7 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.heavendevelopment.mantvida2018.Activity.MainActivity"
+    tools:context="com.heavendevelopment.mantvida20182.Activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <ScrollView

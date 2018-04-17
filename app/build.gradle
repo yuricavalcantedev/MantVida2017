@@ -7,11 +7,11 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "com.heavendevelopment.mantvida2018"
+        applicationId "com.heavendevelopment.mantvida20182"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 11
-        versionName "1.0.0"
+        versionCode 1
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled false
     }

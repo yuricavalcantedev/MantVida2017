@@ -25,13 +25,12 @@
         android:id="@+id/tv_item_data_evento" />
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/tv_item_estado_evento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tv_item_data_evento"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="11dp"
-        android:id="@+id/tv_item_estado_evento" />
+        android:layout_alignTop="@+id/tv_item_data_evento"
+        android:layout_marginEnd="11dp" />
 
     <TextView
         android:text="TextView"
